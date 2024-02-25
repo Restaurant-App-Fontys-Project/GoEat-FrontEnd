@@ -1,0 +1,14 @@
+{
+    "name": "Soko Restaurant & Bar",
+    "address": "1234 Restaurant St, City, State, Zip",
+    "phone": "123-456-7890",
+    "reservationDuration_in_hours": 2,
+    "weekday_openTime": 10,
+    "weekday_closeTime": 17,
+    "weekend_openTime": 11,
+    "weekend_closeTime": 18,
+    "message": "Thank you for choosing us! Please note our policies. We do our best to accommodate your requests however tables are allocated on arrival, so we can’t guarantee specific table requests.",
+    "number_of_guests_per_table": 4,
+    "max_number_of_guests": 50
+  }
+  
