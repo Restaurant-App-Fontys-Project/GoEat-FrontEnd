@@ -5,7 +5,7 @@ import Calendar from '../component/Calender';
 import TextInputField from '../component/TextInputField';
 import reservationData from '../reservationData.json'; // Import the JSON file
 
-export default function Restaurant() {
+export default function Reservation({navigation}) {
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
 
