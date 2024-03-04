@@ -5,7 +5,7 @@ import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
 
-export default function Restaurant() {
+export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
 
@@ -49,9 +49,11 @@ export default function Restaurant() {
       <View style={styles.content}>{renderOption()}</View>
 
       {/*Button for reservation*/}
-        <TouchableOpacity style={styles.reserveButton}>
-            <Text style={styles.buttonText}>Make a reservation</Text>
-        </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.reserveButton}
+        onPress={() => navigation.navigate('Reservation')}>
+        <Text style={styles.buttonText}>Make a reservation</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
