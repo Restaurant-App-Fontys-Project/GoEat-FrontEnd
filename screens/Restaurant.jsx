@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'lightgrey',
     },
     reserveButton : {
-      backgroundColor: '#EE8E11',
+      backgroundColor: '#C34F5A',
       alignItems: 'center',
       padding: 10,
       borderRadius: 20,
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
       marginTop: 20, // Adjusted marginTop to create space between separator and button
     },
     buttonText: {
-      color: 'black',
+      color: 'white',
       fontWeight: 'bold',
     },
   });
