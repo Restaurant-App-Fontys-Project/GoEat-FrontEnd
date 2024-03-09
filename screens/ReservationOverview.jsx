@@ -1,60 +1,76 @@
 import React from 'react'
-import { View, Text, Button, Image, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default function ReservationOverview(){
+export default function ReservationOverview() {
   return (
     <View style={styles.container}>
-      {/* <Image 
-        style={styles.logo}
-        source={{uri: ''}}
-      /> */}
-
-      <Text style={styles.title}>Your Reservation</Text>
-      <Text style={styles.restaurantName}>Restaurant 1</Text>
+      <View style={styles.logoContainer}>
+        <View style={styles.logo}>
+          <Text style={styles.logoText}>Logo</Text>
+        </View>
+      </View>
+      <Text style={styles.title}>Your Reservations!</Text>
       <View style={styles.details}>
+        <Text style={styles.restaurantName}>Restaurant 1</Text>
         <Text style={styles.detailText}>Date:</Text>
         <Text style={styles.detailText}>Time:</Text>
         <Text style={styles.detailText}>Duration:</Text>
         <Text style={styles.detailText}>Number of Guests:</Text>
-        <Text style={styles.detailText}>Note</Text>
-
-        <Button title="Edit" onPress={() => {}} style={styles.button} />
-        <Button title="Cancel" onPress={()=>{}} style={styles.button} />
-
+        <Text style={styles.detailText}>Note:</Text>
+        <View style={styles.buttonSection}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative', 
-    padding: 20,
-    backgroundColor: '#f5f5f5',
+    position: 'relative',
+    padding: 5,
+    backgroundColor: '#fff',
+  },
+  logoContainer: {
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    backgroundColor: '#D9D9D9',
   },
   logo: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    width: 50, 
-    height: 50, 
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 120,
+    height: 50,
+    padding: 5,
+  },
+  logoText: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: "white"
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    paddingVertical: 20,
   },
   restaurantName: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
     marginBottom: 20,
     color: '#333',
   },
   details: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F2F2',
     padding: 20,
     borderRadius: 10,
   },
@@ -62,11 +78,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  buttonSection: {
+    marginTop: 20,
+    flexDirection: 'row',
+    gap: 10,
+    justifyContent: 'flex-end',
+  },
   button: {
     marginTop: 10,
-    backgroundColor: '#007BFF',
-    color: '#fff',
+    backgroundColor: '#D9D9D9',
     padding: 10,
     borderRadius: 5,
+    width: 100,
+  },
+  buttonText: {
+    color: 'black',
+    textAlign: 'center',
   },
 });

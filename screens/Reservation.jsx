@@ -76,7 +76,8 @@ export default function Reservation({navigation}) {
             <TextInputField label="Phone Number*" placeholder="Phone Number" keyboardType="phone-pad" />
             <TextInputField label="Special Notes (optional)" placeholder="Special Requests, Allergies, etc." keyboardType="default" multiline />
           </View>
-          <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, marginTop: 20, borderRadius:50 }}>
+          <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, marginTop: 20, borderRadius:50 }} 
+                                    onPress={() => navigation.navigate('Reservation Overview')}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Confirm Reservation</Text>
           </TouchableOpacity>
         </ScrollView>
