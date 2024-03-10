@@ -5,19 +5,19 @@ import { Feather, MaterialIcons } from '@expo/vector-icons';
 const Info = ({restaurantData}) => {
 
     // Extract relevant information from restaurantData
-    const { id, name, address, phoneNumber } = restaurantData;
+    const { id, title } = restaurantData;
 
     return (
         <View style={styles.info}>
-            <Text style={styles.restaurantName}>{name}</Text>
+            <Text style={styles.restaurantName}>Name{title}</Text>
             <View style={styles.infoContent}>
                 <View style={styles.row}>
                     <Feather name="map-pin" size={20} color="#541412" />
-                    <Text style={styles.infoText}>{address}</Text>
+                    <Text style={styles.infoText}>Yli 1</Text>
                 </View>
                 <View style={styles.row}>
                     <Feather name="phone" size={20} color="#541412" />
-                    <Text style={styles.infoText}>{phoneNumber}</Text>
+                    <Text style={styles.infoText}>Phone</Text>
                 </View>
                 <View style={styles.row}>
                     <MaterialIcons name="access-time" size={20} color="#541412" />

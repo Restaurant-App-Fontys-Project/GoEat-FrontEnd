@@ -20,7 +20,9 @@ export default function Restaurant({navigation}) {
 
     const fetchData = async () => {
         try {
-          const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
+          //const response = await axios.get('http://localhost:5107/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
+          //const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
+          const response = await axios.get('https://dummyjson.com/products/1');
           setRestaurantData(response.data);
           console.log('Fetched data:', response.data); 
         } catch (error) {

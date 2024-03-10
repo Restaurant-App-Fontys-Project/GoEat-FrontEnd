@@ -7,28 +7,25 @@ const Details = ({restaurantData}) => {
 
     const { id, name, address, phoneNumber } = restaurantData;
 
+    const initialRegion = {
+        latitude: 64.0, // Latitude of Finland
+        longitude: 26.0, // Longitude of Finland
+        latitudeDelta: 10, // Zoom level
+        longitudeDelta: 10, // Zoom level
+    };
+
     return (
         <View style={styles.container}>
             <Text style={styles.detailTitle}>Details</Text>
             <View style={styles.info}>
                 <View style={styles.row}>
                     <Feather name="map-pin" size={20} color="#541412" />
-                    <Text style={styles.infoText}>Ylio 1</Text>
+                    <Text style={styles.infoText}>Yliopistokatu 9</Text>
                 </View>
-                <MapView
+                <MapView 
                     style={styles.map}
-                    initialRegion={{
-                        latitude: 65.0121,
-                        longitude: 25.4651,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}
-                >
-                    <Marker
-                        coordinate={{ latitude: 65.0121, longitude: 25.4651 }}
-                        title="Oulu, Finland"
-                    />
-                </MapView>
+                    initialRegion={initialRegion}
+                />
                 <View style={styles.row}>
                     <Feather name="phone" size={20} color="#541412" />
                     <Text style={styles.infoText}>0987634</Text>
@@ -66,6 +63,11 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         /* backgroundColor: 'lightblue',  */
          padding: 5,  // Reduced padding for the container
+    },
+    map : {
+        width: containerWidth,
+        height: 200,
+        marginBottom: 5, // Reduced margin for the map
     },
     detailTitle: {
         fontSize: 24,
