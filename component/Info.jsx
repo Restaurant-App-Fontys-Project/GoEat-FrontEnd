@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
+import commonStyles from '../styles/commonStyles';
 
 const Info = ({restaurantData}) => {
 
-    // Extract relevant information from restaurantData
     const { id, title } = restaurantData;
 
     return (
         <View style={styles.info}>
-            <Text style={styles.restaurantName}>Name{title}</Text>
+            <Text style={commonStyles.subHeaderText}>Name {title}</Text>
             <View style={styles.infoContent}>
                 <View style={styles.row}>
                     <Feather name="map-pin" size={20} color="#541412" />
@@ -36,18 +36,17 @@ const Info = ({restaurantData}) => {
 export default Info;
 
 const { width } = Dimensions.get('window');
-const infoContentWidth = width * 0.9; // Adjust as needed for info content width
+const infoContentWidth = width * 0.9; 
 
 const styles = StyleSheet.create({
-    restaurantName: {
+    /* restaurantName: {
         fontSize: 20,
         fontWeight: 'bold',
         paddingBottom: 5,
         textAlign: 'center',
-    },
+    }, */
     info: {
         padding: 5,
-        /* backgroundColor: 'lightgrey', */
     },
     infoContent: {
         width: infoContentWidth,

@@ -20,46 +20,27 @@ export default function Menu({ restaurantData }) {
             name: 'Chicken Alfredo',
             description: 'Creamy fettuccine Alfredo with grilled chicken breast, ...',
             price: 15.99,
-            image: require('../assets/food1.jpg'), // Example: Update image path
+            image: require('../assets/food1.jpg'), 
         },
         {
             id: 3,
             name: 'Beef Burger',
             description: 'Juicy beef patty with lettuce, tomato, onion, pickles, ...',
             price: 12.99,
-            image: require('../assets/food1.jpg'), // Example: Update image path
+            image: require('../assets/food1.jpg'), 
         },
         {
             id: 4,
             name: 'Vegetable Stir-fry',
             description: 'Fresh mixed vegetables stir-fried in a savory sauce,...',
             price: 10.99,
-            image: require('../assets/food1.jpg'), // Example: Update image path
+            image: require('../assets/food1.jpg'), 
         },
     ];
 
     const toggleDisplay = () => {
         setDisplayItems(displayItems === 2 ? menuItems.length : 2);
     };
-
-    /*
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('https://dummyjson.com/products');
-            if (Array.isArray(response.data)) {
-                setMenuItems(response.data);
-            } else {
-                console.error('Received data is not an array:', response.data);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-    */
 
     return (
         <View style={styles.menu}>

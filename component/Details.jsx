@@ -8,8 +8,8 @@ const Details = ({restaurantData}) => {
     const { id, name, address, phoneNumber } = restaurantData;
 
     const initialRegion = {
-        latitude: 64.0, // Latitude of Finland
-        longitude: 26.0, // Longitude of Finland
+        latitude: 64.0, 
+        longitude: 26.0, 
         latitudeDelta: 10, // Zoom level
         longitudeDelta: 10, // Zoom level
     };
@@ -54,20 +54,19 @@ const Details = ({restaurantData}) => {
 export default Details;
 
 const { width } = Dimensions.get('window');
-const containerWidth = width * 0.9; // Adjust as needed for container width
+const containerWidth = width * 0.9; 
 
 const styles = StyleSheet.create({
     container: {
         width: containerWidth,
         marginLeft: 'auto',
         marginRight: 'auto',
-        /* backgroundColor: 'lightblue',  */
-         padding: 5,  // Reduced padding for the container
+         padding: 5,  
     },
     map : {
         width: containerWidth,
         height: 200,
-        marginBottom: 5, // Reduced margin for the map
+        marginBottom: 5, 
     },
     detailTitle: {
         fontSize: 24,
@@ -75,16 +74,16 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     info: {
-        padding: 5, // Reduced padding for inner content
+        padding: 5, 
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 5, // Reduced margin between rows
+        marginBottom: 5, 
     },
     infoText: {
         marginLeft: 10,
         textAlign: 'justify',
-        marginRight: 5, // Reduced margin for text
+        marginRight: 5, 
     },
 });

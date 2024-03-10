@@ -5,6 +5,7 @@ import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
+import commonStyles from '../styles/commonStyles';
 
 const backendUrl = 'http://localhost:5107';
 
@@ -65,15 +66,14 @@ export default function Restaurant({navigation}) {
               <Text style={selectedOption === 'Details' ? styles.selectedOption : styles.option}>Details</Text>
           </TouchableOpacity>
       </View>
-      <View style={styles.separator}></View>
       {/* Render content based on selected option */}
       <View style={styles.content}>{renderOption()}</View>
 
       {/*Button for reservation*/}
       <TouchableOpacity 
-        style={styles.reserveButton}
+        style={commonStyles.button}
         onPress={() => navigation.navigate('Reservation')}>
-        <Text style={styles.buttonText}>Make a reservation</Text>
+        <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -114,28 +114,7 @@ const styles = StyleSheet.create({
       color: 'white', 
       marginHorizontal: 10, 
     },
-    separator: {
-        height: 1,
-        backgroundColor: '#F8D4BA',
-        /* marginHorizontal: 20, */ // Added margin to align with menu items
-        width: windowWidth * 1, // Adjusted to make it responsive
-    },
     content: {
-      marginBottom: 10, // Added marginBottom to ensure space between content and button
-      /* backgroundColor: 'lightgrey', */
-    },
-    reserveButton : {
-      backgroundColor: '#C34F5A',
-      backgroundColor: '#C34F5A',
-      alignItems: 'center',
-      padding: 10,
-      borderRadius: 20,
-      marginHorizontal: 20, // Adjusted margin to align with separator
-      marginTop: 20, // Adjusted marginTop to create space between separator and button
-    },
-    buttonText: {
-      color: 'white',
-      fontWeight: 'bold',
-      fontSize: 16,
+      marginBottom: 10, 
     },
   });
