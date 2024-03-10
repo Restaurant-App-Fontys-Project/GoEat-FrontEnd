@@ -1,21 +1,40 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
 
+const backendUrl = 'http://localhost:5107';
+
 export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
+    const [restaurantData, setRestaurantData] = useState({}); 
 
+
+    useEffect(() => {
+        fetchData();
+    } , []);
+
+    const fetchData = async () => {
+        try {
+          const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
+          setRestaurantData(response.data);
+          console.log('Fetched data:', response.data); 
+        } catch (error) {
+          console.error(error);
+        }
+    };
+    
     const renderOption = () => {
       if (selectedOption === 'Menu') {
-          return <Menu />;
+          return <Menu restaurantData = {restaurantData}/>;
       } else if (selectedOption === 'Reviews') {
           return <Reviews />;
       } else if (selectedOption === 'Details') {
-          return <Details />;
+          return <Details restaurantData = {restaurantData} />;
       }
   };
 
@@ -29,7 +48,7 @@ export default function Restaurant({navigation}) {
 
         {/* Restaurant info */}
         <View style={styles.infoMain}>
-            <Info />
+            <Info restaurantData = {restaurantData} />
         </View>
 
         {/* Menu, Reviews, Details */}
@@ -80,31 +99,31 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       paddingVertical: 10, 
       paddingHorizontal: 5, 
-      backgroundColor: 'lightblue',
+      backgroundColor: '#C34F5A',
     },
     option: {
       fontSize: 16,
-      fontWeight: 'bold',
+      color: 'white',
       marginHorizontal: 10,
     },
     selectedOption: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: 'blue',
+      color: 'white', 
       marginHorizontal: 10, 
     },
     separator: {
         height: 1,
-        backgroundColor: 'black',
+        backgroundColor: '#F8D4BA',
         /* marginHorizontal: 20, */ // Added margin to align with menu items
         width: windowWidth * 1, // Adjusted to make it responsive
     },
     content: {
       marginBottom: 10, // Added marginBottom to ensure space between content and button
-      backgroundColor: 'lightgrey',
+      /* backgroundColor: 'lightgrey', */
     },
     reserveButton : {
-      backgroundColor: '#EE8E11',
+      backgroundColor: '#C34F5A',
       alignItems: 'center',
       padding: 10,
       borderRadius: 20,
@@ -112,7 +131,8 @@ const styles = StyleSheet.create({
       marginTop: 20, // Adjusted marginTop to create space between separator and button
     },
     buttonText: {
-      color: 'black',
+      color: 'white',
       fontWeight: 'bold',
+      fontSize: 16,
     },
   });

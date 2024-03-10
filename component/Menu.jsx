@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     },
     menuItemPrice: {
         fontSize: 14,
-        color: 'blue',
         marginTop: 5,
     },
 });
