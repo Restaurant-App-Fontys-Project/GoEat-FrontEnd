@@ -16,7 +16,7 @@ const sendReservationData = async (data, navigation) => {
         console.log("Reservation created:", response.data);
         alert('Reservation confirmed!');
         // direct to the reservation overview page
-        navigation.navigate('Reservation Overview');
+        navigation.navigate('ReservationOverview');
     } catch (error) {
         console.error("Error creating reservation:", error);
     }

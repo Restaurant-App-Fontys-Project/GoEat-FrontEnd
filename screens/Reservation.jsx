@@ -40,7 +40,14 @@ export default function Reservation({navigation}) {
   // handle confirm reservation
   const handleConfirmReservation = () => {
     // Validate the all the fields
-    if (!selectedDate || !selectedTimeSlot || !firstName || !lastName || !email || !phoneNumber) {
+    if (
+        !selectedDate ||
+        !selectedTimeSlot ||
+        !firstName ||
+        !lastName ||
+        !email ||
+        !phoneNumber
+        ) {
       alert('Please fill out all required fields.');
       return;
     }
@@ -139,6 +146,7 @@ export default function Reservation({navigation}) {
           <TouchableOpacity 
           style={commonStyles.button}
           onPress={handleConfirmReservation}
+          // onPress={() => navigation.navigate('ReservationOverview')}
           >
             <Text style={commonStyles.buttonText}>Confirm Reservation</Text>
           </TouchableOpacity>
