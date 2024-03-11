@@ -1,22 +1,26 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
+import commonStyles from '../styles/commonStyles';
 
-const Info = () => {
+const Info = ({restaurantData}) => {
+
+    const { id, title } = restaurantData;
+
     return (
         <View style={styles.info}>
-            <Text style={styles.restaurantName}>Restaurant Name</Text>
+            <Text style={commonStyles.subHeaderText}>Name {title}</Text>
             <View style={styles.infoContent}>
                 <View style={styles.row}>
-                    <Feather name="map-pin" size={20} color="black" />
-                    <Text style={styles.infoText}>Ylio 1, Oulu, Finland</Text>
+                    <Feather name="map-pin" size={20} color="#541412" />
+                    <Text style={styles.infoText}>Yli 1</Text>
                 </View>
                 <View style={styles.row}>
-                    <Feather name="phone" size={20} color="black" />
-                    <Text style={styles.infoText}>+358 123 456 789</Text>
+                    <Feather name="phone" size={20} color="#541412" />
+                    <Text style={styles.infoText}>Phone</Text>
                 </View>
                 <View style={styles.row}>
-                    <MaterialIcons name="access-time" size={20} color="black" />
+                    <MaterialIcons name="access-time" size={20} color="#541412" />
                     <View>
                         <Text style={styles.infoText}>Mon - Fri: 10:00 - 22:00</Text>
                         <Text style={styles.infoText}>Sat - Sun: 12:00 - 22:00</Text>
@@ -32,19 +36,17 @@ const Info = () => {
 export default Info;
 
 const { width } = Dimensions.get('window');
-const infoContentWidth = width * 0.9; // Adjust as needed for info content width
+const infoContentWidth = width * 0.9; 
 
 const styles = StyleSheet.create({
-    restaurantName: {
+    /* restaurantName: {
         fontSize: 20,
         fontWeight: 'bold',
-        backgroundColor: 'lightgrey',
         paddingBottom: 5,
         textAlign: 'center',
-    },
+    }, */
     info: {
         padding: 5,
-        backgroundColor: 'lightgrey',
     },
     infoContent: {
         width: infoContentWidth,

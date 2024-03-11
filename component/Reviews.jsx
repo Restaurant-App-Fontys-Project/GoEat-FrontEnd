@@ -16,15 +16,14 @@ const Reviews = () => {
 export default Reviews;
 
 const { width } = Dimensions.get('window');
-const containerWidth = width * 0.9; // Adjust as needed for container width
+const containerWidth = width * 0.9; 
 
 const styles = StyleSheet.create({
     container: {
         width: containerWidth,
         marginLeft: 'auto',
         marginRight: 'auto',
-      //backgroundColor: 'lightblue',
-        padding: 5,  // Reduced padding for the container
+        padding: 5,  
     },
     reviewTitle: {
         fontSize: 24,
