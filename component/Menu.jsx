@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     menuItemContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginBottom: 5,
+        marginBottom: 10,
     },
     imageItem: {
         width: imageWidth,
