@@ -1,0 +1,69 @@
+[
+    { 
+        "id": 1,
+        "restaurant_id": 1,
+        "number": "Table 1",
+        "x": 54,
+        "y": 102,
+        "seats": 4,
+        "height": 75,
+        "width": 69,
+        "identifier": "assets/images/4seatTable.svg"
+    },
+    { 
+        "id": 2, 
+        "restaurant_id": 1, 
+        "number": "Table 2", 
+        "x": 258, 
+        "y": 102, 
+        "seats": 2,
+        "height": 75,
+        "width": 69,
+        "identifier": "../assets/images/2seatTable.svg"
+    },
+    { 
+        "id": 3, 
+        "restaurant_id": 1, 
+        "number": "Table 3", 
+        "x": 54, 
+        "y": 266, 
+        "seats": 2,
+        "height": 75,
+        "width": 69,
+        "identifier": "../assets/images/2seatTable.svg"
+    },
+    { 
+        "id": 4, 
+        "restaurant_id": 1, 
+        "number": "Table 4", 
+        "x": 258, 
+        "y": 266, 
+        "seats": 4,
+        "height": 69,
+        "width": 75,
+        "identifier": "../assets/images/4seatTable.svg"
+    },
+    { 
+        "id": 5, 
+        "restaurant_id": 2, 
+        "number": "Table 5", 
+        "x": 54, 
+        "y": 430, 
+        "seats": 2,
+        "height": 75,
+        "width": 69,
+        "identifier": "../assets/images/2seatTable.svg"
+    },
+    { 
+        "id": 6, 
+        "restaurant_id": 2, 
+        "number": "Table 6", 
+        "x": 258, 
+        "y": 430, 
+        "seats": 4,
+        "height": 69,
+        "width": 75,
+        "identifier": "../assets/images/4seatTable.svg"
+    }
+
+]

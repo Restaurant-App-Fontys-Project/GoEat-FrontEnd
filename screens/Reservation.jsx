@@ -6,6 +6,7 @@ import TextInputField from '../component/TextInputField';
 import reservationData from '../reservationData.json'; // Import the JSON file, remove later
 import commonStyles from '../styles/commonStyles';
 import sendReservationData from '../apiCalls/sendReservationData';
+import RestaurantTableLayout from '../component/RestaurantTableLayout';
 
 export default function Reservation({navigation}) {
   const [numberOfGuests, setNumberOfGuests] = useState(1);
@@ -95,6 +96,9 @@ export default function Reservation({navigation}) {
             />
             <Button title="+" onPress={increaseGuests} />
           </View>
+          {/* table map */}
+          <RestaurantTableLayout restaurantId={reservationData.restaurantId} />
+          {/* date and time */}
           <View style={{ marginTop: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <FontAwesome name="calendar" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
@@ -143,12 +147,14 @@ export default function Reservation({navigation}) {
               onChangeText={text => setSpecialNotes(text)}
               />
           </View>
+
           <TouchableOpacity 
           style={commonStyles.button}
-          onPress={handleConfirmReservation}
-          // onPress={() => navigation.navigate('ReservationOverview')}
+          // onPress={handleConfirmReservation}
+          onPress={() => navigation.navigate('ReservationOverview')}
           >
             <Text style={commonStyles.buttonText}>Confirm Reservation</Text>
+
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>

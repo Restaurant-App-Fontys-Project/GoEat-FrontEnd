@@ -7,13 +7,10 @@ import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
 
-const backendUrl = 'http://localhost:5107';
-
 export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
-
 
     useEffect(() => {
         fetchData();
@@ -22,8 +19,6 @@ export default function Restaurant({navigation}) {
     const fetchData = async () => {
         try {
           const response = await axios.get('https://goeat-api.onrender.com/Restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
-          // const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
-          // const response = await axios.get('https://dummyjson.com/products/1');
           setRestaurantData(response.data);
           console.log('Fetched data:', response.data); 
         } catch (error) {
@@ -104,12 +99,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#C34F5A',
     },
     option: {
-      fontSize: 16,
+      fontSize: 18,
       color: 'white',
       marginHorizontal: 10,
     },
     selectedOption: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
       color: 'white', 
       marginHorizontal: 10, 
