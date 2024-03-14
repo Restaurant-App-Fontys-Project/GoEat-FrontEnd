@@ -143,12 +143,14 @@ export default function Reservation({navigation}) {
               onChangeText={text => setSpecialNotes(text)}
               />
           </View>
+
           <TouchableOpacity 
           style={commonStyles.button}
-          onPress={handleConfirmReservation}
-          // onPress={() => navigation.navigate('ReservationOverview')}
+          // onPress={handleConfirmReservation}
+          onPress={() => navigation.navigate('ReservationOverview')}
           >
             <Text style={commonStyles.buttonText}>Confirm Reservation</Text>
+
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
