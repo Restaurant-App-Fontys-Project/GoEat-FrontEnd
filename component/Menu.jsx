@@ -11,28 +11,28 @@ export default function Menu({ restaurantData }) {
         {
             id: 1,
             name: 'Grilled Salmon',
-            description: 'Fresh Atlantic salmon grilled to perfection, served ...',
+            description: 'Fresh Atlantic salmon grilled to perfection...',
             price: 18.99,
             image: require('../assets/food1.jpg'),
         },
         {
             id: 2,
             name: 'Chicken Alfredo',
-            description: 'Creamy fettuccine Alfredo with grilled chicken breast, ...',
+            description: 'Creamy fettuccine Alfredo with grilled ...',
             price: 15.99,
             image: require('../assets/food1.jpg'), 
         },
         {
             id: 3,
             name: 'Beef Burger',
-            description: 'Juicy beef patty with lettuce, tomato, onion, pickles, ...',
+            description: 'Juicy beef patty with lettuce, tomato, ...',
             price: 12.99,
             image: require('../assets/food1.jpg'), 
         },
         {
             id: 4,
             name: 'Vegetable Stir-fry',
-            description: 'Fresh mixed vegetables stir-fried in a savory sauce,...',
+            description: 'Fresh mixed vegetables stir..',
             price: 10.99,
             image: require('../assets/food1.jpg'), 
         },
@@ -46,7 +46,7 @@ export default function Menu({ restaurantData }) {
         <View style={styles.menu}>
             <Text style={styles.menuTitle}>Menu</Text>
             {menuItems.slice(0, displayItems).map((item, index) => (
-                <View key={index} style={styles.menuItemContainer}>
+                <View key={index} style={[styles.menuItemContainer, index === displayItems - 1 && styles.lastMenuItem]}>
                     <Image source={item.image} style={styles.imageItem} />
                     <View style={styles.menuItem}>
                         <Text style={styles.menuItemName}>{item.name}</Text>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         marginBottom: 5,
-        marginRight: 10,
     },
     imageItem: {
         width: imageWidth,
@@ -95,17 +94,20 @@ const styles = StyleSheet.create({
         flex: 1,
         marginRight: 20,
     },
+    lastMenuItem: {
+        marginRight: 10,
+    },
     menuItemName: {
-        fontSize: 14,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     menuItemDescription: {
-        fontSize: 14,
+        fontSize: 16,
         marginTop: 5,
         textAlign: 'justify',
     },
     menuItemPrice: {
-        fontSize: 14,
+        fontSize: 16,
         marginTop: 5,
     },
     toggleButton: {
@@ -115,6 +117,6 @@ const styles = StyleSheet.create({
     toggleButtonText: {
         color: '#C34F5A',
         fontSize: 16,
-        fontWeight: 'bold',
+        textDecorationLine: 'underline',
     },
 });

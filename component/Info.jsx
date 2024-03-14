@@ -5,22 +5,22 @@ import commonStyles from '../styles/commonStyles';
 
 const Info = ({restaurantData}) => {
 
-    const { id, title } = restaurantData;
+    const { id, name, address, phoneNumber } = restaurantData;
 
     return (
         <View style={styles.info}>
-            <Text style={commonStyles.subHeaderText}>Name {title}</Text>
+            <Text style={commonStyles.subHeaderText}>{name}</Text>
             <View style={styles.infoContent}>
                 <View style={styles.row}>
-                    <Feather name="map-pin" size={20} color="#541412" />
-                    <Text style={styles.infoText}>Yli 1</Text>
+                    <Feather name="map-pin" size={22} color="#541412" />
+                    <Text style={styles.infoText}>{address}</Text>
                 </View>
                 <View style={styles.row}>
-                    <Feather name="phone" size={20} color="#541412" />
-                    <Text style={styles.infoText}>Phone</Text>
+                    <Feather name="phone" size={22} color="#541412" />
+                    <Text style={styles.infoText}>{phoneNumber}</Text>
                 </View>
                 <View style={styles.row}>
-                    <MaterialIcons name="access-time" size={20} color="#541412" />
+                    <MaterialIcons name="access-time" size={22} color="#541412" />
                     <View>
                         <Text style={styles.infoText}>Mon - Fri: 10:00 - 22:00</Text>
                         <Text style={styles.infoText}>Sat - Sun: 12:00 - 22:00</Text>
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     },
     infoText: {
         marginLeft: 10,
+        fontSize: 16,
     },
     caption: {
         fontSize: 16,
