@@ -5,11 +5,11 @@ export default function Overview() {
   return (
       <View style={styles.details}>
         <Text style={styles.restaurantName}>Restaurant 1</Text>
-        <Text style={styles.detailText}>Date:</Text>
-        <Text style={styles.detailText}>Time:</Text>
-        <Text style={styles.detailText}>Duration:</Text>
-        <Text style={styles.detailText}>Number of Guests:</Text>
-        <Text style={styles.detailText}>Note:</Text>
+        <Text style={styles.detailText}>Date: 12/04/2024 </Text>
+        <Text style={styles.detailText}>Time: 10:00 AM</Text>
+        <Text style={styles.detailText}>Duration: 1 Hours</Text>
+        <Text style={styles.detailText}>Number of Guests: 3</Text>
+        <Text style={styles.detailText}>Note: Anything</Text>
         <View style={styles.buttonSection}>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Edit</Text>
@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#C34F5A',
     padding: 10,
     borderRadius: 5,
     width: 100,
   },
   buttonText: {
-    color: 'black',
+    color: 'white',
     textAlign: 'center',
   },
 });
