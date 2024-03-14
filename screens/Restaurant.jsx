@@ -1,21 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
+import commonStyles from '../styles/commonStyles';
+
+const backendUrl = 'http://localhost:5107';
 
 export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
+    const [restaurantData, setRestaurantData] = useState({}); 
 
+
+    useEffect(() => {
+        fetchData();
+    } , []);
+
+    const fetchData = async () => {
+        try {
+          //const response = await axios.get('http://localhost:5107/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
+          //const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
+          const response = await axios.get('https://dummyjson.com/products/1');
+          setRestaurantData(response.data);
+          console.log('Fetched data:', response.data); 
+        } catch (error) {
+          console.error(error);
+        }
+    };
+    
     const renderOption = () => {
       if (selectedOption === 'Menu') {
-          return <Menu />;
+          return <Menu restaurantData = {restaurantData}/>;
       } else if (selectedOption === 'Reviews') {
           return <Reviews />;
       } else if (selectedOption === 'Details') {
-          return <Details />;
+          return <Details restaurantData = {restaurantData} />;
       }
   };
 
@@ -29,7 +51,7 @@ export default function Restaurant({navigation}) {
 
         {/* Restaurant info */}
         <View style={styles.infoMain}>
-            <Info />
+            <Info restaurantData = {restaurantData} />
         </View>
 
         {/* Menu, Reviews, Details */}
@@ -44,15 +66,14 @@ export default function Restaurant({navigation}) {
               <Text style={selectedOption === 'Details' ? styles.selectedOption : styles.option}>Details</Text>
           </TouchableOpacity>
       </View>
-      <View style={styles.separator}></View>
       {/* Render content based on selected option */}
       <View style={styles.content}>{renderOption()}</View>
 
       {/*Button for reservation*/}
       <TouchableOpacity 
-        style={styles.reserveButton}
+        style={commonStyles.button}
         onPress={() => navigation.navigate('Reservation')}>
-        <Text style={styles.buttonText}>Make a reservation</Text>
+        <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -80,39 +101,20 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       paddingVertical: 10, 
       paddingHorizontal: 5, 
-      backgroundColor: 'lightblue',
+      backgroundColor: '#C34F5A',
     },
     option: {
       fontSize: 16,
-      fontWeight: 'bold',
+      color: 'white',
       marginHorizontal: 10,
     },
     selectedOption: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: 'blue',
+      color: 'white', 
       marginHorizontal: 10, 
     },
-    separator: {
-        height: 1,
-        backgroundColor: 'black',
-        /* marginHorizontal: 20, */ // Added margin to align with menu items
-        width: windowWidth * 1, // Adjusted to make it responsive
-    },
     content: {
-      marginBottom: 10, // Added marginBottom to ensure space between content and button
-      backgroundColor: 'lightgrey',
-    },
-    reserveButton : {
-      backgroundColor: '#EE8E11',
-      alignItems: 'center',
-      padding: 10,
-      borderRadius: 20,
-      marginHorizontal: 20, // Adjusted margin to align with separator
-      marginTop: 20, // Adjusted marginTop to create space between separator and button
-    },
-    buttonText: {
-      color: 'black',
-      fontWeight: 'bold',
+      marginBottom: 10, 
     },
   });
