@@ -8,6 +8,7 @@ import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
 
 export default function Restaurant({navigation}) {
+  const restaurantId = 'c75df5e1-0901-46e3-ab52-2f69d44c338a'; // Replace with the selected restaurant ID
 
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
@@ -67,7 +68,7 @@ export default function Restaurant({navigation}) {
       {/*Button for reservation*/}
       <TouchableOpacity 
         style={commonStyles.button}
-        onPress={() => navigation.navigate('Reservation')}>
+        onPress={() => navigation.navigate('ReservationDetails',{restaurantId})}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>

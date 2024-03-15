@@ -97,7 +97,7 @@ export default function Reservation({navigation}) {
             <Button title="+" onPress={increaseGuests} />
           </View>
           {/* table map */}
-          <RestaurantTableLayout restaurantId={reservationData.restaurantId} />
+          <RestaurantTableLayout restaurantId={1} />
           {/* date and time */}
           <View style={{ marginTop: 20 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

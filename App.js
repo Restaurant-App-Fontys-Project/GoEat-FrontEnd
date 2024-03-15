@@ -5,6 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Restaurant from './screens/Restaurant'
 import Reservation from './screens/Reservation'
 import ReservationOverview from './screens/ReservationOverview'
+import CustomerInfo from './screens/ReservationScreens/CustomerInfo'
+import DateTimePicker from './screens/ReservationScreens/DateTimePicker'
+import TableLayout from './screens/ReservationScreens/TableLayout'
+import ReservationDetails from './screens/ReservationScreens/ReservationDetails'
 
 const Stack = createNativeStackNavigator()
 //<StatusBar style='auto' />
@@ -13,7 +17,14 @@ export default function App () {
     <NavigationContainer style={styles.container}>
       <Stack.Navigator initialRouteName='Restaurant'>
         <Stack.Screen name='Restaurant' component={Restaurant} />
-        <Stack.Screen name='Reservation' component={Reservation} />
+        {/* <Stack.Screen name='Reservation' component={Reservation} /> */}
+        <Stack.Screen
+          name='ReservationDetails'
+          component={ReservationDetails}
+        />
+        <Stack.Screen name='DateTimePicker' component={DateTimePicker} />
+        <Stack.Screen name='TableLayout' component={TableLayout} />
+        <Stack.Screen name='CustomerInfo' component={CustomerInfo} />
         <Stack.Screen
           name='ReservationOverview'
           component={ReservationOverview}
