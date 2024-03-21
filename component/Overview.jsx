@@ -1,7 +1,16 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import getOverviewData from '../apiCalls/getOverviewData';
 
 export default function Overview() {
+
+  const getRestaurantData = () => {
+    console.log("Restaurant data clicked");
+    // getOverviewData().then((res) => {
+    //   console.log("Overview data:", res);
+    // });
+  }
+
   return (
       <View style={styles.details}>
         <Text style={styles.restaurantName}>Restaurant 1</Text>
@@ -11,7 +20,7 @@ export default function Overview() {
         <Text style={styles.detailText}>Number of Guests: 3</Text>
         <Text style={styles.detailText}>Note: Anything</Text>
         <View style={styles.buttonSection}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={getRestaurantData}>
             <Text style={styles.buttonText}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
