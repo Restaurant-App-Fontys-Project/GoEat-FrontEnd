@@ -6,6 +6,7 @@ import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
+import { fetchRestaurantData } from '../apiCalls/restaurantApi';
 
 export default function Restaurant({navigation}) {
 
@@ -13,18 +14,17 @@ export default function Restaurant({navigation}) {
     const [restaurantData, setRestaurantData] = useState({}); 
 
     useEffect(() => {
-        fetchData();
-    } , []);
+      fetchData();
+  }, []);
 
-    const fetchData = async () => {
-        try {
-          const response = await axios.get('https://goeat-api.onrender.com/Restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
-          setRestaurantData(response.data);
-          console.log('Fetched data:', response.data); 
-        } catch (error) {
+  const fetchData = async () => {
+      try {
+          await fetchRestaurantData(setRestaurantData); // Call the fetch function and pass setRestaurantData
+          console.log('Fetched data:', restaurantData);
+      } catch (error) {
           console.error(error);
-        }
-    };
+      }
+  };
     
     const renderOption = () => {
       if (selectedOption === 'Menu') {
