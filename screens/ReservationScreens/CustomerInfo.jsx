@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Picker} from '@react-native-picker/picker';
 import { View, Text, TextInput, Button, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import TextInputField from '../../component/TextInputField';
@@ -8,38 +9,47 @@ import commonStyles from '../../styles/commonStyles'; // Import common styles
 
 
 const CustomerInfo = ({ navigation, route }) => {
+  // const { fetchedReservationData,tableId,selectedDate, selectedTimeSlot, reservationDuration } = route.params;
+  const { tableId,selectedDate, selectedTimeSlot, reservationDuration } = route.params;
+    // console.log('Reservation data:', reservationData);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [specialNotes, setSpecialNotes] = useState('');
+  // const [title, setTitle] = useState('Mr.');
+  const [numberOfGuests, setNumberOfGuests] = useState(1);
 
-  // handle confirm reservation
-  const handleConfirmReservation = () => {
-    // Validate the all the fields
-    if (
-        !selectedDate ||
-        !selectedTimeSlot ||
-        !firstName ||
-        !lastName ||
-        !email ||
-        !phoneNumber
-        ) {
-      alert('Please fill out all required fields.');
-      return;
-    }
-    const data = {
-      numberOfGuests,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      specialNotes,
-      selectedDate,
-      selectedTimeSlot
-    };
-    sendReservationData(data, navigation);
+   // handele increase and decrease guests
+   const increaseGuests = () => {
+    setNumberOfGuests(prevGuests => prevGuests + 1);
   };
+  const decreaseGuests = () => {
+    if (numberOfGuests > 1) {
+      setNumberOfGuests(prevGuests => prevGuests - 1);
+    }
+  };
+  // const handleNextPress = () => {
+  //   // Collect all the form data
+  //   const formData = {
+  //     tableId,
+  //     selectedDate,
+  //     selectedTimeSlot,
+  //     reservationDuration,
+  //     firstName,
+  //     lastName,
+  //     email,
+  //     phoneNumber,
+  //     specialNotes,
+  //     title,
+  //     numberOfGuests
+  //   };
+  //   navigation.navigate('Confirmation', formData);
+  //   console.log('Form data:', formData);
+  // };
+
+
   return (
     <View style={{ padding: 16,  width: '100%',height: '100%' }}>
       <KeyboardAvoidingView  style={{ flex: 3, alignItems: 'center', marginTop:16, marginBottom:20 }} behavior="padding">
@@ -49,6 +59,20 @@ const CustomerInfo = ({ navigation, route }) => {
               <FontAwesome name="wpforms" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
               <Text style={commonStyles.subHeaderText}>Customer information</Text>
             </View>
+            {/* title */}
+          {/* <View>
+                <Text>Title* </Text>
+              </View>
+            <Picker
+              selectedValue={title}
+              onValueChange={(itemValue, itemIndex) =>
+              setTitle(itemValue)
+            }>
+              <Picker.Item label="Mr." value="Mr." />
+              <Picker.Item label="Mrs." value="Mrs." />
+              <Picker.Item label="Miss." value="Miss." />
+              <Picker.Item label="Not specified" value="Not specified" />
+            </Picker> */}
             {/* fname, lname,email,phone */}
             <TextInputField 
               label="First Name*" 
@@ -74,6 +98,23 @@ const CustomerInfo = ({ navigation, route }) => {
               keyboardType="phone-pad"
               onChangeText={text => setPhoneNumber(text)}
               />
+          {/* no. of guests */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+            <FontAwesome name="users" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
+            <Text style={commonStyles.subHeaderText}>Number of Guests: </Text>
+            <Button title="-" onPress={decreaseGuests} />
+            <TextInput
+              style={{ borderWidth: 1, borderColor: 'gray', padding: 6, minWidth: 70, textAlign: 'center'}}
+              value={numberOfGuests.toString()}
+              onChangeText={text => {
+                if (!isNaN(text)) {
+                  setNumberOfGuests(parseInt(text));
+                }
+              }}
+              editable={false}
+            />
+            <Button title="+" onPress={increaseGuests} />
+          </View>
             <TextInputField 
             label="Special Notes (optional)"
               placeholder="Special Requests, Allergies, etc."
@@ -82,23 +123,38 @@ const CustomerInfo = ({ navigation, route }) => {
               onChangeText={text => setSpecialNotes(text)}
               />
           </View>
-          <TouchableOpacity
-            style={commonStyles.button}
-            onPress={handleConfirmReservation}
-          >
-            <Text style={commonStyles.buttonText}>Confirm Reservation</Text>
-          </TouchableOpacity>
+      
         </ScrollView>
+        <TouchableOpacity
+            style={commonStyles.button}
+            // onPress={handleNextPress}
+             onPress={() => navigation.navigate('Confirmation',{ 
+              tableId,
+              selectedDate,
+              selectedTimeSlot,
+              reservationDuration,
+              firstName,
+              lastName,
+              email,
+              phoneNumber,
+              specialNotes,
+              // title,
+              numberOfGuests
+            })}
+
+          >
+            <Text style={commonStyles.buttonText}>Next</Text>
+          </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
 
   );
 };
 
-const confirmReservation = () => {
-  // Send reservation data to the backend
-  console.log('Reservation confirmed');
-  // Navigate to reservation confirmation screen
-};
+// const confirmReservation = () => {
+//   // Send reservation data to the backend
+//   console.log('Reservation confirmed');
+//   // Navigate to reservation confirmation screen
+// };
 
 export default CustomerInfo;

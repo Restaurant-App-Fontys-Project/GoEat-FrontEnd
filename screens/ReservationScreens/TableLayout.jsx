@@ -6,12 +6,21 @@ import dummytableLayoutData from '../../dummytableLayoutData.json'; // Import th
 import { FontAwesome } from '@expo/vector-icons';
 
 const TableLayout = ({ navigation, route }) => {
+        const { selectedDate, selectedTimeSlot, reservationDuration } = route.params;
+    // const { fetchedReservationData, selectedDate, selectedTimeSlot, reservationDuration } = route.params;
+       // console.log('Reservation data:', reservationData);
+        // console.log('Selected date:', selectedDate);
+        // console.log('Selected time slot:', selectedTimeSlot);
+        // console.log('Reservation duration:', reservationDuration);
     // const [tableLayout, setTableLayout] = useState([]);
     const [tableLayout, setTableLayout] = useState(dummytableLayoutData); // Remove this line when fetching data from the backend
+    const [selectedTableId, setSelectedTableId] = useState(null);
 
-    const handleTableSelection = (tableId) => {
+    const handleTableSelection = (table) => {
         // Implement your logic for handling table selection here
-        console.log('Selected table:', tableId);
+        // console.log('Selected table id:', table.id);
+        setSelectedTableId(table.id);
+
     };
 
     // Function to generate the image source based on the number of seats
@@ -33,7 +42,7 @@ const TableLayout = ({ navigation, route }) => {
                             <TouchableOpacity
                                 key={index}
                                 style={[styles.table, { top: table.y, left: table.x }]}
-                                onPress={() => handleTableSelection(table.id)}
+                                onPress={() => handleTableSelection(table)}
                             >
                                 {/* <Image source={{ uri: tablesvgPath }} style={{ width: table.width, height: table.height }} /> */}
                                 <Image source={getImageSource(table.seats)} style={{ width: table.width, height: table.height }} />
@@ -42,8 +51,10 @@ const TableLayout = ({ navigation, route }) => {
                         ))}
                     </View>
                 </ScrollView>
-                <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('CustomerInfo')}>
-        <Text style={commonStyles.buttonText}>Proceed to Customer Information</Text>
+                <TouchableOpacity 
+                style={commonStyles.button} onPress={() => navigation.navigate('CustomerInfo',{tableId: selectedTableId,selectedDate, selectedTimeSlot, reservationDuration})}>
+                {/* <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('CustomerInfo',{ fetchedReservationData })}></TouchableOpacity> */}
+        <Text style={commonStyles.buttonText}>Next</Text>
       </TouchableOpacity>
             </KeyboardAvoidingView>
         </View>

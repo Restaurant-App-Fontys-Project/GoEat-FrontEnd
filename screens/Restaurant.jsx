@@ -19,13 +19,29 @@ export default function Restaurant({navigation}) {
 
     const fetchData = async () => {
         try {
-          const response = await axios.get('https://goeat-api.onrender.com/Restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
+          const response = await axios.get('https://goeat-api.onrender.com/api/Restaurant/{c75df5e1-0901-46e3-ab52-2f69d44c338a}');
           setRestaurantData(response.data);
           console.log('Fetched data:', response.data); 
         } catch (error) {
           console.error(error);
         }
     };
+    // uncomment the following code when the backend is ready
+
+    // const fetchData = async (restaurantId) => {
+    //     try {
+    //       const response = await axios.get(`https://goeat-api.onrender.com/api/Restaurant/${restaurantId}`);
+    //       setRestaurantData(response.data);
+    //       console.log('Fetched data:', response.data);
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   };
+
+    // to send restaurant id to the next screen (call this function in the button onPress event)
+    // const handleReservation = () => {
+    //     navigation.navigate('DateTimePicker', {restaurantId});
+    // };
     
     const renderOption = () => {
       if (selectedOption === 'Menu') {
@@ -68,7 +84,7 @@ export default function Restaurant({navigation}) {
       {/*Button for reservation*/}
       <TouchableOpacity 
         style={commonStyles.button}
-        onPress={() => navigation.navigate('ReservationDetails',{restaurantId})}>
+        onPress={() => navigation.navigate('DateTimePicker',{restaurantId})}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>
