@@ -5,7 +5,7 @@ import MapView, { Marker } from 'react-native-maps';
 
 const Details = ({restaurantData}) => {
 
-    const { id, name, address, phoneNumber, emailAddress, description } = restaurantData;
+    const { name, address, phoneNumber, emailAddress, description } = restaurantData.details;
 
     const initialRegion = {
         latitude: 64.0, 
@@ -18,38 +18,7 @@ const Details = ({restaurantData}) => {
         <View style={styles.container}>
             <Text style={styles.detailTitle}>Details</Text>
             <View style={styles.info}>
-                <View style={styles.row}>
-                    <Feather name="map-pin" size={22} color="#541412" />
-                    <Text style={styles.infoText}>{address}</Text>
-                </View>
-                <MapView 
-                    style={styles.map}
-                    initialRegion={initialRegion}
-                />
-                <View style={styles.row}>
-                    <Feather name="phone" size={22} color="#541412" />
-                    <Text style={styles.infoText}>{phoneNumber}</Text>
-                </View>
-                <View style={styles.row}>
-                <Fontisto name="email" size={22} color="#541412" />
-                    <Text style={styles.infoText}>{emailAddress}</Text>
-                </View>
-                <View style={styles.row}>
-                    <MaterialIcons name="access-time" size={22} color="#541412" />
-                    <View>
-                        <Text style={styles.infoText}>Mon - Fri: 10:00 - 22:00</Text>
-                        <Text style={styles.infoText}>Sat - Sun: 12:00 - 22:00</Text>
-                        <Text style={styles.infoText}>Public holidays: 10:00 - 18:00</Text>
-                    </View>
-                </View>
-                <View style={styles.row}>
-                    <MaterialCommunityIcons name="food-fork-drink" size={22} color="#541412" />
-                    <Text style={styles.infoText}>Cuisine:</Text>
-                </View>
-                <View style={styles.row}>
-                    <Feather name="file-text" size={22} color="#541412" />
                     <Text style={styles.infoText}>{description}</Text>
-                </View>
             </View>
         </View>
     );
