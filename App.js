@@ -9,6 +9,7 @@ import DateTimePicker from './screens/ReservationScreens/DateTimePicker'
 import TableLayout from './screens/ReservationScreens/TableLayout'
 import Confirmation from './screens/ReservationScreens/Confirmation'
 import LoginOptions from './screens/LoginOptions'
+import Categories from './screens/Categories'
 
 const Stack = createNativeStackNavigator()
 //<StatusBar style='auto' />
