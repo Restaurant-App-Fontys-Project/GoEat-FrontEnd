@@ -9,7 +9,7 @@ import commonStyles from '../styles/commonStyles';
 import { fetchRestaurantData } from '../apiCalls/restaurantApi';
 
 export default function Restaurant({navigation}) {
-  const restaurantId = 'c75df5e1-0901-46e3-ab52-2f69d44c338a'; // Replace with the selected restaurant ID
+
 
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 

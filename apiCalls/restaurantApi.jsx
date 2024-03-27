@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 export const fetchRestaurantData = async (setRestaurantData) => {
+
+    const restaurantId = 'c75df5e1-0901-46e3-ab52-2f69d44c338a'; // Replace with the selected restaurant ID
+
     try {
         // Fetch cover picture data
         /* const coverResponse = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/cover_picture');
@@ -27,4 +30,21 @@ export const fetchRestaurantData = async (setRestaurantData) => {
     } catch (error) {
         console.error(error);
     }
+
+        // uncomment the following code when the backend is ready
+
+    // const fetchData = async (restaurantId) => {
+    //     try {
+    //       const response = await axios.get(`https://goeat-api.onrender.com/api/Restaurant/${restaurantId}`);
+    //       setRestaurantData(response.data);
+    //       console.log('Fetched data:', response.data);
+    //     } catch (error) {
+    //       console.error(error);
+    //     }
+    //   };
+
+    // to send restaurant id to the next screen (call this function in the button onPress event)
+    // const handleReservation = () => {
+    //     navigation.navigate('DateTimePicker', {restaurantId});
+    // };
 };
