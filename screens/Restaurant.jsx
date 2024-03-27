@@ -10,7 +10,6 @@ import { fetchRestaurantData } from '../apiCalls/restaurantApi';
 
 export default function Restaurant({navigation}) {
 
-
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
 
