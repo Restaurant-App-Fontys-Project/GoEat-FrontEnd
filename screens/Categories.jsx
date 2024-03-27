@@ -38,7 +38,7 @@ export default function Categories({ navigation }) {
     useEffect(() => {
         navigation.setOptions({
             headerStyle: {
-                backgroundColor: '#D69F3B', // Change the background color
+                backgroundColor: '#D69F3B',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -62,6 +62,11 @@ export default function Categories({ navigation }) {
                 keyExtractor={(item) => item.id}
                 numColumns={2}
             />
+            {/* <View style={styles.categories}>
+                {data.map((item, index) => (
+                    <RestaurantCard key={index} item={item} />
+                ))}
+            </View> */}
         </ScrollView>
     )
 }
@@ -81,6 +86,10 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 20,
         fontWeight: 'bold',
-    }
+    },
+    categories: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between'
+    },
 });
-

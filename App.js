@@ -23,6 +23,7 @@ export default function App () {
         <Stack.Screen name='TableLayout' component={TableLayout} />
         <Stack.Screen name='CustomerInfo' component={CustomerInfo} />
         <Stack.Screen name='Confirmation' component={Confirmation} />
+        <Stack.Screen name='Categories' component={Categories} />
         <Stack.Screen
           name='ReservationOverview'
           component={ReservationOverview}
