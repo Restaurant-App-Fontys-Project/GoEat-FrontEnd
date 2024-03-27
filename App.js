@@ -10,13 +10,19 @@ import TableLayout from './screens/ReservationScreens/TableLayout'
 import Confirmation from './screens/ReservationScreens/Confirmation'
 import LoginOptions from './screens/LoginOptions'
 import Categories from './screens/Categories'
+import Welcome from './screens/Welcome'
 
 const Stack = createNativeStackNavigator()
 //<StatusBar style='auto' />
 export default function App () {
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName='LoginOptions'>
+      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name='LoginOptions' component={LoginOptions} />
         <Stack.Screen name='Restaurant' component={Restaurant} />
         <Stack.Screen name='DateTimePicker' component={DateTimePicker} />
