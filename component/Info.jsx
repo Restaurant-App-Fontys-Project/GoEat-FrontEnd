@@ -13,7 +13,7 @@ const Info = ({ restaurantData }) => {
         return <Text>Loading...</Text>; 
     }
 
-    const { name, address, phoneNumber, emailAddress, coverPictureId } = restaurantData.details;
+    const { name, address, phoneNumber, emailAddress, coverPictureId, caption } = restaurantData.details;
     const initialRegion = {
         latitude: 64.0,
         longitude: 26.0,
@@ -74,7 +74,7 @@ const Info = ({ restaurantData }) => {
                     <Text style={styles.infoText}>Phone: {phoneNumber}</Text>
                 </View>
                 <Text style={[styles.infoText, styles.email]}>Email: {emailAddress}</Text>
-                <Text style={styles.caption}>Celebrate local ingredients and global influences in every dish!</Text>
+                <Text style={styles.caption}>{caption}!</Text>
             </View>
         </View>
     );
