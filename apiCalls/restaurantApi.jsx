@@ -7,7 +7,7 @@ export const fetchRestaurantData = async (setRestaurantData) => {
         const coverData = coverResponse.data; */
 
         // Fetch details data
-        const detailsResponse = await axios.get('https://goeat-api.onrender.com/api/Restaurant/0051291c-c8cb-4883-adac-6657a3815330');
+        const detailsResponse = await axios.get('https://goeat-api.onrender.com/Restaurants/%7Bd98f766e-a7b6-4fa3-a7be-63046e3f3c6f%7D');
         const detailsData = detailsResponse.data;
 
         // Fetch menu data
