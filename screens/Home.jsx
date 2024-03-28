@@ -5,7 +5,7 @@ import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions
 export default function Home({ navigation }) {
   const handleSearch = () => {
     // Navigate to Restaurant screen
-    navigation.navigate('Restaurant');
+    navigation.navigate('Categories');
   };
 
   return (

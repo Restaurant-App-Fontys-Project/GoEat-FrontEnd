@@ -9,6 +9,8 @@ import DateTimePicker from './screens/ReservationScreens/DateTimePicker'
 import TableLayout from './screens/ReservationScreens/TableLayout'
 import Confirmation from './screens/ReservationScreens/Confirmation'
 import LoginOptions from './screens/LoginOptions'
+import Categories from './screens/Categories'
+import Welcome from './screens/Welcome'
 import Home from './screens/Home'
 
 const Stack = createNativeStackNavigator()
@@ -16,7 +18,12 @@ const Stack = createNativeStackNavigator()
 export default function App () {
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName='LoginOptions'>
+      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name='LoginOptions' component={LoginOptions} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Restaurant' component={Restaurant} />
@@ -24,6 +31,7 @@ export default function App () {
         <Stack.Screen name='TableLayout' component={TableLayout} />
         <Stack.Screen name='CustomerInfo' component={CustomerInfo} />
         <Stack.Screen name='Confirmation' component={Confirmation} />
+        <Stack.Screen name='Categories' component={Categories} />
         <Stack.Screen
           name='ReservationOverview'
           component={ReservationOverview}
