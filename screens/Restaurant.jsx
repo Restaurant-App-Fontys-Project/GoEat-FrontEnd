@@ -68,7 +68,7 @@ export default function Restaurant({navigation}) {
       {/*Button for reservation*/}
       <TouchableOpacity 
         style={commonStyles.button}
-        onPress={() => navigation.navigate('DateTimePicker',{restaurantId})}>
+        onPress={() => navigation.navigate('DateTimePicker',{ restaurantId: restaurantData.id })}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>

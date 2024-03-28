@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, ScrollView, View, Text, FlatList, Image } from 'react-native'
+import { StyleSheet, ScrollView, View, Text, FlatList, Image, TouchableOpacity } from 'react-native'
 import RestaurantCard from '../component/RestaurantCard';
+import commonStyles from '../styles/commonStyles';
 
 
 const data = [
@@ -54,7 +55,7 @@ export default function Categories({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.title}>
-                <Text style={styles.titleText}>American Students in Oulu</Text>
+                <Text style={styles.titleText}>American Restaurants</Text>
             </View>
             <FlatList
                 data={data}
@@ -67,6 +68,10 @@ export default function Categories({ navigation }) {
                     <RestaurantCard key={index} item={item} />
                 ))}
             </View> */}
+
+            {/* remove this button after implement */}
+      
+
         </ScrollView>
     )
 }

@@ -21,7 +21,7 @@ const LoginOptions = ({ navigation }) => {
     };
     const handleSkip = () => {
         // Navigate to the home screen
-        navigation.navigate('Home');
+        navigation.navigate('Location');
     };
 
     const handleLoginWithFacebook = () => {
@@ -89,9 +89,9 @@ const LoginOptions = ({ navigation }) => {
             </TouchableOpacity>
             {/* Forgot password? */}
             <TouchableOpacity>
-                <Text style={[styles.buttonText, { color: '#3A71D6', fontWeight: 'bold', marginTop: 30 }]}>Forgot password?</Text>
+                <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', marginTop: 30 }]}>Forgot password?</Text>
             </TouchableOpacity>
-            <Text style={[styles.buttonText, { color: '#3A71D6', fontWeight: 'bold' }]}> Or</Text>
+            <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold' }]}> Or</Text>
             {/* Login with Facebook */}
             <View style={styles.loginOptions}>
                 <TouchableOpacity onPress={handleLoginWithFacebook}>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     loginButton: {
-        backgroundColor: '#3A71D6',
+        backgroundColor: '#C34F5A',
         padding: 10,
         marginTop: 20,
         borderRadius: 50,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     skipText: {
         marginTop: 30,
         textDecorationLine: 'underline',
-        color: '#3A71D6',
+        color: '#C34F5A',
         fontWeight: 'bold',
         fontSize: 18,
         textAlign: 'center',
