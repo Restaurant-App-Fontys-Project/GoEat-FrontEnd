@@ -12,36 +12,20 @@ export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
+    const [coverImage, setCoverImage] = useState(null);
 
     useEffect(() => {
       fetchData();
-  }, []);
-
-  const fetchData = async () => {
+    }, []);
+  
+    const fetchData = async () => {
       try {
-          await fetchRestaurantData(setRestaurantData); // Call the fetch function and pass setRestaurantData
-          console.log('Fetched data:', restaurantData);
+        await fetchRestaurantData(setRestaurantData); 
       } catch (error) {
-          console.error(error);
+        console.error(error);
       }
-  };
-    // uncomment the following code when the backend is ready
+    };
 
-    // const fetchData = async (restaurantId) => {
-    //     try {
-    //       const response = await axios.get(`https://goeat-api.onrender.com/api/Restaurant/${restaurantId}`);
-    //       setRestaurantData(response.data);
-    //       console.log('Fetched data:', response.data);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   };
-
-    // to send restaurant id to the next screen (call this function in the button onPress event)
-    // const handleReservation = () => {
-    //     navigation.navigate('DateTimePicker', {restaurantId});
-    // };
-    
     const renderOption = () => {
       if (selectedOption === 'Menu') {
           return <Menu restaurantData = {restaurantData}/>;
@@ -54,11 +38,12 @@ export default function Restaurant({navigation}) {
 
   return (
     <ScrollView style={styles.container}>
-
         {/* Cover image */}
+        {restaurantData.cover && (
         <View style={styles.imageCover}>
-            <Image source={require('../assets/food1.jpg')} style={styles.image} />
+          <Image source={{ uri: restaurantData.cover }} style={styles.image} />
         </View>
+      )}
 
         {/* Restaurant info */}
         <View style={styles.infoMain}>
@@ -112,18 +97,19 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       paddingVertical: 10, 
       paddingHorizontal: 5, 
-      backgroundColor: '#C34F5A',
+      backgroundColor: '#F8D3B9',
     },
     option: {
       fontSize: 18,
-      color: 'white',
+      color: 'black',
       marginHorizontal: 10,
+      fontWeight: 'bold',
     },
     selectedOption: {
       fontSize: 18,
       fontWeight: 'bold',
-      color: 'white', 
-      marginHorizontal: 10, 
+      color: '#C34F5A', 
+      marginHorizontal: 10,
     },
     content: {
       marginBottom: 10, 

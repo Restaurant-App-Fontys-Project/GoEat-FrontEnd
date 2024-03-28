@@ -1,34 +1,51 @@
 import axios from 'axios';
+global.Buffer = global.Buffer || require('buffer').Buffer;
 
 export const fetchRestaurantData = async (setRestaurantData) => {
 
-    const restaurantId = 'c75df5e1-0901-46e3-ab52-2f69d44c338a'; // Replace with the selected restaurant ID
+    const restaurantId = 'b7ac5e6a-45f0-47a9-9f30-197ebeee50f1'; // Replace with the selected restaurant ID
 
     try {
         // Fetch cover picture data
-        /* const coverResponse = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/cover_picture');
-        const coverData = coverResponse.data; */
+        const coverData = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/cover_picture', {
+            responseType: 'arraybuffer'
+          })
+          .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+          .then(data => `data:image/jpeg;base64,${data}`);
 
         // Fetch details data
         const detailsResponse = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1');
         const detailsData = detailsResponse.data;
 
         // Fetch menu data
-        /* const menuResponse = await axios.get('https://...');
-        const menuData = menuResponse.data; */
+        const menuResponse = await axios.get('https://goeat-api.onrender.com/menus/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1');
+        const menuData = menuResponse.data;
 
         // Set the fetched data into state
         setRestaurantData({
-            /* cover: coverData, */
+            cover: coverData,
             details: detailsData,
-            /* menu: menuData */
+            menu: menuData,
         });
-        // Log cover image data
-       /*  console.log('Cover image data:', coverData); */
 
-        console.log('Fetched data:', /* coverData, */ detailsData/* , menuData */);
+        console.log('Fetched data:', /* coverData, */ detailsData, menuData);
     } catch (error) {
         console.error(error);
+    }
+
+    
+    // Fetch meal image by meal id {id}
+    const fetchMealImage = async (id) => {
+        try {
+            const response = await axios.get('https://goeat-api.onrender.com/meals/51e85eb9-1f34-44f8-a25a-e7660c0b735c/meal_image', {
+                responseType: 'arraybuffer'
+              })
+              .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+              .then(data => `data:image/jpeg;base64,${data}`);
+        } catch (error) {
+            console.error('Error fetching meal image:', error);
+            return null;
+        }
     }
 
         // uncomment the following code when the backend is ready
@@ -48,3 +65,12 @@ export const fetchRestaurantData = async (setRestaurantData) => {
     //     navigation.navigate('DateTimePicker', {restaurantId});
     // };
 };
+/* export const fetchCoverImage = async (restaurantId) => {
+    try {
+        const response = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/cover_picture');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching cover image:', error);
+        return null;
+    }
+}; */
