@@ -70,11 +70,7 @@ export default function Categories({ navigation }) {
             </View> */}
 
             {/* remove this button after implement */}
-              <TouchableOpacity 
-        style={commonStyles.button}
-        onPress={() => navigation.navigate('Restaurant')}>
-        <Text style={commonStyles.buttonText}>Next</Text>
-      </TouchableOpacity>
+      
 
         </ScrollView>
     )
