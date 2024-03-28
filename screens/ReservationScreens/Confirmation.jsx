@@ -69,6 +69,7 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
             console.error('Error confirming reservation:', error.message);
             // Display error message to the user
         }
+        navigation.navigate('ReservationOverview');
     };
     
     return(
