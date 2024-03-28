@@ -1,47 +1,67 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useState  } from "react";
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
+import commonStyles from '../styles/commonStyles';
 
 const Location = ({ navigation }) => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <FontAwesome name="arrow-left" size={24} color="black" />
-                </TouchableOpacity>
-                <Text style={styles.headerText}>Location</Text>
-            </View>
-            <View style={styles.body}>
-                <Text style={styles.bodyText}>Please enable location services to find the nearest restaurants</Text>
-            </View>
+    const [searchText, setSearchText] = useState('');
 
-        </View>
+    const handleSearch = () => {
+        // Implement search functionality here
+        console.log('Search text:', searchText);
+     
+    };
+    return (
+        
+        <View style={styles.container}>
+        <ImageBackground
+        source={require('../assets/backgrounds/location-bg.png')}
+        style={styles.backgroundImage}
+        resizeMode="cover">
+            <TextInput
+                style={styles.searchInput}
+                placeholder="Choose Location"
+                value={searchText}
+                onChangeText={setSearchText}
+            />
+          
+            <TouchableOpacity
+                style={commonStyles.button}
+                onPress={() => navigation.navigate('Home')}>
+                <Text style={commonStyles.buttonText}>Explore Restaurants</Text>
+            </TouchableOpacity>
+        
+    </ImageBackground>
+    </View>
     );
 };
-export default Location;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20
+    searchInput: {
+        width: '90%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 20,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignSelf: 'center',
     },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginLeft: 10
-    },
-    body: {
-        alignItems: 'center'
-    },
-    bodyText: {
-        fontSize: 16
-    }
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        width: '100%', 
+        height: '100%', 
+
+      },
 });
+export default Location;
 

@@ -21,7 +21,7 @@ const LoginOptions = ({ navigation }) => {
     };
     const handleSkip = () => {
         // Navigate to the home screen
-        navigation.navigate('Home');
+        navigation.navigate('Location');
     };
 
     const handleLoginWithFacebook = () => {
