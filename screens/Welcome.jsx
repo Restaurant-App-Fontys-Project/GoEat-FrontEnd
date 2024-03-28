@@ -61,6 +61,7 @@ const styles = {
     buttonText: {
         color: 'white',
         textAlign: 'center',
+        fontSize: 16,
     },
 }
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default RestaurantCard = ({ item }) => (
+export default RestaurantCard = ({ item, navigation }) => (
+    <TouchableOpacity onPress={() => navigation.navigate('Restaurant')}>
     <View style={styles.item}>
         <Image source={require('../assets/food1.jpg')} style={styles.image} />
         <View style={{ padding: 5 }}>
@@ -20,12 +21,12 @@ export default RestaurantCard = ({ item }) => (
             </View>
         </View>
     </View>
+    </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
     item: {
         flex: 1,
-        width: '48%',
         backgroundColor: '#fff',
         elevation: 5,
         margin: 5,
