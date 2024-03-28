@@ -4,7 +4,7 @@ import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-nati
 const Welcome = ({ navigation }) => {
     
     const handleNavigation = () => {
-        navigation.navigate('Categories');
+        navigation.navigate('Location');
     }
 
     return (
