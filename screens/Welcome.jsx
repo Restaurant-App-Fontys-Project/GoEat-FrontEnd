@@ -4,7 +4,7 @@ import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-nati
 const Welcome = ({ navigation }) => {
     
     const handleNavigation = () => {
-        navigation.navigate('Categories');
+        navigation.navigate('LoginOptions');
     }
 
     return (
@@ -61,6 +61,7 @@ const styles = {
     buttonText: {
         color: 'white',
         textAlign: 'center',
+        fontSize: 16,
     },
 }
 

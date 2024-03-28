@@ -49,7 +49,7 @@ export default function Categories({ navigation }) {
 
     }, [navigation]);
 
-    const renderItem = ({ item }) => <RestaurantCard item={item} />;
+    const renderItem = ({ item }) => <RestaurantCard item={item} navigation={navigation} />; // Pass navigation prop to RestaurantCard
 
     return (
         <ScrollView style={styles.container}>

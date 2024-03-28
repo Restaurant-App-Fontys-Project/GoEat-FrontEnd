@@ -1,12 +1,27 @@
-import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import React, {useState} from 'react';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput } from 'react-native';
 import SmoothImageTransition from '../component/SmoothImageTransition';
 import commonStyles from '../styles/commonStyles';
 
 const LoginOptions = ({ navigation }) => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async () => {
+        try {
+            // Perform login operation with email and password
+            await loginWithEmail(email, password);
+            console.log('Login successful!');
+            // Add navigation logic or other actions upon successful login
+        } catch (error) {
+            console.error('Login failed:', error);
+            // Handle login failure, display error message or take appropriate action
+        }
+    };
     const handleSkip = () => {
         // Navigate to the home screen
-        navigation.navigate('Restaurant');
+        navigation.navigate('Home');
     };
 
     const handleLoginWithFacebook = () => {
@@ -15,10 +30,6 @@ const LoginOptions = ({ navigation }) => {
 
     const handleLoginWithGoogle = () => {
         // Handle Google login
-    };
-
-    const handleLoginWithEmail = () => {
-        // Handle email login
     };
 
     const images = [
@@ -32,33 +43,63 @@ const LoginOptions = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <ImageBackground
+            source={require('../assets/login-icons/login-bg.png')}
+            style={styles.backgroundImage}
+            >
             {/* App Logo */}
-            <Image source={require('../assets/logo.png')} style={styles.logo} />
+            <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
 
             {/* Image Carousel */}
-            <View style={styles.imageContainer}>
+            {/* <View style={styles.imageContainer}>
                 <SmoothImageTransition images={images} />
-            </View>
+            </View> */}
 
-            {/* Login Options */}
+            {/* Email input */}
+            {/* Email input */}
+            <View style={styles.inputWrapper}>
+                    <Image source={require('../assets/login-icons/gmail.png')} style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        textAlignVertical="center"
+                    />
+                </View>
+
+                {/* Password input */}
+                <View style={styles.inputWrapper}>
+                    <Image source={require('../assets/login-icons/password.png')} style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                        textAlignVertical="center"
+                    />
+                </View>
+
+                {/* Login button */}
+            <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            {/* Forgot password? */}
+            <TouchableOpacity>
+                <Text style={[styles.buttonText, { color: '#3A71D6', fontWeight: 'bold', marginTop: 30 }]}>Forgot password?</Text>
+            </TouchableOpacity>
+            <Text style={[styles.buttonText, { color: '#3A71D6', fontWeight: 'bold' }]}> Or</Text>
+            {/* Login with Facebook */}
             <View style={styles.loginOptions}>
-                <TouchableOpacity onPress={handleLoginWithFacebook} style={styles.loginButton}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={require('../assets/login-icons/facebook.png')} style={{ width: 25, height: 25, marginRight: 10 }} />
-                        <Text style={styles.buttonText}>Login with Facebook</Text>
-                    </View>
+                <TouchableOpacity onPress={handleLoginWithFacebook}>
+                    <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleLoginWithGoogle} style={styles.loginButton}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={require('../assets/login-icons/google.png')} style={{ width: 25, height: 25, marginRight: 10 }} />
-                        <Text style={styles.buttonText}>Login with Google</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleLoginWithEmail} style={styles.loginButton}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={require('../assets/login-icons/gmail.png')} style={{ width: 25, height: 25, marginRight: 10 }} />
-                        <Text style={styles.buttonText}>Login with Email</Text>
-                    </View>
+                {/* Login with Google */}
+                <TouchableOpacity onPress={handleLoginWithGoogle}>
+                    <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
                 </TouchableOpacity>
             </View>
 
@@ -67,6 +108,7 @@ const LoginOptions = ({ navigation }) => {
             onPress={handleSkip}>
                 <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
+            </ImageBackground>
         </View>
     );
 };
@@ -76,12 +118,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20, 
     },
     logo: {
-        width: 250, 
-        height: 100, 
+        width: 110, 
+        height: 110, 
         marginBottom: 50, 
+        alignSelf: 'center',
     },
     imageContainer: {
         width: Dimensions.get('window').width, 
@@ -89,24 +131,64 @@ const styles = StyleSheet.create({
     },
     loginOptions: {
         marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     loginButton: {
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#3A71D6',
         padding: 10,
         marginTop: 20,
-        borderRadius: 50
+        borderRadius: 50,
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     buttonText: {
-        color: 'black',
+        color: 'white',
         textAlign: 'center',
         fontSize: 18,
     },
     skipText: {
-        marginTop: 20,
+        marginTop: 30,
         textDecorationLine: 'underline',
-        color: '#C34F5A',
+        color: '#3A71D6',
         fontWeight: 'bold',
         fontSize: 18,
+        textAlign: 'center',
+    },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        width: '100%', 
+        height: '100%', 
+
+      },
+      input: {
+        backgroundColor: 'white',
+        marginTop: 10,
+        borderRadius: 50,
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        fontSize: 18,
+        paddingBottom: 10,
+      },
+      inputWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 50,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    icon: {
+        width: 25,
+        height: 25,
+        marginRight: 10,
     },
 });
 
