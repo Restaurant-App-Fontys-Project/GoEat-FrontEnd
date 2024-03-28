@@ -6,14 +6,14 @@ import commonStyles from '../styles/commonStyles';
 
 const Info = ({ restaurantData }) => {
     const [showMap, setShowMap] = useState(false);
-    const[showTime, setShowTime] = useState(false); 
+    const [showTime, setShowTime] = useState(false);
 
     // Check if restaurantData and restaurantData.details exist
     if (!restaurantData || !restaurantData.details) {
-        return <Text>Loading...</Text>; 
+        return <Text>Loading...</Text>;
     }
 
-    const { name, address, phoneNumber, emailAddress, coverPictureId, caption } = restaurantData.details;
+    const { name, address, phoneNumber, emailAddress, caption, openingHours } = restaurantData.details;
     const initialRegion = {
         latitude: 64.0,
         longitude: 26.0,
@@ -21,9 +21,14 @@ const Info = ({ restaurantData }) => {
         longitudeDelta: 10, // Zoom level
     };
 
+    const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+
+    // Find the opening hours for the current day
+    const currentDayOpeningHours = openingHours.find(day => day.day === currentDay);
+
     return (
         <View style={styles.info}>
-            <Text style={commonStyles.subHeaderText}>Name: {name}</Text>
+            <Text style={commonStyles.subHeaderText}>{name}</Text>
             <View style={styles.tagContainer}>
                 <View style={styles.tag}>
                     <Text style={styles.tagText}>Chinese</Text>
@@ -39,41 +44,42 @@ const Info = ({ restaurantData }) => {
             <View style={styles.infoContent}>
                 <View style={styles.row}>
                     <Feather name="map-pin" size={22} color="#541412" />
-                    <Text style={styles.infoText}>Address: {address}</Text>
+                    <Text style={styles.infoText}>{address}</Text>
                     <TouchableOpacity onPress={() => setShowMap(!showMap)}>
-                        <Text style={[styles.showMapText,styles.infoText]}>{showMap ? 'Hide map' : 'Show map'}</Text>
+                        <Text style={[styles.showMapText, styles.infoText]}>
+                            {showMap ? 'Hide map' : 'Show map'}
+                        </Text>
                     </TouchableOpacity>
                 </View>
-                {showMap && (
-                    <MapView 
-                        style={styles.map}
-                        initialRegion={initialRegion}
-                    />
-                )}
+                {showMap && <MapView style={styles.map} initialRegion={initialRegion} />}
                 <View style={styles.row}>
                     <View style={styles.timeWrapper}>
                         <MaterialIcons name="access-time" size={22} color="#541412" />
-                        <Text style={styles.infoText}>Monday: </Text>
+                        <Text style={styles.infoText}>{currentDay}: </Text>
+                        <Text style={styles.infoText}>
+                            {currentDayOpeningHours ? `${currentDayOpeningHours.openingTime} - ${currentDayOpeningHours.closingTime}` : 'Closed'}
+                        </Text>
                     </View>
                     <TouchableOpacity onPress={() => setShowTime(!showTime)}>
-                        <Text style={[styles.showMapText,styles.infoText]}>{showTime ? 'Hide time' : 'Show time'}</Text>
+                        <Text style={[styles.showMapText, styles.infoText]}>
+                            {showTime ? 'Hide time' : 'Show more'}
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 {showTime && (
                     <View style={styles.timeContainer}>
-                        <Text style={styles.infoText}>Tuesday: </Text>
-                        <Text style={styles.infoText}>Wednesday: </Text>
-                        <Text style={styles.infoText}>Thursday: </Text>
-                        <Text style={styles.infoText}>Friday: </Text>
-                        <Text style={styles.infoText}>Saturday: </Text>
-                        <Text style={styles.infoText}>Sunday: </Text>
+                        {openingHours.map(day => (
+                            <Text key={day.day} style={styles.infoText}>
+                                {day.day}: {day.openingTime} - {day.closingTime}
+                            </Text>
+                        ))}
                     </View>
                 )}
                 <View style={styles.row}>
                     <MaterialIcons name="contact-phone" size={22} color="#541412" />
-                    <Text style={styles.infoText}>Phone: {phoneNumber}</Text>
+                    <Text style={styles.infoText}>{phoneNumber}</Text>
                 </View>
-                <Text style={[styles.infoText, styles.email]}>Email: {emailAddress}</Text>
+                <Text style={[styles.infoText, styles.email]}>{emailAddress}</Text>
                 <Text style={styles.caption}>{caption}!</Text>
             </View>
         </View>
@@ -83,7 +89,7 @@ const Info = ({ restaurantData }) => {
 export default Info;
 
 const { width } = Dimensions.get('window');
-const infoContentWidth = width * 0.9; 
+const infoContentWidth = width * 0.9;
 
 const styles = StyleSheet.create({
     info: {
@@ -125,7 +131,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     timeContainer: {
-        marginLeft: 22, 
+        marginLeft: 22,
         marginBottom: 10,
     },
     email: {
