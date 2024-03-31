@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
@@ -8,8 +7,9 @@ import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
 import { fetchRestaurantData } from '../apiCalls/restaurantApi';
 
-export default function Restaurant({navigation}) {
 
+export default function Restaurant({navigation,route}) {
+   const { restaurantId } = route.params;
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
     const [coverImage, setCoverImage] = useState(null);
@@ -20,11 +20,18 @@ export default function Restaurant({navigation}) {
   
     const fetchData = async () => {
       try {
-        await fetchRestaurantData(setRestaurantData); 
+        await fetchRestaurantData(restaurantId, setRestaurantData); // Pass setRestaurantData here
       } catch (error) {
         console.error(error);
       }
     };
+
+      const navigateToDateTimePicker = () => {
+        navigation.navigate('DateTimePicker', {
+          restaurantId: restaurantId
+        });
+      };
+    
 
     const renderOption = () => {
       if (selectedOption === 'Menu') {
@@ -39,7 +46,7 @@ export default function Restaurant({navigation}) {
   return (
     <ScrollView style={styles.container}>
         {/* Cover image */}
-        {restaurantData.cover && (
+        {restaurantData && restaurantData.cover && (
         <View style={styles.imageCover}>
           <Image source={{ uri: restaurantData.cover }} style={styles.image} />
         </View>
@@ -68,7 +75,16 @@ export default function Restaurant({navigation}) {
       {/*Button for reservation*/}
       <TouchableOpacity 
         style={commonStyles.button}
-        onPress={() => navigation.navigate('DateTimePicker',{ restaurantId: restaurantData.id })}>
+        onPress={() => {
+          if (restaurantData.details) {
+            fetchData().then(() => {
+              navigateToDateTimePicker();
+            });
+          } else {
+            console.error("Restaurant details not available");
+            // Handle the scenario where restaurant details are not available
+          }
+        }}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>

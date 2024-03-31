@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
 import { FontAwesome } from '@expo/vector-icons';
 import TimeSlotItem from "./TimeslotItem";
-import reservationData from '../reservationData.json';
+import { Picker } from '@react-native-picker/picker';
 
 export default class Calendar extends Component {
   constructor(props) {
@@ -12,25 +12,11 @@ export default class Calendar extends Component {
       selectedStartDate: null,
       selectedTimeSlot: null,
       timeSlots: [],
-      disabledDates: [],
+      // disabledDates: [],
+      reservationDuration: '1 hour', // Default reservation duration
     };
     this.onDateChange = this.onDateChange.bind(this);
     this.handleTimeSlotSelect = this.handleTimeSlotSelect.bind(this);
-  }
-  componentDidMount() {
-    // Call a function to set disabled dates
-    this.setDisabledDates();
-  }
-
-  setDisabledDates() {
-    // Extract closed dates from reservationData or any other source
-    const { closedDates } = reservationData;
-
-    // Create an array of Date objects for disabled dates
-    const disabledDates = closedDates.map(dateString => new Date(dateString));
-
-    // Update the state with disabled dates
-    this.setState({ disabledDates });
   }
 
   onDateChange(date) {
@@ -43,80 +29,43 @@ export default class Calendar extends Component {
       this.props.onDateSelect(date);
     }
 
-    // Call a function to fetch and set the time slots based on the selected date
     this.setTimeSlotsForDate(date);
+  };
+  componentDidMount() {
+    console.log('Received restaurantData in Calendar:', this.props.restaurantData);
   }
-    // const dateStringFromBackend = "2024-12-25T00:00:00Z";
-    // const dateObject = new Date(dateStringFromBackend);
-    // const month = dateObject.getMonth(); // Returns 11 (December is 11th month)
-    // const date = dateObject.getDate(); // Returns 25
+  
+  
 
-
-
-  setTimeSlotsForDate(date) {
-    const { 
-      monday_openTime,
-      monday_closeTime,
-      tuesday_openTime,
-      tuesday_closeTime,
-      wednesday_openTime,
-      wednesday_closeTime,
-      thursday_openTime,
-      thursday_closeTime,
-      friday_openTime,
-      friday_closeTime,
-      saturday_openTime,
-      saturday_closeTime,
-      sunday_openTime,
-      sunday_closeTime,
-      christmas_openTime,
-      christmas_closeTime,
-      } = reservationData;
-
-
-      // Check if it's Christmas day
-      if (date.getMonth() === 11 && date.getDate() === 25) {
-        const timeSlots = this.generateTimeSlots(christmas_openTime, christmas_closeTime);
-        this.setState({ timeSlots });
+  setTimeSlotsForDate = (date) => {
+    try {
+      const { openingHours } = this.props.restaurantData;
+      if (!openingHours || openingHours.length === 0) {
+        console.error('Opening hours data is empty or undefined.');
+        // You can set a default behavior or return here
         return;
       }
-
-    const day = date.getDay(); // Get the day of the week (0-6)
-    let timeSlots = [];
-
-    switch (day) {
-      case 0: // Sunday
-        timeSlots = this.generateTimeSlots(sunday_openTime, sunday_closeTime);
-        break;
-      case 1: // Monday
-        timeSlots = this.generateTimeSlots(monday_openTime, monday_closeTime);
-        break;
-      case 2: // Tuesday
-        timeSlots = this.generateTimeSlots(tuesday_openTime, tuesday_closeTime);
-        break;
-      case 3: // Wednesday
-        timeSlots = this.generateTimeSlots(wednesday_openTime, wednesday_closeTime);
-        break;
-      case 4: // Thursday
-        timeSlots = this.generateTimeSlots(thursday_openTime, thursday_closeTime);
-        break;
-      case 5: // Friday
-        timeSlots = this.generateTimeSlots(friday_openTime, friday_closeTime);
-        break;
-      case 6: // Saturday
-        timeSlots = this.generateTimeSlots(saturday_openTime, saturday_closeTime);
-        break;
-      default:  // Default to Monday
-        timeSlots = this.generateTimeSlots(monday_openTime, monday_closeTime);
-        break;
+      const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
+      const dayOpeningHours = openingHours.find(day => day.day === dayOfWeek);
+      if (!dayOpeningHours) {
+        console.error('Opening hours data for the selected day is not available.');
+        // You can set a default behavior or return here
+        return;
+      }
+      const { openingTime, closingTime } = dayOpeningHours;
+      const timeSlots = this.generateTimeSlots(openingTime, closingTime);
+      this.setState({ timeSlots });
+    } catch (error) {
+      console.error('Error setting time slots for date:', error);
     }
-    this.setState({ timeSlots });
-}
-
-  generateTimeSlots(openTime, closeTime) {
+  };
+  
+  
+  
+  generateTimeSlots(openingTime, closingTime) {
     const timeSlots = [];
-    const openHour = parseInt(openTime.split(":")[0]);
-    const closeHour = parseInt(closeTime.split(":")[0]);
+    const openHour = parseInt(openingTime.split(":")[0]);
+    const closeHour = parseInt(closingTime.split(":")[0]);
 
     for (let i = openHour; i < closeHour; i++) {
       timeSlots.push(`${i}:00`);
@@ -131,25 +80,23 @@ export default class Calendar extends Component {
   handleTimeSlotSelect(timeSlot) {
     this.setState({ selectedTimeSlot: timeSlot });
     this.props.onTimeSlotSelect(timeSlot);
-    // console.log("Time slot selected in calender:", timeSlot);
   }
-  
 
   renderTimeSlot({ item }) {
     const { selectedTimeSlot } = this.state;
     const isSelected = selectedTimeSlot === item;
-  
+
     return (
       <TimeSlotItem 
         timeSlot={item} 
         isSelected={isSelected} 
-        onPress={() => this.handleTimeSlotSelect(item)} // Pass the selected time slot to the handler
+        onPress={() => this.handleTimeSlotSelect(item)}
       />
     );
   }
-  
+
   render() {
-    const { selectedStartDate, timeSlots } = this.state;
+    const { selectedStartDate, timeSlots, reservationDuration } = this.state;
     const startDate = selectedStartDate ? selectedStartDate.toDateString() : "";
 
     return (
@@ -162,6 +109,24 @@ export default class Calendar extends Component {
           disabledDates={this.state.disabledDates}
         />
 
+        {/* Drop down menu to select reservation duration */}
+        <View style={styles.durationContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <FontAwesome name="clock-o" size={22} color="black" style={{ marginRight: 10 }} />
+            <Text style={styles.durationHeader}>Select Reservation Duration:</Text>
+          </View>
+          <Picker
+            selectedValue={reservationDuration}
+            style={styles.durationPicker}
+            onValueChange={(itemValue) => this.setState({ reservationDuration: itemValue })}
+          >
+            <Picker.Item label="1 hour" value="1 hour" />
+            <Picker.Item label="2 hours" value="2 hours" />
+            {/* Add more duration options as needed */}
+          </Picker>
+        </View>
+
+        {/* Available time slots */}
         {selectedStartDate && (
           <View style={styles.timeSlotsContainer}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -175,9 +140,7 @@ export default class Calendar extends Component {
               numColumns={3} 
               scrollEnabled={false} 
             />
-            
           </View>
-          
         )}
       </View>
     );
@@ -188,6 +151,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    marginTop: 10,
+  },
+  durationContainer: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  durationHeader: {
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+  durationPicker: {
+    width: '100%',
+    marginBottom: 10,
     marginTop: 10,
   },
   timeSlotsContainer: {
