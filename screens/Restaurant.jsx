@@ -12,7 +12,6 @@ export default function Restaurant({navigation}) {
 
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
-    const [coverImage, setCoverImage] = useState(null);
 
     useEffect(() => {
       fetchData();

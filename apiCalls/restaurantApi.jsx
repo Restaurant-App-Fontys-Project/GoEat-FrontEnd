@@ -27,29 +27,11 @@ export const fetchRestaurantData = async (setRestaurantData) => {
             details: detailsData,
             menu: menuData,
         });
-
-        console.log('Fetched data:', /* coverData, */ detailsData, menuData);
     } catch (error) {
         console.error(error);
     }
 
-    
-    // Fetch meal image by meal id {id}
-    const fetchMealImage = async (id) => {
-        try {
-            const response = await axios.get('https://goeat-api.onrender.com/meals/51e85eb9-1f34-44f8-a25a-e7660c0b735c/meal_image', {
-                responseType: 'arraybuffer'
-              })
-              .then(response => Buffer.from(response.data, 'binary').toString('base64'))
-              .then(data => `data:image/jpeg;base64,${data}`);
-        } catch (error) {
-            console.error('Error fetching meal image:', error);
-            return null;
-        }
-    }
-
         // uncomment the following code when the backend is ready
-
     // const fetchData = async (restaurantId) => {
     //     try {
     //       const response = await axios.get(`https://goeat-api.onrender.com/api/Restaurant/${restaurantId}`);
@@ -65,12 +47,19 @@ export const fetchRestaurantData = async (setRestaurantData) => {
     //     navigation.navigate('DateTimePicker', {restaurantId});
     // };
 };
-/* export const fetchCoverImage = async (restaurantId) => {
-    try {
-        const response = await axios.get('https://goeat-api.onrender.com/restaurants/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/cover_picture');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching cover image:', error);
-        return null;
+
+    // Fetch meal image by meal id {id}
+    export const fetchMealImage = async (id) => {
+        try {
+            const mealImage = await axios.get(`https://goeat-api.onrender.com/meals/${id}/meal_image`, {
+                responseType: 'arraybuffer'
+              })
+              .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+              .then(data => `data:image/jpeg;base64,${data}`);
+
+            return mealImage;
+        } catch (error) {
+            console.error('Error fetching meal image:', error);
+            return null;
+        }
     }
-}; */

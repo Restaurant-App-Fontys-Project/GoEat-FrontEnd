@@ -2,58 +2,22 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import MenuItem from './MenuItem';
 
 export default function Menu({ restaurantData }) {
-    const { id, name, address, phoneNumber } = restaurantData;
 
     const [displayItems, setDisplayItems] = useState(2);
-    const menuItems = [
-        {
-            id: 1,
-            name: 'Grilled Salmon',
-            description: 'Fresh Atlantic salmon grilled to perfection...',
-            price: 18.99,
-            image: require('../assets/food1.jpg'),
-        },
-        {
-            id: 2,
-            name: 'Chicken Alfredo',
-            description: 'Creamy fettuccine Alfredo with grilled ...',
-            price: 15.99,
-            image: require('../assets/food1.jpg'), 
-        },
-        {
-            id: 3,
-            name: 'Beef Burger',
-            description: 'Juicy beef patty with lettuce, tomato, ...',
-            price: 12.99,
-            image: require('../assets/food1.jpg'), 
-        },
-        {
-            id: 4,
-            name: 'Vegetable Stir-fry',
-            description: 'Fresh mixed vegetables stir..',
-            price: 10.99,
-            image: require('../assets/food1.jpg'), 
-        },
-    ];
+    
 
     const toggleDisplay = () => {
-        setDisplayItems(displayItems === 2 ? menuItems.length : 2);
+        setDisplayItems(displayItems === 2 ? restaurantData?.menu?.length : 2);
     };
 
     return (
         <View style={styles.menu}>
             <Text style={styles.menuTitle}>Menu</Text>
-            {menuItems.slice(0, displayItems).map((item, index) => (
-                <View key={index} style={[styles.menuItemContainer, index === displayItems - 1 && styles.lastMenuItem]}>
-                    <Image source={item.image} style={styles.imageItem} />
-                    <View style={styles.menuItem}>
-                        <Text style={styles.menuItemName}>{item.name}</Text>
-                        <Text style={styles.menuItemDescription}>{item.description}</Text>
-                    </View>
-                    <Text style={styles.menuItemPrice}>${item.price}</Text>
-                </View>
+            {restaurantData?.menu?.slice(0, displayItems).map((item, index) => (
+                <MenuItem key={index} index={index} item={item} isLast={index === displayItems - 1}/>    
             ))}
             <TouchableOpacity style={styles.toggleButton} onPress={toggleDisplay}>
                 <Text style={styles.toggleButtonText}>{displayItems === 2 ? 'Show full menu' : 'Show less'}</Text>
