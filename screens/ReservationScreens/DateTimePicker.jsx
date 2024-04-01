@@ -25,8 +25,8 @@ const DateTimePicker = ({ navigation, route }) => {
   
   const fetchData = async () => {
     try {
-      const data = await fetchRestaurantData(restaurantId);
-      setRestaurantData(data);
+      await fetchRestaurantData(restaurantId, setRestaurantData);
+      
     } catch (error) {
       console.error(error);
     }

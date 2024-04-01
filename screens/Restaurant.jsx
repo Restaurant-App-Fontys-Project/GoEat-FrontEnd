@@ -12,7 +12,6 @@ export default function Restaurant({navigation,route}) {
    const { restaurantId } = route.params;
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
-    const [coverImage, setCoverImage] = useState(null);
 
     useEffect(() => {
       fetchData();
@@ -20,7 +19,7 @@ export default function Restaurant({navigation,route}) {
   
     const fetchData = async () => {
       try {
-        await fetchRestaurantData(restaurantId, setRestaurantData); // Pass setRestaurantData here
+        await fetchRestaurantData(restaurantId, setRestaurantData); 
       } catch (error) {
         console.error(error);
       }
