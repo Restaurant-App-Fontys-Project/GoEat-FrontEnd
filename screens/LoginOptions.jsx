@@ -24,6 +24,11 @@ const LoginOptions = ({ navigation }) => {
         navigation.navigate('Location');
     };
 
+    const handleRegister = () => {
+        // Navigate to the registration screen
+        navigation.navigate('Register');
+    };
+
     const handleLoginWithFacebook = () => {
         // Handle Facebook login
     };
@@ -55,7 +60,6 @@ const LoginOptions = ({ navigation }) => {
                 <SmoothImageTransition images={images} />
             </View> */}
 
-            {/* Email input */}
             {/* Email input */}
             <View style={styles.inputWrapper}>
                     <Image source={require('../assets/login-icons/gmail.png')} style={styles.icon} />
@@ -102,6 +106,11 @@ const LoginOptions = ({ navigation }) => {
                     <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
                 </TouchableOpacity>
             </View>
+
+            <TouchableOpacity 
+            onPress={handleRegister}>
+                <Text style={styles.skipText}>New user? Register now</Text>
+            </TouchableOpacity>
 
             {/* Skip Option */}
             <TouchableOpacity 

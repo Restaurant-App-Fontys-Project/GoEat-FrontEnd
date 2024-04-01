@@ -19,7 +19,7 @@ export default function Restaurant({navigation,route}) {
   
     const fetchData = async () => {
       try {
-        await fetchRestaurantData(restaurantId, setRestaurantData); // Pass setRestaurantData here
+        await fetchRestaurantData(restaurantId, setRestaurantData); 
       } catch (error) {
         console.error(error);
       }

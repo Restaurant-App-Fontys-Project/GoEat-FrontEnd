@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchMealImage } from "../apiCalls/restaurantApi";
-import { View, Image, Text, StyleSheet, Dimensions} from "react-native";
+import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 const MenuItem = ({ index, item, isLast }) => {
     const [menuImage, setMenuImage] = useState(null);
+    const [showFullText, setShowFullText] = useState(false);
 
     const getMealImage = async (id) => {
         try {
@@ -18,6 +21,10 @@ const MenuItem = ({ index, item, isLast }) => {
         getMealImage(item.id);
     }, []);
 
+    const toggleShowFullText = () => {
+        setShowFullText(!showFullText);
+    };
+
     //check if the meal image and menuItem data are fetched
     if (!menuImage || !item) {
         return <Text>Loading...</Text>;
@@ -25,13 +32,24 @@ const MenuItem = ({ index, item, isLast }) => {
 
     return (
         <View key={item.id} style={[styles.menuItemContainer, isLast && styles.lastMenuItem]}>
-                    <Image source={{ uri: menuImage}} style={styles.imageItem} />
-                    <View style={styles.menuItem}>
-                        <Text style={styles.menuItemName}>{item.name}</Text>
-                        <Text style={styles.menuItemDescription}>Ingredients: {item.ingredients}</Text>
-                        <Text style={styles.menuItemDescription}>Description: {item.description}</Text>
-                    </View>
-                    <Text style={styles.menuItemPrice}>${item.price}</Text>
+            <Image source={{ uri: menuImage}} style={styles.imageItem} />
+            <View style={styles.menuItem}>
+                <Text style={styles.menuItemName}>{item.name}</Text>
+                <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Tags</Text>
+                <Text style={styles.menuItemDescription}>Vegan, Gluten-free</Text>
+                <TouchableOpacity onPress={toggleShowFullText} style={styles.arrowButton}>
+                    <MaterialIcons name={showFullText ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={22} color="black" />
+                </TouchableOpacity>
+                {showFullText && (
+                    <>
+                        <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Ingredients</Text>
+                        <Text style={styles.menuItemDescription}>{item.ingredients}</Text>
+                        <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Description</Text>
+                        <Text style={styles.menuItemDescription}>{item.description}</Text>
+                    </>
+                )}
+            </View>
+            <Text style={styles.menuItemPrice}>${item.price}</Text>
         </View>
     );
 };
@@ -56,7 +74,7 @@ const styles = StyleSheet.create({
     menuItemContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginBottom: 10,
+        marginBottom: 15,
     },
     imageItem: {
         width: imageWidth,
@@ -77,7 +95,7 @@ const styles = StyleSheet.create({
     },
     menuItemDescription: {
         fontSize: 16,
-        marginTop: 5,
+        marginTop: 3,
         textAlign: 'justify',
     },
     menuItemPrice: {
