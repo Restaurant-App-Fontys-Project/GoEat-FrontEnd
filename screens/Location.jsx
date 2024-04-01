@@ -1,38 +1,45 @@
-import React, { useState  } from "react";
+import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from "react-native";
-import { FontAwesome } from '@expo/vector-icons';
+import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; // Import the fetchRestaurantsByCity function
 import commonStyles from '../styles/commonStyles';
 
 const Location = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
+    const [restaurants, setRestaurants] = useState([]);
 
-    const handleSearch = () => {
-        // Implement search functionality here
-        console.log('Search text:', searchText);
-     
+    const handleSearch = async () => {
+        try {
+            const fetchedRestaurants = await getRestaurantsByLocation(searchText);
+            setRestaurants(fetchedRestaurants);
+            // Navigate to Home screen with search results
+            console.log('Fetched restaurants by loaction:', fetchedRestaurants);
+            navigation.navigate('Home', { restaurants: fetchedRestaurants });
+        } catch (error) {
+            console.error('Error fetching restaurants:', error);
+        }
     };
+
     return (
-        
         <View style={styles.container}>
-        <ImageBackground
-        source={require('../assets/backgrounds/location-bg.png')}
-        style={styles.backgroundImage}
-        resizeMode="cover">
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Choose Location"
-                value={searchText}
-                onChangeText={setSearchText}
-            />
-          
-            <TouchableOpacity
-                style={commonStyles.button}
-                onPress={() => navigation.navigate('Home')}>
-                <Text style={commonStyles.buttonText}>Explore Restaurants</Text>
-            </TouchableOpacity>
-        
-    </ImageBackground>
-    </View>
+            <ImageBackground
+                source={require('../assets/backgrounds/location-bg.png')}
+                style={styles.backgroundImage}
+                resizeMode="cover"
+            >
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Enter Location"
+                    value={searchText}
+                    onChangeText={setSearchText}
+                />
+                <TouchableOpacity
+                    style={commonStyles.button}
+                    onPress={handleSearch} // Call handleSearch function when button is pressed
+                >
+                    <Text style={commonStyles.buttonText}>Search Restaurants</Text>
+                </TouchableOpacity>
+            </ImageBackground>
+        </View>
     );
 };
 
@@ -51,17 +58,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 20,
         backgroundColor: 'white',
-        justifyContent: 'center',
-        alignSelf: 'center',
     },
     backgroundImage: {
         flex: 1,
-        resizeMode: 'cover',
         justifyContent: 'center',
         width: '100%', 
         height: '100%', 
-
-      },
+    },
 });
-export default Location;
 
+export default Location;
