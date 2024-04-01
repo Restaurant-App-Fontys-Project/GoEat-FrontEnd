@@ -28,7 +28,8 @@ const MenuItem = ({ index, item, isLast }) => {
                     <Image source={{ uri: menuImage}} style={styles.imageItem} />
                     <View style={styles.menuItem}>
                         <Text style={styles.menuItemName}>{item.name}</Text>
-                        <Text style={styles.menuItemDescription}>{item.description}</Text>
+                        <Text style={styles.menuItemDescription}>Ingredients: {item.ingredients}</Text>
+                        <Text style={styles.menuItemDescription}>Description: {item.description}</Text>
                     </View>
                     <Text style={styles.menuItemPrice}>${item.price}</Text>
         </View>
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     menuItemPrice: {
         fontSize: 16,
         marginTop: 5,
+        fontWeight: 'bold',
     },
 });
 
