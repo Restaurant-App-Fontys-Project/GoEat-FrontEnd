@@ -14,7 +14,6 @@ const Info = ({ restaurantData }) => {
     }
 
     const { name, address, phoneNumber, emailAddress, caption, openingHours } = restaurantData.details;
-   console.log('openingHours:', openingHours)
     const initialRegion = {
         latitude: 64.0,
         longitude: 26.0,

@@ -25,13 +25,6 @@ export default function Restaurant({navigation,route}) {
       }
     };
 
-      const navigateToDateTimePicker = () => {
-        navigation.navigate('DateTimePicker', {
-          restaurantId: restaurantId
-        });
-      };
-    
-
     const renderOption = () => {
       if (selectedOption === 'Menu') {
           return <Menu restaurantData = {restaurantData}/>;
@@ -75,14 +68,15 @@ export default function Restaurant({navigation,route}) {
       <TouchableOpacity 
         style={commonStyles.button}
         onPress={() => {
-          if (restaurantData.details) {
-            fetchData().then(() => {
-              navigateToDateTimePicker();
-            });
-          } else {
-            console.error("Restaurant details not available");
-            // Handle the scenario where restaurant details are not available
-          }
+          navigation.navigate('DateTimePicker', {
+            restaurantId: restaurantId,
+            restaurantData: {
+              name: restaurantData.details.name,
+              address: restaurantData.details.address,
+              openingHours: restaurantData.details.openingHours
+            }
+          });
+          
         }}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
