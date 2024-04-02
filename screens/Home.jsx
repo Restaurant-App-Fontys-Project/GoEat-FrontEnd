@@ -1,12 +1,25 @@
 
 import React, {useEffect, useState} from 'react';
-import { View, ImageBackground, ScrollView, TextInput, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, ImageBackground, ScrollView, TextInput, TouchableOpacity, Text, StyleSheet, Image, Dimensions  } from "react-native";
 import commonStyles from '../styles/commonStyles';
 import { fetchRestaurantData } from '../apiCalls/restaurantApi';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 
 const Home = ({ navigation, route }) => {
   const { restaurants } = route.params;
-  // const [restaurantData, setRestaurantData] = useState({});
+  const [restaurantData, setRestaurantData] = useState({});
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      await fetchRestaurantData(restaurantId, setRestaurantData); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 // collect the restaurant id of the clicked restaurant and navigate to the restaurant screen
   const handleRestaurantClick = (restaurantId) => {
@@ -33,22 +46,35 @@ const Home = ({ navigation, route }) => {
         </ImageBackground>
 
         {/* Display fetched restaurants */}
-        {restaurants.map((restaurant, index) => (
-          <TouchableOpacity 
-            key={index} 
-            style={styles.restaurantItem}
-            onPress={() => handleRestaurantClick(restaurant.id)} // Pass restaurant ID on click
-          >
-            <Text style={styles.restaurantName}>{restaurant.name}</Text>
-            <Text style={styles.restaurantAddress}>address:{restaurant.address},{restaurant.city}</Text>
-            <Text style={styles.restaurantAddress}>price:{restaurant.price}</Text>
-            <Text style={styles.restaurantAddress}>tags:</Text>
-          </TouchableOpacity>
-        ))}
+        <View style={styles.restaurantRow}>
+          {restaurants.map((restaurant, index) => (
+            <TouchableOpacity 
+              key={index} 
+              style={styles.restaurantItem}
+              onPress={() => handleRestaurantClick(restaurant.id)} // Pass restaurant ID on click
+            >
+              <Image source={{ uri: restaurantData.cover }} style={styles.image} />
+              <View style={[styles.row, {justifyContent: 'space-between'}]}>
+                <Text style={styles.restaurantName}>{restaurant.name}</Text>
+                <Text style={styles.restaurantAddress}>${restaurant.price}</Text>
+              </View>
+              <View style={styles.row}>
+                <Feather name="map-pin" size={18} color="#541412" />
+                <Text style={styles.restaurantAddress}>{restaurant.address}, {restaurant.city}</Text>
+              </View>
+              <View style={styles.row}>
+                <MaterialIcons name="price-change" size={18} color="#541412" />
+                <Text style={styles.restaurantAddress}>Tags:</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );
 };
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -84,20 +110,38 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
   },
+  restaurantRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginTop: 20,
+  },
   restaurantItem: {
+    width: '47%', // Adjusted width for two cards in a row
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    marginHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 5,
+    marginHorizontal: 5,
     padding: 10,
     borderRadius: 10,
   },
   restaurantName: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: 5,
   },
   restaurantAddress: {
-    fontSize: 16,
+    fontSize: 14,
+    marginLeft: 5,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 100, // Adjusted height for the image
+    borderRadius: 10,
+    marginBottom: 10,
   },
 });
 
