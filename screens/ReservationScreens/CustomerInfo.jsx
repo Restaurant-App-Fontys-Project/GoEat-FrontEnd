@@ -19,17 +19,8 @@ const CustomerInfo = ({ navigation, route }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [specialNotes, setSpecialNotes] = useState('');
   // const [title, setTitle] = useState('Mr.');
-  const [numberOfGuests, setNumberOfGuests] = useState(1);
+  
 
-   // handele increase and decrease guests
-   const increaseGuests = () => {
-    setNumberOfGuests(prevGuests => prevGuests + 1);
-  };
-  const decreaseGuests = () => {
-    if (numberOfGuests > 1) {
-      setNumberOfGuests(prevGuests => prevGuests - 1);
-    }
-  };
   // const handleNextPress = () => {
   //   // Collect all the form data
   //   const formData = {
@@ -98,23 +89,7 @@ const CustomerInfo = ({ navigation, route }) => {
               keyboardType="phone-pad"
               onChangeText={text => setPhoneNumber(text)}
               />
-          {/* no. of guests */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-            <FontAwesome name="users" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
-            <Text style={commonStyles.subHeaderText}>Number of Guests: </Text>
-            <Button title="-" onPress={decreaseGuests} />
-            <TextInput
-              style={{ borderWidth: 1, borderColor: 'gray', padding: 6, minWidth: 70, textAlign: 'center'}}
-              value={numberOfGuests.toString()}
-              onChangeText={text => {
-                if (!isNaN(text)) {
-                  setNumberOfGuests(parseInt(text));
-                }
-              }}
-              editable={false}
-            />
-            <Button title="+" onPress={increaseGuests} />
-          </View>
+
             <TextInputField 
             label="Special Notes (optional)"
               placeholder="Special Requests, Allergies, etc."
