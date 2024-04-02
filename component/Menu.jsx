@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     menuTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 5,
         marginBottom: 10,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity, StyleSheet, FlatList, Button, Modal, Alert } from 'react-native';
 import commonStyles from '../../styles/commonStyles';
 import { FontAwesome } from '@expo/vector-icons';
 import CalendarPicker from "react-native-calendar-picker";
@@ -7,49 +7,86 @@ import { Picker } from '@react-native-picker/picker';
 import TimeSlotItem from "../../component/TimeslotItem";
 import { fetchRestaurantData } from '../../apiCalls/restaurantApi';
 import reservationData from '../../reservationData.json';
+import specialDates from '../../specialDates.json';
 
 const DateTimePicker = ({ navigation, route }) => {
-  const { restaurantId } = route.params;
-
+  const { restaurantId, restaurantData } = route.params;
+  
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
-  const [reservationDuration, setReservationDuration] = useState('1 hour');
-  const [restaurantData, setRestaurantData] = useState({}); 
+  const [reservationDuration, setReservationDuration] = useState(1); 
+  const [noOfGuests, setNoOfGuests] = useState(1);
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+  const [isDurationPickerVisible, setIsDurationPickerVisible] = useState(false);
+  const [isGuestsPickerVisible, setIsGuestsPickerVisible] = useState(false);
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+  const [isTimeSlotsVisible, setIsTimeSlotsVisible] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-    fetchMaxDuration();
-  }, []);
-  
-  const fetchData = async () => {
-    try {
-      await fetchRestaurantData(restaurantId, setRestaurantData);
-      
-    } catch (error) {
-      console.error(error);
-    }
+  const { name, address, openingHours } = restaurantData;
+
+  const toggleDurationPicker = () => {
+    setIsDurationPickerVisible(!isDurationPickerVisible);
   };
+
+  const toggleGuestsPicker = () => {
+    setIsGuestsPickerVisible(!isGuestsPickerVisible);
+  };
+
+  const toggleCalendar = () => {
+    setIsCalendarVisible(!isCalendarVisible);
+  };
+  const toggleTimeSlots = () => {
+    setIsTimeSlotsVisible(!isTimeSlotsVisible);
+  };
+ 
+  // edit this later
   const fetchMaxDuration = () => {
     const { reservation_max_duration_in_hours } = reservationData;
     setMaxDuration(reservation_max_duration_in_hours);
   };
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
-    setSelectedTimeSlot(null); // Reset selected time slot
-    setTimeSlotsForDate(date);
+  useEffect(() => {
+    fetchMaxDuration();
+  }, []);
+  
+  // check if the selected date is a special holiday
+  const isSpecialHoliday = (date, specialDates) => {
+    return specialDates.some(day => {
+      return date.getDate() === day.date && date.getMonth() === day.month;
+    });
   };
+  
+  const handleDateSelect = (date) => {
+    const selectedDayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
+    const selectedDayOpeningHours = openingHours.find(day => day.day === selectedDayOfWeek);
+    
+    // Check if the selected day is closed for reservations (both opening and closing times are 0:00)
+    if (!selectedDayOpeningHours || (selectedDayOpeningHours.openingTime === "0:00" && selectedDayOpeningHours.closingTime === "0:00")) {
+      Alert.alert("This day is closed for reservations.");
+      return;
+    }
+  
+    // Check if the selected date is a special holiday
+    if (isSpecialHoliday(date, specialDates)) {
+      Alert.alert("This day is a special holiday.");
+      return;
+    }
+  
+    setSelectedDate(date);
+    setSelectedTimeSlot(null); 
+    setTimeSlotsForDate(date);
+    setIsCalendarVisible(false);
+  };
+  
 
-  const setTimeSlotsForDate = (date) => {
+  const setTimeSlotsForDate = () => {
     try {
-      const { openingHours } = restaurantData;
       if (!openingHours || openingHours.length === 0) {
         console.error('Opening hours data is empty or undefined.');
         return;
       }
-      const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
+      const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
       const dayOpeningHours = openingHours.find(day => day.day === dayOfWeek);
       if (!dayOpeningHours) {
         console.error('Opening hours data for the selected day is not available.');
@@ -80,6 +117,7 @@ const DateTimePicker = ({ navigation, route }) => {
 
   const handleTimeSlotSelect = (timeSlot) => {
     setSelectedTimeSlot(timeSlot);
+    toggleTimeSlots();
   };
 
   const dateString = selectedDate ? selectedDate.toISOString() : null;
@@ -87,45 +125,102 @@ const DateTimePicker = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
       <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
-        <View style={commonStyles.itemContainer}>
-          <View style={commonStyles.itemHeader}>
-            <FontAwesome name="calendar" size={22} color="black" style={commonStyles.icon} />
-            <Text style={commonStyles.subHeaderText}>Select the Date:</Text>
-          </View>
-          <CalendarPicker
-            onDateChange={handleDateSelect}
-            selectedDayColor="#00adf5"
-            minDate={new Date()}
-            selectedStartDate={selectedDate}
-          />
+      <View style={[{ marginTop: 20, alignItems: 'center' }]}>
+          <Text style={commonStyles.headerText}>{name}</Text>
         </View>
-
         {/* Drop down menu to select reservation duration */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FontAwesome name="clock-o" size={22} color="black" style={{ marginRight: 10 }} />
-            <Text style={styles.durationHeader}>Select Reservation Duration:</Text>
+            <FontAwesome name="clock-o" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
+            <Text>Select Reservation Duration:</Text>
           </View>
-          <Picker
-            selectedValue={reservationDuration}
-            style={styles.durationPicker}
-            onValueChange={(itemValue) => setReservationDuration(itemValue)}
-          >
-            <Picker.Item label="1 hour" value="1 hour" />
-            <Picker.Item label="2 hours" value="2 hours" />
-            {/* Add more duration options as needed */}
-          </Picker>
+          <TouchableOpacity style={styles.inputContainer} onPress={toggleDurationPicker}>
+            <Text style={styles.durationHeader}> {reservationDuration} hour(s)</Text>
+          </TouchableOpacity>
+        </View>
+        <Modal visible={isDurationPickerVisible} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Picker
+              selectedValue={reservationDuration}
+              style={styles.picker}
+              onValueChange={(itemValue) => {
+                setReservationDuration(itemValue);
+                toggleDurationPicker();
+              }}
+            >
+              <Picker.Item label="1 hour" value={1} />
+              <Picker.Item label="2 hours" value={2} />
+              {/* change later */}
+            </Picker>
+          </View>
+        </Modal>
+        {/* no. of guests */}
+        <View style={styles.durationContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+            <FontAwesome name="users" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
+            <Text>Select Number of Guests</Text>
+          </View>
+          <TouchableOpacity style={styles.inputContainer} onPress={toggleGuestsPicker}>
+            <Text style={styles.durationHeader}>{noOfGuests} Guest(s)</Text>
+          </TouchableOpacity>
+        </View>
+        <Modal visible={isGuestsPickerVisible} animationType="slide">
+          <View style={styles.modalContainer}>
+            <Picker
+              selectedValue={noOfGuests}
+              style={styles.picker}
+              onValueChange={(itemValue) => {
+                setNoOfGuests(itemValue);
+                toggleGuestsPicker();
+              }}
+            >
+              <Picker.Item label="1 Guest" value={1} />
+              <Picker.Item label="2 Guests" value={2} />
+              {/* change later */}
+            </Picker>
+          </View>
+        </Modal>
+        {/* calander */}
+        <View style={styles.durationContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+            <FontAwesome name="calendar" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
+            <Text>Select the Date:</Text>
+          </View>
+          <TouchableOpacity onPress={toggleCalendar} style={styles.inputContainer} >
+            <Text style={styles.durationHeader}>{selectedDate ? selectedDate.toDateString() : "Select Date"}</Text>
+          </TouchableOpacity>
+          {/* calendar */}
+          {isCalendarVisible && (
+            <View style={[commonStyles.itemContainer,{marginTop: 10}]}>
+              <CalendarPicker
+                onDateChange={handleDateSelect}
+                selectedDayColor="#00adf5"
+                minDate={new Date()}
+                selectedStartDate={selectedDate}
+              />
+            </View>
+          )}
+        </View>
+        {/* Available time slots */}
+        <View style={styles.durationContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+            <FontAwesome name="clock-o" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
+            <Text>Select the Time:</Text>
+          </View>
+          <TouchableOpacity style={styles.inputContainer} onPress={toggleTimeSlots}>
+            <Text style={styles.durationHeader}>{selectedTimeSlot ? selectedTimeSlot : "Select Time"}</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Available time slots */}
-        {selectedDate && (
-          <View style={styles.timeSlotsContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome name="clock-o" size={22} color="black" style={{ marginRight: 10 }} />
-              <Text style={styles.timeSlotsHeader}>Available Time Slots for {selectedDate.toDateString()}:</Text>
+        <Modal visible={isTimeSlotsVisible} animationType="slide">
+          <View style={[styles.modalContainer]}>
+            <View  style={[{paddingTop: 70}]}>
+              <Text style={styles.timeSlotsHeader}>Available Time Slots for {selectedDate ? selectedDate.toDateString() : ''}:</Text>
             </View>
+            {/* Container for time slots with scroll */}
             <FlatList
               data={availableTimeSlots}
+              style={[{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '80%', flex: 0, maxHeight: '70%' }]}
               renderItem={({ item }) => (
                 <TimeSlotItem
                   timeSlot={item}
@@ -138,8 +233,7 @@ const DateTimePicker = ({ navigation, route }) => {
               scrollEnabled={false}
             />
           </View>
-        )}
-
+        </Modal>
         {/* Button for proceeding to table layout */}
         <TouchableOpacity
           style={commonStyles.button}
@@ -167,10 +261,27 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold",
   },
-  durationPicker: {
-    width: '100%',
-    marginBottom: 10,
-    marginTop: 10,
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  picker: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
   },
   timeSlotsContainer: {
     marginTop: 20,
