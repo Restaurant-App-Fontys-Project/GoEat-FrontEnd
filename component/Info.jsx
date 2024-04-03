@@ -23,8 +23,11 @@ const Info = ({ restaurantData }) => {
 
     const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
 
+    //Filter out holidays
+    const filterHolidays = openingHours.filter(day => day.day !== 'Easter'&& day.day !=='Christmas')
+
     // Find the opening hours for the current day
-    const currentDayOpeningHours = openingHours.find(day => day.day === currentDay);
+    const currentDayOpeningHours = filterHolidays.find(day => day.day === currentDay);
 
     return (
         <View style={styles.info}>
@@ -68,7 +71,7 @@ const Info = ({ restaurantData }) => {
                 </View>
                 {showTime && (
                     <View style={styles.timeContainer}>
-                        {openingHours.map(day => (
+                        {filterHolidays.map(day => (
                             <Text key={day.day} style={styles.infoText}>
                                 {day.day}: {day.openingTime} - {day.closingTime}
                             </Text>
