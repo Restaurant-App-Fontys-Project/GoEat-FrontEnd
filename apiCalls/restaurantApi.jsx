@@ -19,7 +19,7 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
         const detailsData = detailsResponse.data;
 
         // Fetch menu data
-        const menuResponse = await axios.get(`https://goeat-api.onrender.com/menus/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1`);
+        const menuResponse = await axios.get('https://goeat-api.onrender.com/meals/by-restaurant/0051291c-c8cb-4883-adac-6657a3815330');
         const menuData = menuResponse.data;
 
         // Set the fetched data into state
@@ -31,22 +31,6 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
     } catch (error) {
         console.error(error);
     }
-
-        // uncomment the following code when the backend is ready
-    // const fetchData = async (restaurantId) => {
-    //     try {
-    //       const response = await axios.get(`https://goeat-api.onrender.com/api/Restaurant/${restaurantId}`);
-    //       setRestaurantData(response.data);
-    //       console.log('Fetched data:', response.data);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   };
-
-    // to send restaurant id to the next screen (call this function in the button onPress event)
-    // const handleReservation = () => {
-    //     navigation.navigate('DateTimePicker', {restaurantId});
-    // };
 };
 
     // Fetch meal image by meal id {id}

@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginBottom: 20,
         backgroundColor: 'white',
+        marginLeft: 15,
     },
     backgroundImage: {
         flex: 1,

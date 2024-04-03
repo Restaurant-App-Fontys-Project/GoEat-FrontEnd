@@ -1,83 +1,116 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { fetchRestaurantData } from '../apiCalls/restaurantApi';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 
-export default RestaurantCard = ({ item, navigation }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Restaurant')}>
-    <View style={styles.item}>
-        <Image source={require('../assets/food1.jpg')} style={styles.image} />
-        <View style={{ padding: 5 }}>
-            <Text style={styles.foodTitle}>{item.name}</Text>
-            <View style={styles.address}>
-                <Ionicons name="location" size={18} color="#531412" />
-                <Text style={styles.addressText}>{item.location}</Text>
+export default RestaurantCard = ({ restaurant, navigation }) => {
+    const [restaurantData, setRestaurantData] = useState({}); 
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+  
+    const fetchData = async () => {
+      try {
+        await fetchRestaurantData(restaurant.id, setRestaurantData); 
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    // collect the restaurant id of the clicked restaurant and navigate to the restaurant screen
+  const handleRestaurantClick = (restaurantId) => {
+    navigation.navigate('Restaurant', { restaurantId });
+  };
+
+    return (
+        <TouchableOpacity 
+            style={styles.restaurantItem}
+            onPress={() => handleRestaurantClick(restaurant.id)} // Pass restaurant ID on click
+        >
+            <Image source={{ uri: restaurantData.cover }} style={styles.image} />
+            <View style={[styles.row, {justifyContent: 'space-between'}]}>
+              <Text style={styles.restaurantName}>{restaurant.name}</Text>
+              <Text style={styles.restaurantAddress}>${restaurant.price}</Text>
             </View>
-            <View style={styles.categories}>
-                {item.categories.map((category, index) => (
-                    <View style={styles.chip}>
-                        <Text key={index} style={styles.chipText}>{category}</Text>
-                    </View>
-                ))}
+            <View style={styles.row}>
+              <Feather name="map-pin" size={18} color="#541412" />
+              <Text style={styles.restaurantAddress}>{restaurant.address}, {restaurant.city}</Text>
             </View>
-        </View>
-    </View>
-    </TouchableOpacity>
-);
+            <View style={styles.row}>
+              <MaterialIcons name="price-change" size={18} color="#541412" />
+              <Text style={styles.restaurantAddress}>Tags:</Text>
+            </View>
+        </TouchableOpacity>
+    )
+};
 
 const styles = StyleSheet.create({
-    item: {
+    container: {
         flex: 1,
-        backgroundColor: '#fff',
-        elevation: 5,
-        margin: 5,
-    },
-    image: {
+        justifyContent: "flex-start",
+        alignItems: "center",
+      },
+      backgroundImage: {
+        flex: 1/3,
         width: '100%',
-        height: 100,
-    },
-    title: {
-        marginBottom: 10,
-        marginTop: 10,
-        marginLeft: 10,
-    },
-    titleText: {
-        fontSize: 28,
+        resizeMode: 'cover', 
+        justifyContent: 'center', 
+        height: 200, 
+      },
+      text: {
+        fontSize: 24,
         fontWeight: 'bold',
-        paddingVertical: 10,
-        marginVertical: 10
-    },
-    foodTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#531412',
-    },
-    address: {
+        color: 'white',
+        textAlign: 'center',
+      },
+      searchBar: {
+        position: 'absolute',
+        bottom: 10,
+        left: 10,
+        right: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        borderRadius: 20,
+        paddingHorizontal: 15,
         flexDirection: 'row',
-    },
-    addressText: {
-        marginLeft: 1,
-        fontSize: 18,
-        color: '#531412',
-    },
-    chip: {
-        backgroundColor: '#D69F3B',
-        padding: 5,
-        margin: 2,
-        borderRadius: 5,
-    },
-    categories: {
+        alignItems: 'center',
+        height: 40,
+      },
+      input: {
+        flex: 1,
+        color: 'black',
+        fontSize: 16,
+      },
+      restaurantRow: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'center',
-    },
-    chip: {
-        backgroundColor: '#F8D3B9',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+      },
+      restaurantItem: {
+        width: '47%', 
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        marginVertical: 5,
+        marginHorizontal: 5,
         padding: 5,
-        margin: 3,
-        borderRadius: 30,
-    },
-    chipText: {
+        borderRadius: 10,
+      },
+      restaurantName: {
         fontSize: 14,
-        color: '#531412',
-    },
+        fontWeight: 'bold',
+      },
+      restaurantAddress: {
+        fontSize: 14,
+        marginLeft: 5,
+      },
+      row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      image: {
+        width: '100%',
+        height: 100, 
+        borderRadius: 10,
+        marginBottom: 10,
+      },
 });

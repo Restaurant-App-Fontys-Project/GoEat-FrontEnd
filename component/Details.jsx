@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Feather, MaterialIcons, Fontisto, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons, AntDesign, Entypo } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 
 const Details = ({restaurantData}) => {
 
-    const { name, address, phoneNumber, emailAddress, description } = restaurantData.details;
+    const {description } = restaurantData.details;
 
     const initialRegion = {
         latitude: 64.0, 
@@ -18,7 +18,18 @@ const Details = ({restaurantData}) => {
         <View style={styles.container}>
             <Text style={styles.detailTitle}>Details</Text>
             <View style={styles.info}>
+                <MaterialIcons name="description" size={22} color="#541412" />
                     <Text style={styles.infoText}>{description}</Text>
+            </View>
+            <View style={styles.info}>
+                    <AntDesign name="exclamationcircleo" size={22} color="#541412" />
+                    <Text style={styles.infoText}>Additional information</Text>
+            </View>
+            <View >
+                <Text style={styles.infoText}>- Please contact us directly for details of opening - closing hours during public holidays.</Text>
+                <Text style={styles.infoText}>- Payment options: Visa, Mastercard.</Text>
+                <Text style={styles.infoText}>- Accessibility and inclusion: Wheelchair access, high chairs available, baby changing facilities.</Text>
+                <Text style={styles.infoText}>- Parking: Public lot.</Text>
             </View>
         </View>
     );
@@ -42,12 +53,13 @@ const styles = StyleSheet.create({
         marginBottom: 5, 
     },
     detailTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 5,
     },
     info: {
-        padding: 5, 
+        flexDirection: 'row',
+        marginTop: 10,
     },
     row: {
         flexDirection: 'row',
