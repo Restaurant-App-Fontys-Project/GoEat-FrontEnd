@@ -11,19 +11,21 @@ const Confirmation = ({ navigation, route }) => {
     // incoming data from the previous screens
     const {
                 tableId,
-              selectedDate,
-              selectedTimeSlot,
-              reservationDuration,
-              firstName,
-              lastName,
-              email,
-              phoneNumber,
-              specialNotes,
-              // title,
-              numberOfGuests
-    } = route.params;
-    // const { fetchedReservationData, } = route.params;
-    // console.log('Reservation data:', reservationData);
+                selectedDate,
+                selectedTimeSlot,
+                reservationDuration,
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+                specialNotes,
+                title,
+                noOfGuests,
+                restaurantData,
+
+        } = route.params;
+    
+
 //  calculate the reservation end time
 const startTime = selectedTimeSlot.split(':');
 const startHour = parseInt(startTime[0]);
@@ -53,7 +55,7 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
                     email,
                     phoneNumber,
                     specialNotes,
-                    numberOfGuests,
+                    noOfGuests,
                 }),
             });
     
@@ -80,7 +82,7 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
                 <Text style={commonStyles.subHeaderText}>Your Reservation</Text>
                 <Text>Reserved By</Text>
                 {/* title, fname, lname */}
-                {/* <Text>{formData.title} {formData.firstName} {formData.lastName}</Text>  */}
+                <Text>{title} {firstName} {lastName}</Text>
                 {/* email */}
                 <Text>{email}</Text>
                 {/* telephone */}
@@ -94,7 +96,7 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
             <View style={{ marginTop: 20 }}>
                 <Text>Place</Text>
                 {/* table number and restaurant name */}
-                <Text>Table-{tableId} (for {numberOfGuests} Guests) at Soko Restaurants & Bar</Text>
+                <Text>Table-{tableId} (for {noOfGuests} Guests) at {restaurantData.name}</Text>
             </View>
             <View style={{ marginTop: 20 }}>
                 <Text>Special Request</Text>
@@ -112,7 +114,7 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
                         )}
                     </View>
                     <View>
-                        <Text style={commonStyles.subHeaderText}>A message from {reservationData && reservationData.name}</Text>
+                        <Text style={commonStyles.subHeaderText}>A message from {reservationData && restaurantData.name}</Text>
                         {reservationData && (
                             <Text style={commonStyles.bodyText}>{reservationData.message}</Text>
                         )}
@@ -120,13 +122,13 @@ const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
 
           
             </ScrollView>
+            </KeyboardAvoidingView>
             <TouchableOpacity 
                  style={commonStyles.button} 
                  onPress={handleConfirmReservation}
             >
                 <Text style={commonStyles.buttonText}>Confirm</Text>
             </TouchableOpacity>
-            </KeyboardAvoidingView>
         </View>
 
     );

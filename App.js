@@ -19,18 +19,34 @@ const Stack = createNativeStackNavigator()
 export default function App () {
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Navigator
+        initialRouteName='Welcome'
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#D69F3B'
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold'
+          },
+          headerTitleAlign: 'center'
+        }}
+      >
         <Stack.Screen
           name='Welcome'
           component={Welcome}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name='LoginOptions' component={LoginOptions} />
+        <Stack.Screen
+          name='LoginOptions'
+          component={LoginOptions}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Restaurant' component={Restaurant} />
-        <Stack.Screen name='DateTimePicker' component={DateTimePicker} />
-        <Stack.Screen name='TableLayout' component={TableLayout} />
-        <Stack.Screen name='CustomerInfo' component={CustomerInfo} />
+        <Stack.Screen name='Reservation 1/3' component={DateTimePicker} />
+        <Stack.Screen name='Reservation 2/3' component={TableLayout} />
+        <Stack.Screen name='Reservation 3/3' component={CustomerInfo} />
         <Stack.Screen name='Confirmation' component={Confirmation} />
         <Stack.Screen name='Categories' component={Categories} />
         <Stack.Screen name='Location' component={Location} />
