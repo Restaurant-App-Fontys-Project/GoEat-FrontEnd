@@ -68,7 +68,7 @@ export default function Restaurant({navigation,route}) {
       <TouchableOpacity 
         style={commonStyles.button}
         onPress={() => {
-          navigation.navigate('DateTimePicker', {
+          navigation.navigate('Reservation 1/3', {
             restaurantId: restaurantId,
             restaurantData: {
               name: restaurantData.details.name,

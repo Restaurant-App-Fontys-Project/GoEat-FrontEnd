@@ -58,26 +58,40 @@ const DateTimePicker = ({ navigation, route }) => {
   };
   
   const handleDateSelect = (date) => {
-    const selectedDayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
-    const selectedDayOpeningHours = openingHours.find(day => day.day === selectedDayOfWeek);
-    
-    // Check if the selected day is closed for reservations (both opening and closing times are 0:00)
-    if (!selectedDayOpeningHours || (selectedDayOpeningHours.openingTime === "0:00" && selectedDayOpeningHours.closingTime === "0:00")) {
-      Alert.alert("This day is closed for reservations.");
+    console.log('Selected date:', date);
+    console.log('Type of selected date:', typeof date);
+    if (!date) {
+      console.error('Selected date is null.');
       return;
     }
+
+    const handleDate = (selectedDate) => {
+      if (selectedDate instanceof Date) {
+        const selectedDayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
+        const selectedDayOpeningHours = openingHours.find(day => day.day === selectedDayOfWeek);
   
-    // Check if the selected date is a special holiday
-    if (isSpecialHoliday(date, specialDates)) {
-      Alert.alert("This day is a special holiday.");
-      return;
-    }
+        if (!selectedDayOpeningHours || (selectedDayOpeningHours.openingTime === "0:00" && selectedDayOpeningHours.closingTime === "0:00")) {
+          Alert.alert("This day is closed for reservations.");
+          return;
+        }
   
-    setSelectedDate(date);
-    setSelectedTimeSlot(null); 
-    setTimeSlotsForDate(date);
-    setIsCalendarVisible(false);
+        if (isSpecialHoliday(selectedDate, specialDates)) {
+          Alert.alert("Special holiday! Opening hours may vary.");
+        }
+  
+        setSelectedDate(selectedDate);
+        setSelectedTimeSlot(null); 
+        setTimeSlotsForDate(selectedDate);
+        setIsCalendarVisible(false);
+      } else {
+        console.error('Invalid date object:', selectedDate);
+      }
+    };
+  
+    // Example of calling handleDate with the date object passed to handleDateSelect
+    handleDate(date);
   };
+  
   
 
   const setTimeSlotsForDate = () => {
@@ -138,7 +152,11 @@ const DateTimePicker = ({ navigation, route }) => {
             <Text style={styles.durationHeader}> {reservationDuration} hour(s)</Text>
           </TouchableOpacity>
         </View>
-        <Modal visible={isDurationPickerVisible} animationType="slide">
+        <Modal 
+            visible={isDurationPickerVisible}
+            animationType="slide"
+            transparent={true}
+           >
           <View style={styles.modalContainer}>
             <Picker
               selectedValue={reservationDuration}
@@ -164,7 +182,11 @@ const DateTimePicker = ({ navigation, route }) => {
             <Text style={styles.durationHeader}>{noOfGuests} Guest(s)</Text>
           </TouchableOpacity>
         </View>
-        <Modal visible={isGuestsPickerVisible} animationType="slide">
+        <Modal 
+          visible={isGuestsPickerVisible} 
+          animationType="slide"
+          transparent={true}
+          >
           <View style={styles.modalContainer}>
             <Picker
               selectedValue={noOfGuests}
@@ -212,15 +234,19 @@ const DateTimePicker = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
 
-        <Modal visible={isTimeSlotsVisible} animationType="slide">
+        <Modal 
+        visible={isTimeSlotsVisible} 
+        animationType="slide"
+        transparent={true}
+        >
           <View style={[styles.modalContainer]}>
             <View  style={[{paddingTop: 70}]}>
               <Text style={styles.timeSlotsHeader}>Available Time Slots for {selectedDate ? selectedDate.toDateString() : ''}:</Text>
             </View>
             {/* Container for time slots with scroll */}
+            <ScrollView style={[{ backgroundColor: 'white', padding: 5, borderRadius: 10, width: '90%', flex: 0, maxHeight: '70%' }]}>
             <FlatList
               data={availableTimeSlots}
-              style={[{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '80%', flex: 0, maxHeight: '70%' }]}
               renderItem={({ item }) => (
                 <TimeSlotItem
                   timeSlot={item}
@@ -232,21 +258,29 @@ const DateTimePicker = ({ navigation, route }) => {
               numColumns={3}
               scrollEnabled={false}
             />
+            </ScrollView>
           </View>
         </Modal>
         {/* Button for proceeding to table layout */}
         <TouchableOpacity
-          style={commonStyles.button}
+          style={[commonStyles.button, (!selectedDate || !selectedTimeSlot) && styles.disabledButton]} // Change here
           onPress={() =>
-            navigation.navigate('TableLayout', {
-              selectedDate: dateString,
-              selectedTimeSlot,
-              reservationDuration,
-              restaurantId
-            })
-          }>
+            (selectedDate && selectedTimeSlot) ?
+              navigation.navigate('Reservation 2/3', {
+                selectedDate: dateString,
+                selectedTimeSlot,
+                reservationDuration,
+                restaurantId,
+                noOfGuests,
+                restaurantData
+              }) : null
+          }
+          disabled={!selectedDate || !selectedTimeSlot} 
+        >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
         </TouchableOpacity>
+
+
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -291,6 +325,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontWeight: "bold",
   },
+  disabledButton: {
+    backgroundColor: '#ccc',
+},
 });
 
 export default DateTimePicker;

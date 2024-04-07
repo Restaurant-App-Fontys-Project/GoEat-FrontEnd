@@ -3,49 +3,97 @@
     { 
         "id": 1, 
         "restaurant_id": 1, 
-        "number": "Table 1", 
-        "x": 54, 
-        "y": 102, 
+        "number": "1", 
         "seats": 4,
-        "height": 69,
-        "width": 75,
-        "identifier": "2seatTable",
+        "description": "window seat",
         "available": "true"
     },
     { 
         "id": 2, 
         "restaurant_id": 1, 
-        "number": "Table 2", 
-        "x": 258, 
-        "y": 102, 
+        "number": "2", 
         "seats": 2,
-        "height": 75,
-        "width": 69,
-        "identifier": "4seatTable",
+        "description": "window seat",
         "available": "true"
     },
     { 
         "id": 3, 
         "restaurant_id": 1, 
-        "number": "Table 3", 
-        "x": 54, 
-        "y": 266, 
+        "number": "3", 
         "seats": 2,
-        "height": 75,
-        "width": 69,
-        "identifier": "2seatTable",
-        "available": "false"
+        "description": "window seat",
+        "available": "true"
     },
     { 
         "id": 4, 
         "restaurant_id": 1, 
-        "number": "Table 4", 
-        "x": 258, 
-        "y": 266, 
+        "number": "4", 
         "seats": 4,
-        "height": 69,
-        "width": 75,
-        "identifier": "2seatTable",
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 5, 
+        "restaurant_id": 1, 
+        "number": "5",  
+        "seats": 2,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 6, 
+        "restaurant_id": 1, 
+        "number": "6", 
+        "seats": 7,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 7, 
+        "restaurant_id": 1, 
+        "number": "7", 
+        "seats": 5,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 8, 
+        "restaurant_id": 6, 
+        "number": "8", 
+        "seats": 4,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 9, 
+        "restaurant_id": 2, 
+        "number": "9",  
+        "seats": 3,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 10, 
+        "restaurant_id": 1, 
+        "number": "10", 
+        "seats": 4,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 11, 
+        "restaurant_id": 1, 
+        "number": "11", 
+        "seats": 2,
+        "description": "window seat",
+        "available": "true"
+    },
+    { 
+        "id": 12, 
+        "restaurant_id": 1, 
+        "number": "12",
+        "seats": 2,
+        "description": "window seat",
         "available": "true"
     }
 
