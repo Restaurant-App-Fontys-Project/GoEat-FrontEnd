@@ -11,7 +11,6 @@ import specialDates from '../../specialDates.json';
 
 const DateTimePicker = ({ navigation, route }) => {
   const { restaurantId, restaurantData } = route.params;
-  
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
