@@ -12,7 +12,7 @@ const Location = ({ navigation }) => {
             const fetchedRestaurants = await getRestaurantsByLocation(searchText);
             setRestaurants(fetchedRestaurants);
             // Navigate to Home screen with search results
-            navigation.navigate('Home', { restaurants: fetchedRestaurants });
+            navigation.navigate('Home', { restaurants: fetchedRestaurants, city: searchText });
         } catch (error) {
             console.error('Error fetching restaurants:', error);
         }
