@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { getRestaurantName, deleteReservation } from '../apiCalls/overviewData';
+import { getRestaurantName, deleteOverviewData } from '../apiCalls/overviewData';
 
 export default function Overview({ restaurant, onCancelReservation }) {
   const [restaurantName, setRestaurantName] = useState('');
@@ -12,10 +12,8 @@ export default function Overview({ restaurant, onCancelReservation }) {
     );
   }, [restaurantName]);
   
-  const cancelReservation = () => {
-    console.log("Cancel reservation");
-    return 
-    deleteReservation(restaurant.id);
+  const cancelReservation = async () => {
+    await deleteOverviewData(restaurant.id);
     onCancelReservation(restaurant.id);
   };
 

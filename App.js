@@ -13,7 +13,7 @@ export default function App () {
   return (
     
       <NavigationContainer style={styles.container}>
-        <Stack.Navigator initialRouteName='Restaurant'>
+        <Stack.Navigator initialRouteName='ReservationOverview'>
           <Stack.Screen name='Restaurant' component={Restaurant} />
           <Stack.Screen name='Reservation' component={Reservation} /> 
           <Stack.Screen name='ReservationOverview' component={ReservationOverview} />  

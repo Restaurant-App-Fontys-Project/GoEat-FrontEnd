@@ -14,7 +14,7 @@ const getOverviewList = async () => {
 
 const getRestaurantName = async (id) => {
     try {
-        const response = await axios.get(BASE_URL + `api/restaurant/${id}`);
+        const response = await axios.get(BASE_URL + `restaurants/${id}`);
         data = response.data;
         return data.name;
     } catch (error) {
