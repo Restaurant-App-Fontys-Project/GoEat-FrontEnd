@@ -19,7 +19,7 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
         const detailsData = detailsResponse.data;
 
         // Fetch menu data
-        const menuResponse = await axios.get('https://goeat-api.onrender.com/meals/by-restaurant/0051291c-c8cb-4883-adac-6657a3815330');
+        const menuResponse = await axios.get('https://goeat-api.onrender.com/restaurants/meals/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/');
         const menuData = menuResponse.data;
 
         // Set the fetched data into state

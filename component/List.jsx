@@ -3,10 +3,10 @@ import React from "react";
 import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Modal, Dimensions } from "react-native";
 
 // definition of the Item, which will be rendered in the FlatList
-const Item = ({ name, price }) => (
+const Item = ({ name, address }) => (
    <View style={styles.item}>
       <Text style={styles.title}>{name}</Text>
-      <Text style={styles.price}>{price}</Text>
+      <Text style={styles.price}>{address}</Text>
    </View>
 );
 
@@ -15,17 +15,17 @@ const List = ({ searchPhrase, setClicked, data, onPress }) => {
    const renderItem = ({ item }) => {
       //When there is no input, show all
       if (searchPhrase === "") {
-        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
+        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} address={item.address} /></TouchableOpacity>;
         }
       // filter of the name
       if (item.name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
-        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
+        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} address={item.address} /></TouchableOpacity>;
         }
       // filter of the description
       if (
-         (item.price+"").toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
+         (item.address).toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
       ) {
-         return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
+         return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.address} /></TouchableOpacity>;
       }
    };
 

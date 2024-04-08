@@ -5,6 +5,7 @@ import commonStyles from '../styles/commonStyles';
 import CustomNavBar  from '../component/CustomNavBar';
 import SearchBar from '../component/SearchBar';
 import List from '../component/List';
+import RestaurantCard from '../component/RestaurantCard';
 
 const Home = ({ navigation, route }) => {
   const { restaurants, city } = route.params;
