@@ -72,7 +72,7 @@ const Confirmation = ({ navigation, route }) => {
     
             console.log('Reservation data:', data);
     
-            if (response && response.status === 200) {
+            if (response.status === 201) {
                 console.log('Reservation confirmed');
                 // show a modal with success message
                 Alert.alert('Reservation confirmed');
