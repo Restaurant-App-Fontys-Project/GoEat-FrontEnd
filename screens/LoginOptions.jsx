@@ -26,7 +26,7 @@ const LoginOptions = ({ navigation }) => {
 
     const handleRegister = () => {
         // Navigate to the registration screen
-        navigation.navigate('Register');
+        navigation.navigate('Registration');
     };
 
     const handleLoginWithFacebook = () => {
