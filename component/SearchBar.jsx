@@ -11,7 +11,7 @@ const SearchBar = (props) => {
                 <Feather name="search" size={20} color="#541412" style={{ marginLeft: 1 }} />
                 <TextInput
                 style={styles.input}
-                placeholder="Restaurant name, meals,..."
+                placeholder="Restaurant name"
                 value={searchPhrase}
                 onChangeText={setSearchPhrase}
                 onFocus={() => {

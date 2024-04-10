@@ -10,7 +10,7 @@ const Info = ({ restaurantData }) => {
 
     // Check if restaurantData and restaurantData.details exist
     if (!restaurantData || !restaurantData.details) {
-        return <Text>Loading...</Text>;
+        return <Text style={styles.loadingText}>Loading...</Text>;
     }
 
     const { name, address, phoneNumber, emailAddress, caption, openingHours } = restaurantData.details;
@@ -156,5 +156,10 @@ const styles = StyleSheet.create({
     tagText: {
         color: 'black',
         fontSize: 14,
+    },
+    loadingText: {
+        color: 'gray',
+        fontSize: 18,
+        marginTop: 10,
     },
 });

@@ -3,12 +3,16 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import MenuItem from './MenuItem';
+import commonStyles from '../styles/commonStyles';
 
 export default function Menu({ restaurantData }) {
 
     const [displayItems, setDisplayItems] = useState(2);
-    
 
+    if (!restaurantData || !restaurantData.menu) {
+        return <Text style={styles.loadingText} >Loading...</Text>;
+    }
+    
     const toggleDisplay = () => {
         setDisplayItems(displayItems === 2 ? restaurantData?.menu?.length : 2);
     };
@@ -82,5 +86,10 @@ const styles = StyleSheet.create({
         color: '#C34F5A',
         fontSize: 16,
         textDecorationLine: 'underline',
+    },
+    loadingText: {
+        color: 'gray',
+        fontSize: 18,
+        marginTop: 10,
     },
 });
