@@ -12,6 +12,7 @@ import LoginOptions from './screens/LoginOptions'
 import Welcome from './screens/Welcome'
 import Location from './screens/Location'
 import Home from './screens/Home'
+import Registration from './screens/Registration'
 
 const Stack = createNativeStackNavigator()
 //<StatusBar style='auto' />
@@ -49,6 +50,7 @@ export default function App () {
         <Stack.Screen name='Confirmation' component={Confirmation} />
         {/* <Stack.Screen name='Categories' component={Categories} /> */}
         <Stack.Screen name='Location' component={Location} />
+        <Stack.Screen name='Registration' component={Registration} /> 
         <Stack.Screen
           name='ReservationOverview'
           component={ReservationOverview}
