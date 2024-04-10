@@ -5,13 +5,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import CalendarPicker from "react-native-calendar-picker";
 import { Picker } from '@react-native-picker/picker';
 import TimeSlotItem from "../../component/TimeslotItem";
-import { fetchRestaurantData } from '../../apiCalls/restaurantApi';
-import reservationData from '../../reservationData.json';
+import reservationData from '../../reservationData.json'; //remove later
 import specialDates from '../../specialDates.json';
+import { getRestaurantData } from '../../apiCalls/ReservationData';
 
 const DateTimePicker = ({ navigation, route }) => {
-  const { restaurantId, restaurantData } = route.params;
-  
+  const { restaurantId} = route.params;
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
@@ -22,8 +21,7 @@ const DateTimePicker = ({ navigation, route }) => {
   const [isGuestsPickerVisible, setIsGuestsPickerVisible] = useState(false);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [isTimeSlotsVisible, setIsTimeSlotsVisible] = useState(false);
-
-  const { name, address, openingHours } = restaurantData;
+  const [restaurantData, setRestaurantData] = useState({});
 
   const toggleDurationPicker = () => {
     setIsDurationPickerVisible(!isDurationPickerVisible);
@@ -48,7 +46,20 @@ const DateTimePicker = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchMaxDuration();
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const data = await getRestaurantData(restaurantId); 
+      setRestaurantData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const { name, openingHours } = restaurantData;
+ 
   
   // check if the selected date is a special holiday
   const isSpecialHoliday = (date, specialDates) => {
@@ -216,7 +227,7 @@ const DateTimePicker = ({ navigation, route }) => {
             <View style={[commonStyles.itemContainer,{marginTop: 10}]}>
               <CalendarPicker
                 onDateChange={handleDateSelect}
-                selectedDayColor="#00adf5"
+                selectedDayColor="#F8D3B9"
                 minDate={new Date()}
                 selectedStartDate={selectedDate}
               />

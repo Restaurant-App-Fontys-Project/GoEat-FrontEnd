@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   selectedTimeSlot: {
-    backgroundColor: '#00adf5',
+    backgroundColor: '#F8D3B9',
   },
   timeSlotText: {
     fontSize: 16,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput } from 'react-native';
-
+import { View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Dimensions, Alert, ImageBackground, TextInput } from 'react-native';
+import commonStyles from '../styles/commonStyles';
+import { sendUserData } from '../apiCalls/userData';
 const Registration = ({ navigation }) => {
 
     const [firstName, setFirstName] = useState('');
@@ -10,24 +11,56 @@ const Registration = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleRegistration = async () => {
-        try {
+    // const handleRegistration = async () => {
+    //     try {
 
-            await loginWithEmail(email, password);
-            console.log('Registration successful!');
+    //         await loginWithEmail(email, password);
+    //         console.log('Registration successful!');
 
-        } catch (error) {
-            console.error('Registration failed:', error);
+    //     } catch (error) {
+    //         console.error('Registration failed:', error);
 
-        }
-    };
+    //     }
+    // };
 
     const navigateLogin = () => {
-        navigation.navigate('LoginOptions');
+            navigation.navigate('LoginOptions');
+        };
+
+    const handleRegistration = async () => {
+        try {
+            // Check if password and confirm password match
+            if (password !== confirmPassword) {
+                throw new Error("Passwords do not match");
+            }
+    
+            const userData = {
+                firstName: firstName,
+                lastName: lastName,
+                emailAddress: email,
+                password: password,
+                phoneNumber: phone,
+                isGuestUser: false // Assuming the user is not a guest user
+            };
+    
+            const response = await sendUserData(userData);
+
+            if (response.status === 201) {
+                Alert.alert('Registration successful!');
+                navigation.navigate('LoginOptions');
+            } else {
+                Alert.alert('Failed to register user:', response.statusText);
+            }
+        } catch (error) {
+            Alert.alert('Registration failed:', error.message);
+        }
     };
+    
 
 
     return (
+        <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
+        <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
         <View style={styles.container}>
             <ImageBackground
                 source={require('../assets/login-icons/login-bg.png')}
@@ -137,6 +170,9 @@ const Registration = ({ navigation }) => {
                 </TouchableOpacity>
             </ImageBackground>
         </View>
+        </ScrollView>
+        </KeyboardAvoidingView>
+        
     );
 };
 
