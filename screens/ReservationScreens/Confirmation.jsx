@@ -35,11 +35,11 @@ const Confirmation = ({ navigation, route }) => {
     const endMinute = startMinute;
 
     const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
-    const endTimeString = endTime+":00";
+    const endTimeString = endTime+":0";
     // convert selecteddate in to string 
     const dateObject = new Date(selectedDate);
     const dateString = dateObject.toISOString().substring(0, 10);
-    const startTimeString = selectedTimeSlot+":00";
+    const startTimeString = selectedTimeSlot+":0";
 
     // remove this later
     const userId = "d19b78e7-e6c8-43f6-b897-d9dba662b2fe";
@@ -72,7 +72,7 @@ const Confirmation = ({ navigation, route }) => {
     
             console.log('Reservation data:', data);
     
-            if (response.status === 201) {
+            if (response.status === 200) {
                 console.log('Reservation confirmed');
                 // show a modal with success message
                 Alert.alert('Reservation confirmed');

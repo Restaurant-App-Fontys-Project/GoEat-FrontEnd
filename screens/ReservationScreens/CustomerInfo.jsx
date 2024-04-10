@@ -51,7 +51,7 @@ const CustomerInfo = ({ navigation, route }) => {
       Alert.alert('Please enter a valid phone number.');
       return;
     }
-
+   
     // Proceed to the next screen
     navigation.navigate('Confirmation', { 
       restaurantId,

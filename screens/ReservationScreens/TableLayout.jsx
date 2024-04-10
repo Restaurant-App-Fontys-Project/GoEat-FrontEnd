@@ -76,8 +76,9 @@ const TableLayout = ({ navigation, route }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalTextContainer} >
                         <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Table Information</Text>
-                        <Text>Table Number: {selectedTable && selectedTable.tableNumber}</Text>
-                        <Text>Number of Seats: {selectedTable && selectedTable.capacity}</Text>
+                            <Text>Table Number: {selectedTable && selectedTable.tableNumber}</Text>
+                            <Text>Number of Seats: {selectedTable && selectedTable.capacity}</Text>
+                            <Text>Table Description: {selectedTable && selectedTable.description}</Text>
                         <TouchableOpacity
                             style={styles.okButton}
                             onPress={() => setModalVisible(false)}

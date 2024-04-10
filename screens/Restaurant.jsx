@@ -70,11 +70,11 @@ export default function Restaurant({navigation,route}) {
         onPress={() => {
           navigation.navigate('Reservation 1/3', {
             restaurantId: restaurantId,
-            restaurantData: {
-              name: restaurantData.details.name,
-              address: restaurantData.details.address,
-              openingHours: restaurantData.details.openingHours
-            }
+            // restaurantData: {
+            //   name: restaurantData.details.name,
+            //   address: restaurantData.details.address,
+            //   openingHours: restaurantData.details.openingHours
+            // }
           });
           
         }}>

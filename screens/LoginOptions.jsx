@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import SmoothImageTransition from '../component/SmoothImageTransition';
 import commonStyles from '../styles/commonStyles';
+import { userLogin } from '../apiCalls/userData';
 
 const LoginOptions = ({ navigation }) => {
 
@@ -9,23 +10,29 @@ const LoginOptions = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
+        console.log('Email:', email);
+        console.log('Password:', password);
         try {
-            // Perform login operation with email and password
-            await loginWithEmail(email, password);
-            console.log('Login successful!');
-            // Add navigation logic or other actions upon successful login
+            const response = await userLogin(email, password);
+            
+            if (response && response.status === 200) {
+                Alert.alert('Login successful!');
+                navigation.navigate('Location');
+            } else {
+                Alert.alert('Login failed:', 'Invalid email or password. Please try again.');
+            }
         } catch (error) {
-            console.error('Login failed:', error);
-            // Handle login failure, display error message or take appropriate action
+            console.error('Login error:', error);
+            Alert.alert('Login failed:', 'An error occurred during the login process. Please try again later.');
         }
     };
+    
+    
     const handleSkip = () => {
-        // Navigate to the home screen
         navigation.navigate('Location');
     };
 
-    const handleRegister = () => {
-        // Navigate to the registration screen
+    const navigateRegister = () => {
         navigation.navigate('Registration');
     };
 
@@ -108,7 +115,7 @@ const LoginOptions = ({ navigation }) => {
             </View>
 
             <TouchableOpacity 
-            onPress={handleRegister}>
+            onPress={navigateRegister}>
                 <Text style={styles.skipText}>New user? Register now</Text>
             </TouchableOpacity>
 
