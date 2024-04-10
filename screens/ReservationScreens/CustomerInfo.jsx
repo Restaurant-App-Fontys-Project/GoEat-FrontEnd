@@ -9,7 +9,9 @@ import commonStyles from '../../styles/commonStyles';
 const CustomerInfo = ({ navigation, route }) => {
   
   const { 
+    restaurantId,
     tableId,
+    tableNumber,
     selectedDate,
     selectedTimeSlot,
     reservationDuration,
@@ -49,10 +51,12 @@ const CustomerInfo = ({ navigation, route }) => {
       Alert.alert('Please enter a valid phone number.');
       return;
     }
-
+   
     // Proceed to the next screen
     navigation.navigate('Confirmation', { 
+      restaurantId,
       tableId,
+      tableNumber,
       selectedDate,
       selectedTimeSlot,
       reservationDuration,
@@ -66,7 +70,6 @@ const CustomerInfo = ({ navigation, route }) => {
       restaurantData
     });
   };
-
 
   return (
     <View style={{ padding: 16,  width: '100%',height: '100%' }}>

@@ -1,13 +1,9 @@
-
 import React from 'react';
-import { TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
+import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 
 const TableItem = ({ table, onPress, isSelected }) => {
-    // Constants representing dimensions of the grid and device screen
-
-
-    const getImageSource = (seats) => {
-        switch (seats) {
+    const getImageSource = (capacity) => {
+        switch (capacity) {
             case 1:
                 return require('../assets/tables/1-table.png');
             case 2:
@@ -24,7 +20,6 @@ const TableItem = ({ table, onPress, isSelected }) => {
                 return require('../assets/tables/7-table.png');
             case 8:
                 return require('../assets/tables/8-table.png');
-            
         }
     }
 
@@ -34,10 +29,10 @@ const TableItem = ({ table, onPress, isSelected }) => {
             style={[styles.tableContainer, isSelected && styles.selectedTable]}
         >
             <Image
-                source={getImageSource(table.seats)}
+                source={getImageSource(table.capacity)}
                 style={styles.tableImage}
             />
-            <Text style={styles.tableNumber}>Table {table.number}</Text>
+            <Text style={styles.tableNumber}>Table {table.tableNumber}</Text>
         </TouchableOpacity>
     );
 };
