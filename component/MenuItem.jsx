@@ -35,16 +35,16 @@ const MenuItem = ({ index, item, isLast }) => {
             <Image source={{ uri: menuImage}} style={styles.imageItem} />
             <View style={styles.menuItem}>
                 <Text style={styles.menuItemName}>{item.name}</Text>
-                <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Tags</Text>
+                <Text style={[styles.menuItemDescription, {fontWeight: 'bold'}]}>Tags</Text>
                 <Text style={styles.menuItemDescription}>Vegan, Gluten-free</Text>
                 <TouchableOpacity onPress={toggleShowFullText} style={styles.arrowButton}>
                     <MaterialIcons name={showFullText ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={22} color="black" />
                 </TouchableOpacity>
                 {showFullText && (
                     <>
-                        <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Ingredients</Text>
+                        <Text style={[styles.menuItemDescription, {fontWeight: 'bold'}]}>Ingredients</Text>
                         <Text style={styles.menuItemDescription}>{item.ingredients}</Text>
-                        <Text style={[styles.menuItemDescription, stlyes={fontWeight: 'bold'}]}>Description</Text>
+                        <Text style={[styles.menuItemDescription, {fontWeight:'bold'}]}>Description</Text>
                         <Text style={styles.menuItemDescription}>{item.description}</Text>
                     </>
                 )}

@@ -43,6 +43,9 @@ const List = ({ searchPhrase, data, onPress }) => {
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const { width } = Dimensions.get('window');
+const imageWidth = width * 0.2;
+const containerWidth = width * 0.9;
 
 const styles = StyleSheet.create({
     modalContainer: {
@@ -57,12 +60,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     item: {
-        padding: 20,
+        padding: 10, // Adjust padding as needed
         flexDirection: "row",
         justifyContent: "space-between",
+        width: containerWidth, // Use the same width as the parent container
+        flexWrap: 'wrap', // Allow text to wrap within the container
     },
     title: {
         fontSize: 18,
+        marginRight: 20,
     },
     address: {
         fontSize: 18,
