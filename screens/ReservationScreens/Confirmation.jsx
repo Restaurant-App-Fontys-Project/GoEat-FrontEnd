@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, Modal, Alert, Switch } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import reservationData from '../../reservationData.json'; // Import the JSON file, remove later
 import commonStyles from '../../styles/commonStyles'; 
 import {sendReservationData} from '../../apiCalls/ReservationData';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 
 const Confirmation = ({ navigation, route }) => {
@@ -23,8 +24,29 @@ const Confirmation = ({ navigation, route }) => {
                 restaurantData,
 
         } = route.params;
+
+        console.log("date",selectedDate);
+        console.log("type date",typeof selectedDate);
+        console.log("time",selectedTimeSlot);
+        console.log("type time",typeof selectedTimeSlot);
     
     const [isChecked, setIsChecked] = useState(false);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        retrieveUserId();
+    }, []);
+
+    const retrieveUserId = async () => {
+        try {
+            const userId = await AsyncStorage.getItem('userId');
+            if (userId !== null) {
+                setUserId(userId);
+            }
+        } catch (error) {
+            console.error('Error retrieving userId from AsyncStorage:', error);
+        }
+    };
 
     //  calculate the reservation end time
     const startTime = selectedTimeSlot.split(':');
@@ -35,14 +57,45 @@ const Confirmation = ({ navigation, route }) => {
     const endMinute = startMinute;
 
     const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
-    const endTimeString = endTime+":0";
+    const endTimeString = endTime+":00";
+
     // convert selecteddate in to string 
     const dateObject = new Date(selectedDate);
     const dateString = dateObject.toISOString().substring(0, 10);
-    const startTimeString = selectedTimeSlot+":0";
+    const startTimeString = selectedTimeSlot+":00";
 
+    // here
+    // Extract year, month, and day from the date string
+    // const year = dateObject.getFullYear();
+    // const month = dateObject.getMonth() + 1; // Months are zero-based, so add 1
+    // const day = dateObject.getDate();
+    // const dayOfWeek = dateObject.getDay();
+
+    // Extract hour and minute from the time string
+    const [hour, minute] = selectedTimeSlot.split(':').map(val => parseInt(val));
+
+    // Create the date and time objects according to the required format
+
+    // const dateObj = { year, month, day, dayOfWeek}; // DayOfWeek should be an integer representing the day of the week (0 for Sunday, 1 for Monday, etc.)
+    // const reservationStart = { hour, minute };
+    // console.log("dateObj",dateObj);
+
+    // Adjust the end hour and minute if they exceed the limits
+    // if (endHour >= 24) {
+    //     endHour %= 24;
+    // }
+    // if (endMinute >= 60) {
+    //     endMinute %= 60;
+    //     endHour++;
+    // }
+
+    // // Create the end time object
+    // const reservationEndTime = {
+    //     hour: endHour,
+    //     minute: endMinute
+    // };
     // remove this later
-    const userId = "d19b78e7-e6c8-43f6-b897-d9dba662b2fe";
+    // const userId = "d19b78e7-e6c8-43f6-b897-d9dba662b2fe";
 
     const handleConfirmReservation = async () => {
         // Check if the checkbox is checked
@@ -55,40 +108,31 @@ const Confirmation = ({ navigation, route }) => {
             const data = {
                 restaurantId: restaurantId,
                 userId: userId,
+                // date: dateObj,
                 date: dateString,
                 note: specialNotes,
                 numberOfPeople: noOfGuests,
                 tableId: tableId,
+                // reservationStart: reservationStart,
                 reservationStart: startTimeString,
+                // reservationEnd: reservationEndTime,
                 reservationEnd: endTimeString,
                 // firstName,
                 // lastName,
                 // email,
                 // phoneNumber,
             };
-    
-            // Call sendReservationData function
-            const response = await sendReservationData(data, 5000); // 5000 milliseconds timeout
-    
+            const response = await sendReservationData(data, 5000); 
             console.log('Reservation data:', data);
-    
-            if (response.status === 200) {
-                console.log('Reservation confirmed');
-                // show a modal with success message
+            if (response.status === 201) {
                 Alert.alert('Reservation confirmed');
             } else {
-                // unsuccessful API request
-                console.error('Failed to confirm reservation:', response && response.statusText ? response.statusText : 'Unknown error');
-                // Display error message to the user
                 Alert.alert('Failed to confirm reservation:',  response && response.statusText ? response.statusText : 'Unknown error');
             }
-        } catch (error) {
-            // Handle network errors or other exceptions
-            console.error('Error confirming reservation:', error.message);
-            // Display error message to the user
-            Alert.alert('Error confirming reservation:', error.message);
-        }
-        navigation.navigate('ReservationOverview');
+                } catch (error) {
+                    Alert.alert('Error confirming reservation:', error.message);
+                }
+                navigation.navigate('ReservationOverview');
     };
     
     
@@ -171,3 +215,24 @@ const styles = {
     },
 }
 export default Confirmation;
+// Reservation data: {
+//     "date": {
+//             "day": 12,
+//             "dayOfWeek": 5,
+//             "month": 4,
+//             "year": 2024
+//         }, 
+//     "note": "No",
+//     "numberOfPeople": 1,
+//     "reservationEnd": {
+//             "hour": 16,
+//             "minute": 15
+//             },
+//     "reservationStart": {
+//             "hour": 15,
+//             "minute": 15
+//                 },
+//     "restaurantId": "858a1748-9003-4cc5-a42c-d373832b8217",
+//     "tableId": "858a1748-9003-4cc5-a42c-d373832b8217",
+//     "userId": "d19b78e7-e6c8-43f6-b897-d9dba662b2fe"
+//                 }

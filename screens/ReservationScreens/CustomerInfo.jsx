@@ -18,7 +18,7 @@ const CustomerInfo = ({ navigation, route }) => {
     noOfGuests,
     restaurantData
     } = route.params;
-    // console.log('Reservation data:', reservationData);
+    console.log('Reservation data here:', selectedDate);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -51,6 +51,7 @@ const CustomerInfo = ({ navigation, route }) => {
       Alert.alert('Please enter a valid phone number.');
       return;
     }
+  
    
     // Proceed to the next screen
     navigation.navigate('Confirmation', { 

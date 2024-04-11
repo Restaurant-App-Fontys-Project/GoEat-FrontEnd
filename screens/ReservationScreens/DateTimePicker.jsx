@@ -279,6 +279,7 @@ const DateTimePicker = ({ navigation, route }) => {
             (selectedDate && selectedTimeSlot) ?
               navigation.navigate('Reservation 2/3', {
                 selectedDate: dateString,
+                // selectedDate,
                 selectedTimeSlot,
                 reservationDuration,
                 restaurantId,
