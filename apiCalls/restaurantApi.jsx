@@ -19,7 +19,7 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
         const detailsData = detailsResponse.data;
 
         // Fetch menu data
-        const menuResponse = await axios.get('https://goeat-api.onrender.com/restaurants/meals/b7ac5e6a-45f0-47a9-9f30-197ebeee50f1/');
+        const menuResponse = await axios.get(`https://goeat-api.onrender.com/restaurants/meals/${restaurantId}`);
         const menuData = menuResponse.data;
 
         // Set the fetched data into state
@@ -46,5 +46,43 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
         } catch (error) {
             console.error('Error fetching meal image:', error);
             return null;
+        }
+    }
+
+    // Fetch meals by restaurant id {id}
+    export const fetchMeals = async (id) => {
+        try {
+            const menuResponse = await axios.get(`https://goeat-api.onrender.com/restaurants/meals/${id}`);
+            const menuData = menuResponse.data;
+
+            return menuData;
+        } catch (error) {
+            console.error('Error fetching meals: ' + `https://goeat-api.onrender.com/restaurants/meals/${id}`, error);
+            return null;
+        }
+    }
+
+    // fetch all meals
+    export const fetchAllMeals = async () => {
+        try {
+            const meals = await axios.get('https://goeat-api.onrender.com/meals');
+            return meals.data;
+        } catch (error) {
+            console.error('Error fetching meals:', error);
+            return [];
+        }
+    }
+    
+    // fetch meals based on location
+    export const fetchMealsByLocation = async (city) => {
+        try {
+            const response = await axios.get(`https://goeat-api.onrender.com/meals`);
+            const allMeals = response.data;
+            // Filter meals by city
+            const mealsInCity = allMeals.filter(meal => meal.city === city) 
+            return mealsInCity;
+        } catch (error) {
+            console.error('Error fetching meals by city:', error);
+            return [];
         }
     }

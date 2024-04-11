@@ -49,7 +49,7 @@ const MenuItem = ({ index, item, isLast }) => {
                     </>
                 )}
             </View>
-            <Text style={styles.menuItemPrice}>${item.price}</Text>
+            <Text style={styles.menuItemPrice}>{item.price}€</Text>
         </View>
     );
 };

@@ -22,3 +22,17 @@ export const userLogin = async (email, password) => {
         return error;
     }
 }
+
+// fetch user data
+export const fetchUserData = async (userId) => {
+    try {
+        const response = await axios.get(`https://goeat-api.onrender.com/users/${userId}`);
+        const userData = response.data;
+        return userData;
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return error;
+    }
+}
+
