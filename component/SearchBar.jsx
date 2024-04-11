@@ -1,73 +1,94 @@
-// SearchBar.js
-import React from "react";
-import { StyleSheet, TextInput, View, Keyboard, Button, TouchableOpacity } from "react-native";
-import { Feather, Entypo } from "@expo/vector-icons";
+import React, { useState, useEffect } from "react";
+import { useIsFocused } from '@react-navigation/native';
+import { StyleSheet, TextInput, View, Keyboard, TouchableOpacity, Text } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-const SearchBar = (props) => {
-    const { clicked, searchPhrase, setSearchPhrase, setClicked } = props;
-   return (
-      <View style={styles.container}>
-            <View style={clicked ? styles.searchBar__clicked : styles.searchBar__unclicked}>
+const SearchBar = ({ onRestaurantSearch, onMealSearch }) => {
+    const [searchPhrase, setSearchPhrase] = useState('');
+    const [searchType, setSearchType] = useState(null);
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        // Reset search state when component comes into focus
+        if (isFocused) {
+            setSearchPhrase('');
+            setSearchType(null);
+        }
+    }, [isFocused]);
+
+    const handleRestaurantSearch = () => {
+        setSearchType('restaurant');
+        onRestaurantSearch(searchPhrase);
+    };
+
+    const handleMealSearch = () => {
+        setSearchType('meal');
+        onMealSearch(searchPhrase);
+    };
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.searchOptions}>
+                <TouchableOpacity onPress={handleRestaurantSearch}>
+                    <Text style={[styles.searchOption, searchType === 'restaurant' && styles.activeOption]}>
+                        Search by Restaurant
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleMealSearch}>
+                    <Text style={[styles.searchOption, searchType === 'meal' && styles.activeOption]}>
+                        Search by Meals
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.searchBar}>
                 <Feather name="search" size={20} color="#541412" style={{ marginLeft: 1 }} />
                 <TextInput
-                style={styles.input}
-                placeholder="Restaurant name, meals,..."
-                value={searchPhrase}
-                onChangeText={setSearchPhrase}
-                onFocus={() => {
-                    setClicked(true);
-                }}
+                    style={styles.input}
+                    placeholder="Search"
+                    value={searchPhrase}
+                    onChangeText={setSearchPhrase}
+                    onFocus={() => { setSearchType(null); }}
+                    onEndEditing={() => { Keyboard.dismiss(); }}
                 />
-
-                {searchPhrase !== '' && (
-                    <TouchableOpacity
-                        style={styles.clearButton}
-                        onPress={() => {
-                        setSearchPhrase("");
-                        }}
-                    >
-                    <Feather name="x" size={20} color="#541412" />
-                    </TouchableOpacity>
-                )}
             </View>
         </View>
-  );
+    );
 };
-export default SearchBar;
 
-// styles
 const styles = StyleSheet.create({
-   container: {
-      margin: 15,
-      justifyContent: "flex-start",
-      alignItems: "center",
-      flexDirection: "row",
-      width: "90%",
-   },
-   searchBar__unclicked: {
-      padding: 10,
-      flexDirection: "row",
-      width: "95%",
-      backgroundColor: "#d9dbda",
-      borderRadius: 15,
-      alignItems: "center",
-   },
-   searchBar__clicked: {
-      padding: 10,
-      flexDirection: "row",
-      width: "80%",
-      backgroundColor: "#d9dbda",
-      borderRadius: 15,
-      alignItems: "center",
-      justifyContent: "space-evenly",
-   },
-   input: {
-      fontSize: 16,
-      marginLeft: 10,
-      width: "90%",
-   },
-   clearButton: {
-    position: 'absolute',
-    right: 10,
-  },
+    container: {
+        margin: 15,
+        justifyContent: "flex-start",
+        alignItems: "center",
+    },
+    searchOptions: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginBottom: 10,
+    },
+    searchOption: {
+        marginRight: 20,
+        fontSize: 16,
+        color: "white",
+        textDecorationLine: "underline",
+    },
+    activeOption: {
+        fontWeight: "bold",
+    },
+    searchBar: {
+        padding: 10,
+        flexDirection: "row",
+        width: "100%",
+        backgroundColor: "#d9dbda",
+        borderRadius: 15,
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    input: {
+        fontSize: 16,
+        marginLeft: 10,
+        flex: 1,
+    },
 });
+
+export default SearchBar;

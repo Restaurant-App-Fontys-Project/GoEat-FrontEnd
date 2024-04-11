@@ -9,7 +9,6 @@ import DateTimePicker from './screens/ReservationScreens/DateTimePicker'
 import TableLayout from './screens/ReservationScreens/TableLayout'
 import Confirmation from './screens/ReservationScreens/Confirmation'
 import LoginOptions from './screens/LoginOptions'
-import Categories from './screens/Categories'
 import Welcome from './screens/Welcome'
 import Location from './screens/Location'
 import Home from './screens/Home'
@@ -49,7 +48,7 @@ export default function App () {
         <Stack.Screen name='Reservation 2/3' component={TableLayout} />
         <Stack.Screen name='Reservation 3/3' component={CustomerInfo} />
         <Stack.Screen name='Confirmation' component={Confirmation} />
-        <Stack.Screen name='Categories' component={Categories} />
+        {/* <Stack.Screen name='Categories' component={Categories} /> */}
         <Stack.Screen name='Location' component={Location} />
         <Stack.Screen name='Registration' component={Registration} /> 
         <Stack.Screen

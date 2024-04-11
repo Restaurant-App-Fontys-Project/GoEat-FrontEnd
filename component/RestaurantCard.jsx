@@ -29,18 +29,18 @@ export default RestaurantCard = ({ restaurant, navigation }) => {
             onPress={() => handleRestaurantClick(restaurant.id)} // Pass restaurant ID on click
         >
             <Image source={{ uri: restaurantData.cover }} style={styles.image} />
-            <View style={[styles.row, {justifyContent: 'space-between'}]}>
-              <Text style={styles.restaurantName}>{restaurant.name}</Text>
-              <Text style={styles.restaurantAddress}>${restaurant.price}</Text>
+            <View style={[styles.row, {justifyContent: 'space-between'}, {marginBottom:5}]}>
+                <Text style={styles.restaurantName}>{restaurant.name}</Text>
+                <Text style={styles.restaurantAddress}>{restaurant.price}€</Text>
             </View>
             <View style={styles.row}>
-              <Feather name="map-pin" size={18} color="#541412" />
-              <Text style={styles.restaurantAddress}>{restaurant.address}, {restaurant.city}</Text>
+                <Feather name="map-pin" size={18} color="#541412" />
+                <Text style={styles.restaurantAddress}>{restaurant.address}, {restaurant.city}</Text>
             </View>
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
               <MaterialIcons name="price-change" size={18} color="#541412" />
               <Text style={styles.restaurantAddress}>Tags:</Text>
-            </View>
+            </View> */}
         </TouchableOpacity>
     )
 };
