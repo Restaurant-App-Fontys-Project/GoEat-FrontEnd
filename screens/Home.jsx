@@ -5,7 +5,8 @@ import CustomNavBar from '../component/CustomNavBar';
 import SearchBar from '../component/SearchBar';
 import List from '../component/List';
 import RestaurantCard from '../component/RestaurantCard';
-import { fetchMeals } from '../apiCalls/restaurantApi';
+import { fetchMeals, fetchTags, fetchRestaurantTags } from '../apiCalls/restaurantApi';
+import Categories from '../component/Categories';
 
 const Home = ({ navigation, route }) => {
   const { restaurants, city } = route.params;
@@ -14,10 +15,27 @@ const Home = ({ navigation, route }) => {
   const [clicked, setClicked] = useState(false);
   const [meals, setMeals] = useState([]);
   const [onSearch, setOnSearch] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState(null);
 
   useEffect(() => {
     fetchMealsForRestaurants(restaurants);
   }, [restaurants]);
+
+  useEffect(() => {
+    fetchAllTags();
+  }, []);
+
+  const fetchAllTags = async () => {
+    try {
+      const tags = await fetchTags();
+      setTags(tags);
+    }
+    catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  };
 
   const fetchMealsForRestaurants = async (restaurants) => {
     const meals = [];
@@ -25,6 +43,9 @@ const Home = ({ navigation, route }) => {
     for (const restaurant of restaurants) {
       try {
         const restaurantMeals = await fetchMeals(restaurant.id);
+        const restaurantTags = await fetchRestaurantTags(restaurant.id);
+        restaurant.meals = restaurantMeals;
+        restaurant.tags = restaurantTags;
         meals.push(...restaurantMeals);
       } catch (error) {
         console.error('Error fetching meals for restaurant:', error);
@@ -53,6 +74,10 @@ const Home = ({ navigation, route }) => {
     setOnSearch(false);
   };
 
+const handleCategoryClick = (category) => {
+  setSelectedCategory(category);
+  console.log('Selected category:', category);
+}
 
   return (
     <View style={styles.container}>
@@ -88,25 +113,15 @@ const Home = ({ navigation, route }) => {
 
         <Text style={styles.header}>Categories</Text>
         <View style={styles.category}>
-          {/* Categories content */}
-          <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/cuisine.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Cuisine</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/dietary.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Dietary</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/meal.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Meal</Text>
-            </TouchableOpacity>
 
+            <Categories navigation={navigation} tags={tags} setSelectedTag={setSelectedTag} />
         </View>
 
-        <Text style={styles.header}>All restaurants in {city} </Text>
+        <Text style={styles.header}>{selectedTag?.name || "All"} restaurants in {city} </Text>
         <View style={styles.restaurantRow}>
-          {restaurants.map((restaurant, index) => (
+          {restaurants
+          .filter(r =>  !selectedTag  || selectedTag.name === 'All' || r.tags?.find((restaurantTag) => restaurantTag.id === selectedTag.id))
+          .map((restaurant, index) => (
             <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
           ))}
         </View>
@@ -155,7 +170,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    marginTop: 20,
   },
   categoryItem: {
     width: windowWidth / 3 - 20,

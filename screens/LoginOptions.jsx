@@ -110,7 +110,7 @@ const LoginOptions = ({ navigation }) => {
 
     const handleEditProfile = () => {
         // Navigate to the edit profile screen
-        navigation.navigate('EditProfile');
+        //navigation.navigate('EditProfile');
     };
 
     const handleDeleteAccount = () => {
