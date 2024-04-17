@@ -6,19 +6,23 @@ const Categories = ({ navigation, tags, setSelectedTag }) => {
   const categories = ['Cuisine', 'Dietary', 'Meal'];
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [localSelectedTag, setLocalSelectedTag] = useState(null);
+  const [noResults, setNoResults] = useState(false);
 
   // Set localSelectedTag when the selectedTag prop changes
   useEffect(() => {
-    setLocalSelectedTag(setSelectedTag); // Call setSelectedTag to get the updated value
-  }, [setSelectedTag]);
+    console.log('localSelectedTag before update:', localSelectedTag);
+    setSelectedTag(localSelectedTag); 
+  }, [localSelectedTag]);
+
   // Render subcategories based on the selected category
   const renderSubcategories = () => {
+
     return ([{id: 0, tagCategoryId: selectedCategory, name: 'All'}]
       .concat(tags || []))
       .filter(tag => tag.tagCategoryId === selectedCategory)
       .map((tag, index) => {
         console.log('Local Selected Tag:', localSelectedTag);
-      console.log('Tag ID:', tag.id);
+        console.log('Tag ID:', tag.id);
         return (
           <TouchableOpacity 
             key={index} 
@@ -41,28 +45,47 @@ const Categories = ({ navigation, tags, setSelectedTag }) => {
   // handle clicking on a tag
   const handleTagClick = (tag) => {
     console.log('Selected tag:', tag);
-    setSelectedTag(tag);
+    setLocalSelectedTag(tag);
+ // Check if there are no restaurants for the selected tag
+  if (tags && tags.length > 0) {
+    const tagIds = tags.map(tagItem => tagItem.id);
+    if (!tagIds.includes(tag.id)) {
+      setNoResults(true);
+    } else {
+      setNoResults(false);
+    }
+  } else {
+    setNoResults(true);
+  }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.categoryContainer}>
         {/* Main categories */}
-        {categories.map((category, index) => (
-          <TouchableOpacity
+        {categories.map((category, index) => {
+          const image = category === 'Dietary' ?
+          require('../assets/home-images/dietary.png') :
+          category === 'Meal' ?
+          require('../assets/home-images/meal.png') :
+          require('../assets/home-images/cuisine.png');
+
+          return <TouchableOpacity
             key={index}
             style={[styles.categoryItem, selectedCategory === index + 1 ? styles.selectedCategoryItem : null]}
             onPress={() => handleCategoryClick(category)}>
-            <Image source={require('../assets/home-images/cuisine.png')} style={styles.image} />
+            <Image source={image} style={styles.image} />
             <Text style={[styles.restaurantName, selectedCategory === index + 1 ? styles.selectedCategoryText : null]}>{category}</Text>
           </TouchableOpacity>
-        ))}
+          })}
       </View>
 
       {/* Render subcategories */}
       <View style={styles.subcategory}>
         {renderSubcategories()}
       </View>
+       {/* Display "not found" message if no results */}
+    {noResults && <Text style={styles.notFoundText}>No restaurants found for selected tag, please try again!</Text>}
     </View>
   );
 };
@@ -124,7 +147,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   selectedSubcategoryItem: {
-    backgroundColor: '#D69F3B', // Add background color for selected subcategory
+    backgroundColor: '#D69F3B', 
+  },
+  notFoundText: {
+    color: '#D69F3B',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginHorizontal: 10,
   },
 });
 

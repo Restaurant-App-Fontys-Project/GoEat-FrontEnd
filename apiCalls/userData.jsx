@@ -42,3 +42,14 @@ export const fetchUserData = async (userId) => {
     }
 }
 
+// delete user data
+export const deleteUser = async (userId) => {
+    try {
+        const response = await axios.delete(`https://goeat-api.onrender.com/users/${userId}`);
+        return response;
+    } catch (error) {
+        console.error('Error deleting user data:', error);
+        return error;
+    }
+}
+

@@ -36,10 +36,8 @@ const MenuItem = ({ index, item, isLast }) => {
             <View style={styles.menuItem}>
                 <Text style={styles.menuItemName}>{item.name}</Text>
                 <Text style={[styles.menuItemDescription, {fontWeight: 'bold'}]}>Tags</Text>
-                {(item.mealTagIds || []).map((tag, index) => (
-                    <Text key={index} style={styles.menuItemDescription}>{tag}</Text>
-                ))}
-                <Text style={styles.menuItemDescription}>Vegan, Gluten-free</Text>
+                
+                <Text key={index} style={styles.menuItemDescription}>{(item.mealTags || []).map(t => t.name).join(', ')}</Text>
                 <TouchableOpacity onPress={toggleShowFullText} style={styles.arrowButton}>
                     <MaterialIcons name={showFullText ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={22} color="black" />
                 </TouchableOpacity>

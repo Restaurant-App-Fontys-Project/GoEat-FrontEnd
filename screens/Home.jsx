@@ -42,8 +42,12 @@ const Home = ({ navigation, route }) => {
 
     for (const restaurant of restaurants) {
       try {
-        const restaurantMeals = await fetchMeals(restaurant.id);
+        let restaurantMeals = await fetchMeals(restaurant.id);
         const restaurantTags = await fetchRestaurantTags(restaurant.id);
+        restaurantMeals = restaurantMeals.map(meal => 
+          ({ ...meal, mealTags: 
+            tags.filter(tag => (meal?.mealTagIds || []).includes(tag.id))})
+        ); 
         restaurant.meals = restaurantMeals;
         restaurant.tags = restaurantTags;
         meals.push(...restaurantMeals);
@@ -78,6 +82,19 @@ const handleCategoryClick = (category) => {
   setSelectedCategory(category);
   console.log('Selected category:', category);
 }
+
+const renderRestaurants = () => {
+  const restaurantList  = restaurants
+          .filter(r =>  !selectedTag  || selectedTag.name === 'All' || r.tags?.find((restaurantTag) => restaurantTag.id === selectedTag.id));
+  if (restaurantList.length === 0) {
+    return <Text style={styles.notFoundText}>No restaurants found for selected tag, please try again!</Text>;
+  }
+  return restaurantList.map((restaurant, index) => (
+    <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
+  ));
+
+}
+
 
   return (
     <View style={styles.container}>
@@ -119,11 +136,7 @@ const handleCategoryClick = (category) => {
 
         <Text style={styles.header}>{selectedTag?.name || "All"} restaurants in {city} </Text>
         <View style={styles.restaurantRow}>
-          {restaurants
-          .filter(r =>  !selectedTag  || selectedTag.name === 'All' || r.tags?.find((restaurantTag) => restaurantTag.id === selectedTag.id))
-          .map((restaurant, index) => (
-            <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
-          ))}
+          {renderRestaurants()}
         </View>
       </ScrollView>
       <CustomNavBar navigation={navigation} />

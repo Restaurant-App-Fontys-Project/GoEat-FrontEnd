@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { userLogin } from '../apiCalls/userData';
+import { userLogin, deleteUser } from '../apiCalls/userData';
 
 
 const LoginOptions = ({ navigation }) => {
@@ -113,25 +113,47 @@ const LoginOptions = ({ navigation }) => {
         //navigation.navigate('EditProfile');
     };
 
-    const handleDeleteAccount = () => {
-        // Show an alert for confirmation before deleting the account
-        Alert.alert(
-            'Delete Account',
-            'Are you sure you want to delete your account?',
-            [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Delete', onPress: () => deleteAccount() }
-            ]
-        );
+    const handleDeleteAccount = async () => {
+        try {
+            // Retrieve userId from AsyncStorage
+            const userId = await AsyncStorage.getItem('userId');
+            console.log('User ID:', userId);
+            if (!userId) {
+                // Handle case where userId is not found in AsyncStorage
+                Alert.alert('Error', 'User ID not found. Please log in again.');
+                return;
+            }
+    
+            // Show confirmation dialog
+            Alert.alert(
+                'Delete Account',
+                'Are you sure you want to delete your account?',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    { text: 'Delete', onPress: async () => {
+                        // Call deleteUser function with userId
+                        const response = await deleteUser(userId);
+                        if (response && response.status === 200) {
+                            // Clear userId and userData from AsyncStorage
+                            await AsyncStorage.removeItem('userId');
+                            await AsyncStorage.removeItem('userData');
+                            setLoggedIn(false);
+                            setUserData(null);
+                            Alert.alert('Success', 'Your account has been deleted successfully.');
+                            // Navigate to login screen or any other appropriate screen
+                            navigation.navigate('LoginOptions');
+                        } else {
+                            Alert.alert('Error', 'Failed to delete account. Please try again later.');
+                        }
+                    }}
+                ]
+            );
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            Alert.alert('Error', 'An error occurred while deleting your account. Please try again later.');
+        }
     };
-
-    const deleteAccount = () => {
-        // Perform the deletion of the account
-        // This is just a placeholder function, replace it with your actual logic
-        // After deleting the account, you may want to navigate to the login screen
-        // navigation.navigate('Login');
-        Alert.alert('Account deleted');
-    };
+    
 
     return (
         <View style={styles.container}>
