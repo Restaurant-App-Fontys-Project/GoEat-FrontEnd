@@ -16,10 +16,16 @@ export const userLogin = async (email, password) => {
             emailAddress: email,
             password: password
         });
-        return response;
+        return {
+            status: response.status,
+            data: response.data
+        };
     } catch (error) {
         console.error('Error logging in:', error);
-        return error;
+        return {
+            status: error.response ? error.response.status : 500, 
+            error: error.message 
+        };
     }
 }
 

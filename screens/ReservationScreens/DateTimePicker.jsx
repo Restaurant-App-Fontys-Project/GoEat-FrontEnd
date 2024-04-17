@@ -58,9 +58,23 @@ const DateTimePicker = ({ navigation, route }) => {
     }
   };
 
-  const { name, openingHours } = restaurantData;
+  const { 
+        name,
+        openingHours,
+        address, 
+        maxguestsperreservation,
+        reservationmessage,
+        city
+       } = restaurantData;
+
+  // handle number of guests
+  const handleNoofGuests = (maxguestsperreservation) => {
+    return [...Array(maxguestsperreservation).keys()].map((index) => {
+      const value = index + 1;
+      return <Picker.Item key={value} label={`${value} Guest${value !== 1 ? 's' : ''}`} value={value} />;
+    });
+  };
  
-  
   // check if the selected date is a special holiday
   const isSpecialHoliday = (date, specialDates) => {
     return specialDates.some(day => {
@@ -207,9 +221,7 @@ const DateTimePicker = ({ navigation, route }) => {
                 toggleGuestsPicker();
               }}
             >
-              <Picker.Item label="1 Guest" value={1} />
-              <Picker.Item label="2 Guests" value={2} />
-              {/* change later */}
+              {handleNoofGuests(maxguestsperreservation)}
             </Picker>
           </View>
         </Modal>
@@ -279,6 +291,7 @@ const DateTimePicker = ({ navigation, route }) => {
             (selectedDate && selectedTimeSlot) ?
               navigation.navigate('Reservation 2/3', {
                 selectedDate: dateString,
+                // selectedDate,
                 selectedTimeSlot,
                 reservationDuration,
                 restaurantId,

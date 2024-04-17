@@ -11,15 +11,15 @@ const LoginOptions = ({ navigation }) => {
     const [userData, setUserData] = useState(null); 
     
     //  clear async storage
-        const clearAsyncStorage = async () => {
-            try {
-                await AsyncStorage.clear();
-                console.log('AsyncStorage cleared successfully.');
-            } catch (error) {
-                console.error('Error clearing AsyncStorage:', error);
-            }
-        };
-        clearAsyncStorage();
+        // const clearAsyncStorage = async () => {
+        //     try {
+        //         await AsyncStorage.clear();
+        //         console.log('AsyncStorage cleared successfully.');
+        //     } catch (error) {
+        //         console.error('Error clearing AsyncStorage:', error);
+        //     }
+        // };
+        // clearAsyncStorage();
 
         useEffect(() => {
             checkLoginStatus();
@@ -65,8 +65,8 @@ const LoginOptions = ({ navigation }) => {
                 const userId = userData.id; 
                 await AsyncStorage.setItem('userId', userId);
                 await AsyncStorage.setItem('userData', JSON.stringify(userData));
-                setLoggedIn(true); // Update login status
-                setUserData(userData); // Set user data
+                setLoggedIn(true);
+                setUserData(userData); 
                 Alert.alert('Login successful!');
                 navigation.navigate('Location');
             } else {
@@ -83,8 +83,8 @@ const LoginOptions = ({ navigation }) => {
             // Clear userId and userData from AsyncStorage
             await AsyncStorage.removeItem('userId');
             await AsyncStorage.removeItem('userData');
-            setLoggedIn(false); // Update login status
-            setUserData(null); // Clear user data
+            setLoggedIn(false); 
+            setUserData(null); 
             Alert.alert('Logout successful!');
         } catch (error) {
             console.error('Logout error:', error);
