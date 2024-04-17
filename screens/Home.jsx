@@ -112,7 +112,7 @@ const handleCategoryClick = (category) => {
         </ImageBackground>
 
         <Text style={styles.header}>Categories</Text>
-        <View style={styles.category}>
+        <View >
 
             <Categories navigation={navigation} tags={tags} setSelectedTag={setSelectedTag} />
         </View>
@@ -164,21 +164,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 20,
     textAlign: 'center',
-  },
-  category: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-  },
-  categoryItem: {
-    width: windowWidth / 3 - 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    marginVertical: 5,
-    marginHorizontal: 5,
-    padding: 5,
-    borderRadius: 20,
-    alignItems: 'center',
   },
   restaurantRow: {
     flexDirection: 'row',

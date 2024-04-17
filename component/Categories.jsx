@@ -1,21 +1,34 @@
 import { set } from 'date-fns';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
 const Categories = ({ navigation, tags, setSelectedTag }) => {
   const categories = ['Cuisine', 'Dietary', 'Meal'];
   const [selectedCategory, setSelectedCategory] = useState(1);
+  const [localSelectedTag, setLocalSelectedTag] = useState(null);
 
+  // Set localSelectedTag when the selectedTag prop changes
+  useEffect(() => {
+    setLocalSelectedTag(setSelectedTag); // Call setSelectedTag to get the updated value
+  }, [setSelectedTag]);
   // Render subcategories based on the selected category
   const renderSubcategories = () => {
-    return ([{id: 0, tagCategoryId: selectedCategory, name: 'All'}].concat(tags || [])).filter(tag => tag.tagCategoryId === selectedCategory).map((tag, index) => {
-      return (
-        <TouchableOpacity 
-          key={index} 
-          style={styles.subcategoryItem} 
-          onPress={() => handleTagClick(tag)}>
-          <Text style={styles.subcategoryText}>{tag.name}</Text>
-        </TouchableOpacity>
+    return ([{id: 0, tagCategoryId: selectedCategory, name: 'All'}]
+      .concat(tags || []))
+      .filter(tag => tag.tagCategoryId === selectedCategory)
+      .map((tag, index) => {
+        console.log('Local Selected Tag:', localSelectedTag);
+      console.log('Tag ID:', tag.id);
+        return (
+          <TouchableOpacity 
+            key={index} 
+            style={[
+              styles.subcategoryItem,
+              localSelectedTag && localSelectedTag.id === tag.id ? styles.selectedSubcategoryItem : null
+            ]}
+            onPress={() => handleTagClick(tag)}>
+            <Text style={styles.subcategoryText}>{tag.name}</Text>
+          </TouchableOpacity>
       );
     });
   };
@@ -85,17 +98,19 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   selectedCategoryText: {
-    color: '#D69F3B', // Add color for selected category text
-    textDecorationLine: 'underline', // Add underline for selected category text
+    color: '#D69F3B', 
+    textDecorationLine: 'underline', 
   },
   subcategory: {
     flexDirection: 'row',
     flexWrap: 'wrap', // Wrap subcategories if they exceed the container width
     justifyContent: 'center',
-    width: '100%',
     borderWidth: 1,
     borderRadius: 10,
-    padding: 5,
+    padding: 10, 
+    marginLeft: 10, 
+    marginRight: 10, 
+    borderColor: '#D69F3B',
   },
   subcategoryItem: {
     alignItems: 'center',
@@ -107,6 +122,9 @@ const styles = StyleSheet.create({
   subcategoryText: {
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  selectedSubcategoryItem: {
+    backgroundColor: '#D69F3B', // Add background color for selected subcategory
   },
 });
 
