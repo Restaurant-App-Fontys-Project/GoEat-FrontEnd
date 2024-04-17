@@ -4,7 +4,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import reservationData from '../../reservationData.json'; // Import the JSON file, remove later
 import commonStyles from '../../styles/commonStyles'; 
 import {sendReservationData} from '../../apiCalls/ReservationData';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const Confirmation = ({ navigation, route }) => {
@@ -29,24 +31,27 @@ const Confirmation = ({ navigation, route }) => {
         console.log("type date",typeof selectedDate);
         console.log("time",selectedTimeSlot);
         console.log("type time",typeof selectedTimeSlot);
+        
     
     const [isChecked, setIsChecked] = useState(false);
     const [userId, setUserId] = useState(null);
-
-    useEffect(() => {
-        retrieveUserId();
-    }, []);
-
-    const retrieveUserId = async () => {
+    
+    // get user id from async storage
+    const getUserId = async () => {
         try {
             const userId = await AsyncStorage.getItem('userId');
-            if (userId !== null) {
+            console.log('User ID:', userId);
+            if (userId) {
                 setUserId(userId);
             }
         } catch (error) {
-            console.error('Error retrieving userId from AsyncStorage:', error);
+            console.error('Error retrieving user data:', error);
         }
     };
+    useEffect(() => {
+        getUserId();
+    }, []);
+    console.log("userid",userId);
 
     //  calculate the reservation end time
     const startTime = selectedTimeSlot.split(':');
@@ -113,10 +118,10 @@ const Confirmation = ({ navigation, route }) => {
                 note: specialNotes,
                 numberOfPeople: noOfGuests,
                 tableId: tableId,
-                // reservationStart: reservationStart,
                 reservationStart: startTimeString,
-                // reservationEnd: reservationEndTime,
                 reservationEnd: endTimeString,
+                // reservationEnd: reservationEndTime,
+                // reservationStart: reservationStart,
                 // firstName,
                 // lastName,
                 // email,
@@ -159,7 +164,8 @@ const Confirmation = ({ navigation, route }) => {
             <View style={{ marginTop: 20 }}>
                 <Text style={styles.boldText}>Place</Text>
                 {/* table number and restaurant name */}
-                <Text>Table-{tableNumber} (for {noOfGuests} Guests) at {restaurantData.name}</Text>
+                <Text>Table-{tableNumber} </Text>
+                <Text>{restaurantData.name}, {restaurantData.address}, {restaurantData.city} </Text>
             </View>
             <View style={{ marginTop: 20 }}>
                 <Text style={styles.boldText}>Special Request</Text>
@@ -177,10 +183,9 @@ const Confirmation = ({ navigation, route }) => {
                         )}
                     </View>
                     <View>
-                        <Text style={commonStyles.subHeaderText}>A message from {reservationData && restaurantData.name}</Text>
-                        {reservationData && (
-                            <Text style={commonStyles.bodyText}>{reservationData.message}</Text>
-                        )}
+                        <Text style={commonStyles.subHeaderText}>A message from {restaurantData.name}</Text>
+                        <Text style={commonStyles.bodyText}>{restaurantData.reservationmessage}</Text>
+                        
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                         <Switch

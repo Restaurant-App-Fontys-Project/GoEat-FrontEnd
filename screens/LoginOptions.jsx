@@ -11,15 +11,15 @@ const LoginOptions = ({ navigation }) => {
     const [userData, setUserData] = useState(null); 
     
     //  clear async storage
-        const clearAsyncStorage = async () => {
-            try {
-                await AsyncStorage.clear();
-                console.log('AsyncStorage cleared successfully.');
-            } catch (error) {
-                console.error('Error clearing AsyncStorage:', error);
-            }
-        };
-        clearAsyncStorage();
+        // const clearAsyncStorage = async () => {
+        //     try {
+        //         await AsyncStorage.clear();
+        //         console.log('AsyncStorage cleared successfully.');
+        //     } catch (error) {
+        //         console.error('Error clearing AsyncStorage:', error);
+        //     }
+        // };
+        // clearAsyncStorage();
 
         useEffect(() => {
             checkLoginStatus();
@@ -65,8 +65,8 @@ const LoginOptions = ({ navigation }) => {
                 const userId = userData.id; 
                 await AsyncStorage.setItem('userId', userId);
                 await AsyncStorage.setItem('userData', JSON.stringify(userData));
-                setLoggedIn(true); // Update login status
-                setUserData(userData); // Set user data
+                setLoggedIn(true);
+                setUserData(userData); 
                 Alert.alert('Login successful!');
                 navigation.navigate('Location');
             } else {
@@ -83,8 +83,8 @@ const LoginOptions = ({ navigation }) => {
             // Clear userId and userData from AsyncStorage
             await AsyncStorage.removeItem('userId');
             await AsyncStorage.removeItem('userData');
-            setLoggedIn(false); // Update login status
-            setUserData(null); // Clear user data
+            setLoggedIn(false); 
+            setUserData(null); 
             Alert.alert('Logout successful!');
         } catch (error) {
             console.error('Logout error:', error);
@@ -108,6 +108,31 @@ const LoginOptions = ({ navigation }) => {
         // Handle Google login
     };
 
+    const handleEditProfile = () => {
+        // Navigate to the edit profile screen
+        navigation.navigate('EditProfile');
+    };
+
+    const handleDeleteAccount = () => {
+        // Show an alert for confirmation before deleting the account
+        Alert.alert(
+            'Delete Account',
+            'Are you sure you want to delete your account?',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Delete', onPress: () => deleteAccount() }
+            ]
+        );
+    };
+
+    const deleteAccount = () => {
+        // Perform the deletion of the account
+        // This is just a placeholder function, replace it with your actual logic
+        // After deleting the account, you may want to navigate to the login screen
+        // navigation.navigate('Login');
+        Alert.alert('Account deleted');
+    };
+
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -119,10 +144,32 @@ const LoginOptions = ({ navigation }) => {
 
                 {/* Display user info and logout button if logged in */}
                 {loggedIn && userData && (
-                    <View style={styles.userInfo}>
-                        <Text style={styles.userInfoText}>Welcome, {userData.firstName} {userData.lastName}</Text>
-                        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-                            <Text style={styles.logoutButtonText}>Logout</Text>
+                    <View style={styles.userInfoContainer}>
+                        <Text style={[styles.userInfoText, {fontWeight:'bold'}, {fontSize:20}]}>Welcome, {userData.firstName} {userData.lastName}</Text>
+                        <View style={styles.userInfoSeparator} />
+                        <Text style={styles.userInfoText}>First name: {userData.firstName}</Text>
+                        <View style={styles.userInfoSeparator} />
+                        <Text style={styles.userInfoText}>Last Name: {userData.lastName}</Text>
+                        <View style={styles.userInfoSeparator} />
+                        <Text style={styles.userInfoText}>Email: {userData.emailAddress}</Text>
+                        <View style={styles.userInfoSeparator} />
+                        <Text style={styles.userInfoText}>Phone: {userData.phoneNumber}</Text>
+                        <View style={styles.userInfoSeparator} />
+
+                        <View style={styles.deleteButton}>
+                        {/* Edit Profile button */}
+                            <TouchableOpacity onPress={handleEditProfile} style={styles.edit}>
+                                <Text style={[styles.buttonText, {color:'black'}]}>Edit </Text>
+                            </TouchableOpacity>
+
+                            {/* Delete Account button */}
+                            <TouchableOpacity onPress={handleDeleteAccount} style={styles.delete}>
+                                <Text style={[styles.buttonText, {color:'black'}]}>Delete </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <TouchableOpacity onPress={handleLogout} style={styles.loginButton}>
+                            <Text style={styles.buttonText}>Logout</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -248,6 +295,7 @@ const styles = StyleSheet.create({
         width: '80%',
         marginLeft: 'auto',
         marginRight: 'auto',
+        justifyContent: 'center',
     },
     buttonText: {
         color: 'white',
@@ -283,6 +331,40 @@ const styles = StyleSheet.create({
     logoutButtonText: {
         color: 'white',
         fontSize: 18,
+    },
+    userInfoContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    userInfoSeparator: {
+        height: 1,
+        backgroundColor: '#CCCCCC',
+        width: '80%',
+        marginVertical: 10,
+    },
+    deleteButton: {
+        flexDirection: 'row',
+        marginLeft: 10,
+    },
+    edit: {
+        backgroundColor: '#F8D3B9',
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 50,
+        width: '30%',
+        marginLeft: 'auto',
+        marginRight: 10,
+        justifyContent: 'center',
+    },
+    delete: {
+        backgroundColor: '#F8D3B9',
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 50,
+        width: '30%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        justifyContent: 'center',
     },
 });
 

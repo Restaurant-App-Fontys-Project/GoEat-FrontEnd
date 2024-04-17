@@ -1,81 +1,79 @@
-// List.js
-import React from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Modal, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, FlatList, Modal, Dimensions, TouchableOpacity, Alert } from "react-native";
 
-// definition of the Item, which will be rendered in the FlatList
-const Item = ({ name, price }) => (
-   <View style={styles.item}>
-      <Text style={styles.title}>{name}</Text>
-      <Text style={styles.price}>{price}</Text>
-   </View>
-);
+const List = ({ searchPhrase, data, onPress }) => {
+    const filteredData = data.filter(item => 
+        item.name.toLowerCase().includes(searchPhrase.toLowerCase().trim())
+    );
 
-//The filter
-const List = ({ searchPhrase, setClicked, data, onPress }) => {
-   const renderItem = ({ item }) => {
-      //When there is no input, show all
-      if (searchPhrase === "") {
-        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
+    // Use useEffect to trigger an alert when filteredData is empty
+    useEffect(() => {
+        if (searchPhrase !== "" && filteredData.length === 0) {
+            Alert.alert("No Results Found", "Sorry, currently we do not have this result! Please try again with other options.");
         }
-      // filter of the name
-      if (item.name.toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
-        return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
-        }
-      // filter of the description
-      if (
-         (item.price+"").toUpperCase().includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
-      ) {
-         return <TouchableOpacity onPress={() => onPress(item.id)}><Item name={item.name} price={item.price} /></TouchableOpacity>;
-      }
-   };
+    }, [searchPhrase, filteredData]);
 
-   return (
-    <Modal
-       visible={searchPhrase !== ""}
-       transparent={true}
-       animationType="slide"
-       onRequestClose={() => setClicked(false)}
-    >
-       <TouchableOpacity
-          style={styles.modalContainer}
-          onPress={() => setClicked(false)}
-          activeOpacity={1} // This ensures that onPress is not triggered when clicking on the modal
-       >
-          <View style={styles.list__container}>
-             <FlatList data={data} renderItem={renderItem} keyExtractor={(item) => item.id} />
-          </View>
-       </TouchableOpacity>
-    </Modal>
- );
+    return (
+        <Modal
+            visible={searchPhrase !== "" && filteredData.length > 0}
+            transparent={true}
+            animationType="slide"
+        >
+            <View style={styles.modalContainer}>
+                {filteredData.length > 0 ? (
+                    <View style={styles.listContainer}>
+                        <FlatList 
+                            data={filteredData}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity onPress={() => onPress(item.id, item.restaurantId)}>
+                                    <View style={styles.item}>
+                                        <Text style={styles.title}>{item.name}</Text>
+                                        <Text style={styles.address}>{item.address ?? (item.price+'€')} </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )}
+                            keyExtractor={(item) => item.id.toString()}
+                        />
+                    </View>
+                ) : null }
+            </View>
+        </Modal>
+    );
 };
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const { width } = Dimensions.get('window');
+const imageWidth = width * 0.2;
+const containerWidth = width * 0.9;
 
 const styles = StyleSheet.create({
- modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent background
- },
- list__container: {
-    backgroundColor: "white",
-    width: windowWidth - 40, // Adjust width as needed
-    borderRadius: 10,
- },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent background
+    },
+    listContainer: {
+        backgroundColor: "white",
+        width: windowWidth - 40, // Adjust width as needed
+        borderRadius: 10,
+    },
     item: {
-        padding: 20,
+        padding: 10, // Adjust padding as needed
         flexDirection: "row",
+        justifyContent: "space-between",
+        width: containerWidth, // Use the same width as the parent container
+        flexWrap: 'wrap', // Allow text to wrap within the container
     },
     title: {
         fontSize: 18,
+        marginRight: 20,
     },
-    price: {
+    address: {
         fontSize: 18,
-        marginLeft: "auto",
+        color: "#666",
     },
-
 });
 
 export default List;

@@ -70,7 +70,7 @@ const Registration = ({ navigation }) => {
                 <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
 
                 <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/reg-avatar.png')} style={styles.icon} />
+                    <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
                     <TextInput
                         style={styles.input}
                         placeholder="First Name"
@@ -81,7 +81,7 @@ const Registration = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/reg-avatar.png')} style={styles.icon} />
+                    <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
                     <TextInput
                         style={styles.input}
                         placeholder="Last Name"
@@ -106,7 +106,7 @@ const Registration = ({ navigation }) => {
                 </View>
 
                 <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/reg-avatar.png')} style={styles.icon} />
+                    <Image source={require('../assets/login-icons/phone.png')} style={styles.icon} />
                     <TextInput
                         style={styles.input}
                         placeholder="Phone Number"
@@ -131,7 +131,7 @@ const Registration = ({ navigation }) => {
                 </View>
 
                 <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/password.png')} style={styles.icon} />
+                    <Image source={require('../assets/login-icons/confirmP.png')} style={styles.icon} />
                     <TextInput
                         style={styles.input}
                         placeholder="Confirm Password"

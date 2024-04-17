@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Picker} from '@react-native-picker/picker';
 import { View, Text, TextInput, Button, TouchableOpacity, ScrollView, KeyboardAvoidingView, Modal, Alert} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import TextInputField from '../../component/TextInputField';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import reservationData from '../../reservationData.json';
 import commonStyles from '../../styles/commonStyles'; 
+import {fetchUserData} from '../../apiCalls/userData';
+
 
 const CustomerInfo = ({ navigation, route }) => {
   
@@ -20,13 +23,42 @@ const CustomerInfo = ({ navigation, route }) => {
     } = route.params;
     console.log('Reservation data here:', selectedDate);
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [specialNotes, setSpecialNotes] = useState('');
-  const [title, setTitle] = useState('Mr.');
-  const [isTitlePickerVisible, setIsTitlePickerVisible] = useState(false);
+
+    const [firstName, setFirstName] = useState(undefined);
+    const [lastName, setLastName] = useState(undefined);
+    const [email, setEmail] = useState(undefined);
+    const [phoneNumber, setPhoneNumber] = useState(undefined);
+    const [specialNotes, setSpecialNotes] = useState('');
+    const [title, setTitle] = useState('Mr.');
+    const [isTitlePickerVisible, setIsTitlePickerVisible] = useState(false);
+    const [userId, setUserId] = useState(null);
+    
+
+    useEffect(() => {
+      getUserData();
+  }, []);
+  
+  const getUserData = async () => {
+      try {
+          const userId = await AsyncStorage.getItem('userId');
+          console.log('User ID:', userId);
+          if (userId) {
+              const userDataJSON = await AsyncStorage.getItem('userData');
+              if (userDataJSON) {
+                  const userData = JSON.parse(userDataJSON);
+                  console.log('User data:', userData);
+                  // Assuming userData contains firstName, lastName, email, and phoneNumber
+                  setFirstName(userData.firstName || ''); 
+                  setLastName(userData.lastName || '');
+                  setEmail(userData.email || ''); 
+                  setPhoneNumber(userData.phoneNumber || ''); 
+              }
+          }
+      } catch (error) {
+          console.error('Error retrieving user data:', error);
+      }
+  };
+  
 
   const toggleTitlePicker = () => {
     setIsTitlePickerVisible(!isTitlePickerVisible);
@@ -51,8 +83,6 @@ const CustomerInfo = ({ navigation, route }) => {
       Alert.alert('Please enter a valid phone number.');
       return;
     }
-  
-   
     // Proceed to the next screen
     navigation.navigate('Confirmation', { 
       restaurantId,
@@ -68,7 +98,7 @@ const CustomerInfo = ({ navigation, route }) => {
       specialNotes,
       title,
       noOfGuests,
-      restaurantData
+      restaurantData,
     });
   };
 
@@ -118,24 +148,28 @@ const CustomerInfo = ({ navigation, route }) => {
               placeholder="First Name" 
               keyboardType="default"
               onChangeText={text => setFirstName(text)}
+              value={firstName}
             />
             <TextInputField 
               label="Last Name*" 
               placeholder="Last Name" 
               keyboardType="default" 
               onChangeText={text => setLastName(text)}
+              value={lastName}
             />
             <TextInputField 
               label="Email*" 
               placeholder="Email"
               keyboardType="email-address"
               onChangeText={text => setEmail(text)}
+              value={email ? String(email) : ''}
              />
             <TextInputField 
               label="Phone Number*"
               placeholder="Phone Number" 
               keyboardType="phone-pad"
               onChangeText={text => setPhoneNumber(text)}
+              value={phoneNumber ? String(phoneNumber) : ''}
               />
 
             <TextInputField 
