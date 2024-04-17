@@ -29,7 +29,8 @@ export default function App () {
           headerTitleStyle: {
             fontWeight: 'bold'
           },
-          headerTitleAlign: 'center'
+          headerTitleAlign: 'center',
+          headerLeft: () => null
         }}
       >
         <Stack.Screen
@@ -50,7 +51,7 @@ export default function App () {
         <Stack.Screen name='Confirmation' component={Confirmation} />
         {/* <Stack.Screen name='Categories' component={Categories} /> */}
         <Stack.Screen name='Location' component={Location} />
-        <Stack.Screen name='Registration' component={Registration} /> 
+        <Stack.Screen name='Registration' component={Registration} />
         <Stack.Screen
           name='ReservationOverview'
           component={ReservationOverview}
