@@ -11,38 +11,51 @@ const Registration = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    // const handleRegistration = async () => {
-    //     try {
-
-    //         await loginWithEmail(email, password);
-    //         console.log('Registration successful!');
-
-    //     } catch (error) {
-    //         console.error('Registration failed:', error);
-
-    //     }
-    // };
 
     const navigateLogin = () => {
-            navigation.navigate('LoginOptions');
-        };
+        navigation.navigate('LoginOptions');
+    };
 
     const handleRegistration = async () => {
         try {
-            // Check if password and confirm password match
+        
             if (password !== confirmPassword) {
                 throw new Error("Passwords do not match");
             }
-    
+
+            if (!firstName) {
+                throw new Error("First name is required");
+            }
+
+            if (!lastName) {
+                throw new Error("Last name is required");
+            }
+
+            if (!email) {
+                Alert.alert("Error", "Email is required");
+                return;
+            } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
+                Alert.alert("Error", "Invalid email format");
+                return;
+            }
+
+            if (!password) {
+                throw new Error("Password is required");
+            }
+
+            if (!phone) {
+                throw new Error("Phone number is required");
+            }
+
             const userData = {
                 firstName: firstName,
                 lastName: lastName,
                 emailAddress: email,
                 password: password,
                 phoneNumber: phone,
-                isGuestUser: false // Assuming the user is not a guest user
+                isGuestUser: false
             };
-    
+
             const response = await sendUserData(userData);
 
             if (response.status === 201) {
@@ -55,126 +68,128 @@ const Registration = ({ navigation }) => {
             Alert.alert('Registration failed:', error.message);
         }
     };
-    
+
 
 
     return (
         <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
-        <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
-        <View style={styles.container}>
-            <ImageBackground
-                source={require('../assets/login-icons/login-bg.png')}
-                style={styles.backgroundImage}
-            >
+            <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
+                <View style={styles.container}>
+                    <ImageBackground
+                        source={require('../assets/login-icons/login-bg.png')}
+                        style={styles.backgroundImage}
+                    >
 
-                <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
+                        <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
 
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="First Name"
-                        value={firstName}
-                        onChangeText={setFirstName}
-                        autoCapitalize="none"
-                        textAlignVertical="center"
-                    />
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="First Name"
+                                value={firstName}
+                                onChangeText={setFirstName}
+                                autoCapitalize="none"
+                                textAlignVertical="center"
+                            />
+                        </View>
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Last Name"
+                                value={lastName}
+                                onChangeText={setLastName}
+                                autoCapitalize="none"
+                                textAlignVertical="center"
+                            />
+                        </View>
+                        
+
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/gmail.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Email"
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                textAlignVertical="center"
+                            />
+                        </View>
+
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/phone.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Phone Number"
+                                value={phone}
+                                onChangeText={setPhone}
+                                autoCapitalize="none"
+                                textAlignVertical="center"
+                            />
+                        </View>
+
+
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/password.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Password"
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry
+                                textAlignVertical="center"
+                            />
+                        </View>
+
+                        <View style={styles.inputWrapper}>
+                            <Image source={require('../assets/login-icons/confirmP.png')} style={styles.icon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                onChangeText={setConfirmPassword}
+                                secureTextEntry
+                                textAlignVertical="center"
+                            />
+                        </View>
+
+
+                        <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
+                            <Text style={styles.buttonText}>Sign Up</Text>
+                        </TouchableOpacity>
+
+
+                        <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', paddingVertical: 10 }]}> Or</Text>
+
+
+                        <TouchableOpacity style={styles.signUp}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
+                                <Text style={styles.buttonText}>Sign up using Google</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.signUp}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
+                                <Text style={styles.buttonText}>Sign up using facebook</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={navigateLogin}>
+                            <Text style={styles.skipText}>Already has an account? Log in</Text>
+                        </TouchableOpacity>
+                    </ImageBackground>
                 </View>
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChangeText={setLastName}
-                        autoCapitalize="none"
-                        textAlignVertical="center"
-                    />
-                </View>
-
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/gmail.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        textAlignVertical="center"
-                    />
-                </View>
-
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/phone.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Phone Number"
-                        value={phone}
-                        onChangeText={setPhone}
-                        autoCapitalize="none"
-                        textAlignVertical="center"
-                    />
-                </View>
-
-
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/password.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        textAlignVertical="center"
-                    />
-                </View>
-
-                <View style={styles.inputWrapper}>
-                    <Image source={require('../assets/login-icons/confirmP.png')} style={styles.icon} />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        secureTextEntry
-                        textAlignVertical="center"
-                    />
-                </View>
-
-
-                <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
-
-
-                <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', paddingVertical: 10 }]}> Or</Text>
-
-
-                <TouchableOpacity style={styles.signUp}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                        <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
-                        <Text style={styles.buttonText}>Sign up using Google</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.signUp}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
-                        <Text style={styles.buttonText}>Sign up using facebook</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={navigateLogin}>
-                    <Text style={styles.skipText}>Already has an account? Log in</Text>
-                </TouchableOpacity>
-            </ImageBackground>
-        </View>
-        </ScrollView>
+            </ScrollView>
         </KeyboardAvoidingView>
-        
+
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
