@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons, AntDesign, Entypo } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 
 const Details = ({restaurantData}) => {
 
-    const { id, name, address, phoneNumber } = restaurantData;
+    const {description } = restaurantData.details;
 
     const initialRegion = {
         latitude: 64.0, 
@@ -18,34 +18,18 @@ const Details = ({restaurantData}) => {
         <View style={styles.container}>
             <Text style={styles.detailTitle}>Details</Text>
             <View style={styles.info}>
-                <View style={styles.row}>
-                    <Feather name="map-pin" size={20} color="#541412" />
-                    <Text style={styles.infoText}>Yliopistokatu 9</Text>
-                </View>
-                <MapView 
-                    style={styles.map}
-                    initialRegion={initialRegion}
-                />
-                <View style={styles.row}>
-                    <Feather name="phone" size={20} color="#541412" />
-                    <Text style={styles.infoText}>0987634</Text>
-                </View>
-                <View style={styles.row}>
-                    <MaterialIcons name="access-time" size={20} color="#541412" />
-                    <View>
-                        <Text style={styles.infoText}>Mon - Fri: 10:00 - 22:00</Text>
-                        <Text style={styles.infoText}>Sat - Sun: 12:00 - 22:00</Text>
-                        <Text style={styles.infoText}>Public holidays: 10:00 - 18:00</Text>
-                    </View>
-                </View>
-                <View style={styles.row}>
-                    <MaterialIcons name="food-bank" size={24} color="#541412" />
-                    <Text style={styles.infoText}>Cuisine:</Text>
-                </View>
-                <View style={styles.row}>
-                    <MaterialIcons name="description" size={24} color="#541412" />
-                    <Text style={styles.infoText}>Description:Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi efficitur a dui sit amet consectetur. Integer laoreet erat eu nisi consectetur aliquet.</Text>
-                </View>
+                <MaterialIcons name="description" size={22} color="#541412" />
+                    <Text style={styles.infoText}>{description}</Text>
+            </View>
+            <View style={styles.info}>
+                    <AntDesign name="exclamationcircleo" size={22} color="#541412" />
+                    <Text style={styles.infoText}>Additional information</Text>
+            </View>
+            <View >
+                <Text style={styles.infoText}>- Please contact us directly for details of opening - closing hours during public holidays.</Text>
+                <Text style={styles.infoText}>- Payment options: Visa, Mastercard.</Text>
+                <Text style={styles.infoText}>- Accessibility and inclusion: Wheelchair access, high chairs available, baby changing facilities.</Text>
+                <Text style={styles.infoText}>- Parking: Public lot.</Text>
             </View>
         </View>
     );
@@ -69,12 +53,13 @@ const styles = StyleSheet.create({
         marginBottom: 5, 
     },
     detailTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 5,
     },
     info: {
-        padding: 5, 
+        flexDirection: 'row',
+        marginTop: 10,
     },
     row: {
         flexDirection: 'row',
@@ -85,5 +70,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         textAlign: 'justify',
         marginRight: 5, 
+        fontSize: 16,
     },
 });

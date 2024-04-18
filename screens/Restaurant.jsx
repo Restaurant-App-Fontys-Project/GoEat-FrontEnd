@@ -1,36 +1,30 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import { View, Image, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import Menu from '../component/Menu';
 import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
+import { fetchRestaurantData } from '../apiCalls/restaurantApi';
 
-const backendUrl = 'http://localhost:5107';
 
-export default function Restaurant({navigation}) {
-
+export default function Restaurant({navigation,route}) {
+    const { restaurantId } = route.params;
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
 
-
     useEffect(() => {
-        fetchData();
-    } , []);
-
+      fetchData();
+    }, []);
+  
     const fetchData = async () => {
-        try {
-          //const response = await axios.get('http://localhost:5107/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a');
-          //const response = await axios.get(`${backendUrl}/restaurant/GetRestaurantById?id=c75df5e1-0901-46e3-ab52-2f69d44c338a`);
-          const response = await axios.get('https://dummyjson.com/products/1');
-          setRestaurantData(response.data);
-          console.log('Fetched data:', response.data); 
-        } catch (error) {
-          console.error(error);
-        }
+      try {
+        await fetchRestaurantData(restaurantId, setRestaurantData); 
+      } catch (error) {
+        console.error(error);
+      }
     };
-    
+
     const renderOption = () => {
       if (selectedOption === 'Menu') {
           return <Menu restaurantData = {restaurantData}/>;
@@ -43,11 +37,12 @@ export default function Restaurant({navigation}) {
 
   return (
     <ScrollView style={styles.container}>
-
         {/* Cover image */}
+        {restaurantData && restaurantData.cover && (
         <View style={styles.imageCover}>
-            <Image source={require('../assets/food1.jpg')} style={styles.image} />
+          <Image source={{ uri: restaurantData.cover }} style={styles.image} />
         </View>
+      )}
 
         {/* Restaurant info */}
         <View style={styles.infoMain}>
@@ -72,7 +67,17 @@ export default function Restaurant({navigation}) {
       {/*Button for reservation*/}
       <TouchableOpacity 
         style={commonStyles.button}
-        onPress={() => navigation.navigate('Reservation')}>
+        onPress={() => {
+          navigation.navigate('Reservation 1/3', {
+            restaurantId: restaurantId,
+            // restaurantData: {
+            //   name: restaurantData.details.name,
+            //   address: restaurantData.details.address,
+            //   openingHours: restaurantData.details.openingHours
+            // }
+          });
+          
+        }}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -101,18 +106,19 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       paddingVertical: 10, 
       paddingHorizontal: 5, 
-      backgroundColor: '#C34F5A',
+      backgroundColor: '#F8D3B9',
     },
     option: {
-      fontSize: 16,
-      color: 'white',
+      fontSize: 18,
+      color: 'black',
       marginHorizontal: 10,
+      fontWeight: 'bold',
     },
     selectedOption: {
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: 'bold',
-      color: 'white', 
-      marginHorizontal: 10, 
+      color: '#C34F5A', 
+      marginHorizontal: 10,
     },
     content: {
       marginBottom: 10, 

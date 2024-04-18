@@ -2,58 +2,26 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import MenuItem from './MenuItem';
+import commonStyles from '../styles/commonStyles';
 
 export default function Menu({ restaurantData }) {
-    const { id, name, address, phoneNumber } = restaurantData;
 
     const [displayItems, setDisplayItems] = useState(2);
-    const menuItems = [
-        {
-            id: 1,
-            name: 'Grilled Salmon',
-            description: 'Fresh Atlantic salmon grilled to perfection, served ...',
-            price: 18.99,
-            image: require('../assets/food1.jpg'),
-        },
-        {
-            id: 2,
-            name: 'Chicken Alfredo',
-            description: 'Creamy fettuccine Alfredo with grilled chicken breast, ...',
-            price: 15.99,
-            image: require('../assets/food1.jpg'), 
-        },
-        {
-            id: 3,
-            name: 'Beef Burger',
-            description: 'Juicy beef patty with lettuce, tomato, onion, pickles, ...',
-            price: 12.99,
-            image: require('../assets/food1.jpg'), 
-        },
-        {
-            id: 4,
-            name: 'Vegetable Stir-fry',
-            description: 'Fresh mixed vegetables stir-fried in a savory sauce,...',
-            price: 10.99,
-            image: require('../assets/food1.jpg'), 
-        },
-    ];
 
+    if (!restaurantData || !restaurantData.menu) {
+        return <Text style={styles.loadingText} >Loading...</Text>;
+    }
+    
     const toggleDisplay = () => {
-        setDisplayItems(displayItems === 2 ? menuItems.length : 2);
+        setDisplayItems(displayItems === 2 ? restaurantData?.menu?.length : 2);
     };
 
     return (
         <View style={styles.menu}>
             <Text style={styles.menuTitle}>Menu</Text>
-            {menuItems.slice(0, displayItems).map((item, index) => (
-                <View key={index} style={styles.menuItemContainer}>
-                    <Image source={item.image} style={styles.imageItem} />
-                    <View style={styles.menuItem}>
-                        <Text style={styles.menuItemName}>{item.name}</Text>
-                        <Text style={styles.menuItemDescription}>{item.description}</Text>
-                    </View>
-                    <Text style={styles.menuItemPrice}>${item.price}</Text>
-                </View>
+            {restaurantData?.menu?.slice(0, displayItems).map((item, index) => (
+                <MenuItem key={index} index={index} item={item} isLast={index === displayItems - 1}/>    
             ))}
             <TouchableOpacity style={styles.toggleButton} onPress={toggleDisplay}>
                 <Text style={styles.toggleButtonText}>{displayItems === 2 ? 'Show full menu' : 'Show less'}</Text>
@@ -74,7 +42,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     menuTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 5,
         marginBottom: 10,
@@ -82,8 +50,7 @@ const styles = StyleSheet.create({
     menuItemContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginBottom: 5,
-        marginRight: 10,
+        marginBottom: 10,
     },
     imageItem: {
         width: imageWidth,
@@ -95,17 +62,20 @@ const styles = StyleSheet.create({
         flex: 1,
         marginRight: 20,
     },
+    lastMenuItem: {
+        marginRight: 10,
+    },
     menuItemName: {
-        fontSize: 14,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     menuItemDescription: {
-        fontSize: 14,
+        fontSize: 16,
         marginTop: 5,
         textAlign: 'justify',
     },
     menuItemPrice: {
-        fontSize: 14,
+        fontSize: 16,
         marginTop: 5,
     },
     toggleButton: {
@@ -115,6 +85,11 @@ const styles = StyleSheet.create({
     toggleButtonText: {
         color: '#C34F5A',
         fontSize: 16,
-        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+    },
+    loadingText: {
+        color: 'gray',
+        fontSize: 18,
+        marginTop: 10,
     },
 });

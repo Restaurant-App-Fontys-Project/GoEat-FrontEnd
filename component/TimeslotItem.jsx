@@ -14,6 +14,9 @@ export default function TimeSlotItem({ timeSlot, isSelected, onPress }) {
 
 const styles = StyleSheet.create({
   timeSlot: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
     borderWidth: 1,
     borderColor: 'gray',
     padding: 10,
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   selectedTimeSlot: {
-    backgroundColor: '#00adf5',
+    backgroundColor: '#F8D3B9',
   },
   timeSlotText: {
     fontSize: 16,

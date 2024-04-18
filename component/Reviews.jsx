@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         padding: 5,  
     },
     reviewTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 5,
     },
