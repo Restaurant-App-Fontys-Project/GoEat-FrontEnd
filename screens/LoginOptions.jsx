@@ -109,39 +109,33 @@ const LoginOptions = ({ navigation }) => {
     };
 
     const handleEditProfile = () => {
-        // Navigate to the edit profile screen
-        //navigation.navigate('EditProfile');
+        
     };
 
     const handleDeleteAccount = async () => {
         try {
-            // Retrieve userId from AsyncStorage
             const userId = await AsyncStorage.getItem('userId');
             console.log('User ID:', userId);
             if (!userId) {
-                // Handle case where userId is not found in AsyncStorage
                 Alert.alert('Error', 'User ID not found. Please log in again.');
                 return;
             }
     
-            // Show confirmation dialog
             Alert.alert(
                 'Delete Account',
                 'Are you sure you want to delete your account?',
                 [
                     { text: 'Cancel', style: 'cancel' },
                     { text: 'Delete', onPress: async () => {
-                        // Call deleteUser function with userId
                         const response = await deleteUser(userId);
-                        if (response && response.status === 200) {
-                            // Clear userId and userData from AsyncStorage
+                        console.log('Delete User Response:', response);
+                        if (response && response.success) {
                             await AsyncStorage.removeItem('userId');
                             await AsyncStorage.removeItem('userData');
                             setLoggedIn(false);
                             setUserData(null);
-                            Alert.alert('Success', 'Your account has been deleted successfully.');
-                            // Navigate to login screen or any other appropriate screen
-                            navigation.navigate('LoginOptions');
+                            Alert.alert('Success!', 'Your account has been deleted successfully.');
+                            navigation.navigate('Welcome');
                         } else {
                             Alert.alert('Error', 'Failed to delete account. Please try again later.');
                         }
@@ -153,6 +147,7 @@ const LoginOptions = ({ navigation }) => {
             Alert.alert('Error', 'An error occurred while deleting your account. Please try again later.');
         }
     };
+    
     
 
     return (

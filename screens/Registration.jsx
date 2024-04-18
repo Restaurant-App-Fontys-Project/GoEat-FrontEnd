@@ -56,8 +56,6 @@ const Registration = ({ navigation }) => {
         }
     };
     
-
-
     return (
         <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
         <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
@@ -183,10 +181,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo: {
-        width: 110,
-        height: 110,
         marginBottom: 50,
         alignSelf: 'center',
+        marginTop: 50,
+        width: 110,
+        height: 110,
     },
     imageContainer: {
         width: Dimensions.get('window').width,
@@ -207,17 +206,10 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
     },
     buttonText: {
-        color: 'white',
-        textAlign: 'center',
         fontSize: 18,
-    },
-    skipText: {
-        marginTop: 30,
-        textDecorationLine: 'underline',
-        color: '#C34F5A',
+        textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 18,
-        textAlign: 'center',
+        color: 'white',
     },
     backgroundImage: {
         flex: 1,
@@ -225,7 +217,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-
     },
     input: {
         backgroundColor: 'white',
@@ -249,9 +240,19 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
     },
     icon: {
-        width: 25,
         height: 25,
+        width: 25,
         marginRight: 10,
+    },
+    skipText: {
+        color: 'white',
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: 20,
+        color: '#C34F5A',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        marginBottom: 50,
     },
 });
 

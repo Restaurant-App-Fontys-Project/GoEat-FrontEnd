@@ -37,7 +37,10 @@ const MenuItem = ({ index, item, isLast }) => {
                 <Text style={styles.menuItemName}>{item.name}</Text>
                 <Text style={[styles.menuItemDescription, {fontWeight: 'bold'}]}>Tags</Text>
                 
-                <Text key={index} style={styles.menuItemDescription}>{(item.mealTags || []).map(t => t.name).join(', ')}</Text>
+                    <Text key={index} style={styles.tag}>
+                    {(item.mealTags || []).map(t => t.name).join(', ')}
+                    </Text>
+
                 <TouchableOpacity onPress={toggleShowFullText} style={styles.arrowButton}>
                     <MaterialIcons name={showFullText ? "keyboard-arrow-up" : "keyboard-arrow-down"} size={22} color="black" />
                 </TouchableOpacity>
@@ -103,6 +106,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 5,
         fontWeight: 'bold',
+    },
+    tag: {
+        color: '#C54F5B',
+        paddingVertical: 5,
+        fontSize: 16,
+        /* fontWeight: 'bold', */
     },
 });
 

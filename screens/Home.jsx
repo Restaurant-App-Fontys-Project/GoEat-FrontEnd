@@ -87,14 +87,14 @@ const renderRestaurants = () => {
   const restaurantList  = restaurants
           .filter(r =>  !selectedTag  || selectedTag.name === 'All' || r.tags?.find((restaurantTag) => restaurantTag.id === selectedTag.id));
   if (restaurantList.length === 0) {
-    return <Text style={styles.notFoundText}>No restaurants found for selected tag, please try again!</Text>;
+    return <Text style={styles.notFoundText}>
+      Sorry, currently we do not have any matching results, please try again!</Text>;
   }
   return restaurantList.map((restaurant, index) => (
     <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
   ));
 
 }
-
 
   return (
     <View style={styles.container}>
@@ -190,6 +190,13 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
     marginBottom: 10,
+  },
+  notFoundText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#D69F3B',
+    fontWeight: 'bold',
   },
 });
 
