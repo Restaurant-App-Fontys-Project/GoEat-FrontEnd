@@ -18,18 +18,6 @@ const Stack = createNativeStackNavigator()
 //<StatusBar style='auto' />
 export default function App () {
   return (
-<<<<<<< HEAD
-    
-      <NavigationContainer style={styles.container}>
-        <Stack.Navigator initialRouteName='ReservationOverview'>
-          <Stack.Screen name='Restaurant' component={Restaurant} />
-          <Stack.Screen name='Reservation' component={Reservation} /> 
-          <Stack.Screen name='ReservationOverview' component={ReservationOverview} />  
-          <Stack.Screen name='Categories' component={Categories} />         
-        </Stack.Navigator>
-      </NavigationContainer>
-   
-=======
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
         initialRouteName='Welcome'
@@ -70,7 +58,6 @@ export default function App () {
         />
       </Stack.Navigator>
     </NavigationContainer>
->>>>>>> main
   )
 }
 
