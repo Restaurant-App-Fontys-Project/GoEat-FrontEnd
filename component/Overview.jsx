@@ -1,34 +1,83 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { getRestaurantName, deleteOverviewData } from '../apiCalls/overviewData';
+import { getRestaurantName, deleteOverviewData, getRestaurantData } from '../apiCalls/overviewData';
+import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
-export default function Overview({ restaurant, onCancelReservation }) {
+
+export default function Overview({ restaurant, reservationId, onCancelReservation }) {
   const [restaurantName, setRestaurantName] = useState('');
+  const [restaurantData, setRestaurantData] = useState({});
+  const isLoggedIn = true;
+  const navigation = useNavigation();
+
 
   useEffect(() => {
     getRestaurantName(restaurant.restaurantId).then((data) => {
       setRestaurantName(data);
     }
     );
+    getRestaurantData(restaurant.restaurantId).then((data) => {
+      setRestaurantData(data);
+    });
   }, [restaurantName]);
-  
-  const cancelReservation = async () => {
-    await deleteOverviewData(restaurant.id);
-    onCancelReservation(restaurant.id);
-  };
 
+  const handleEdit = () => {
+
+    console.log("reservation id " + reservationId)
+    console.log("restaurant id " + restaurant.restaurantId)
+    console.log("restaurant data" + restaurant)
+    console.log("restaurant opening hours" + restaurantData.openingHours)
+
+    navigation.navigate('Edit Reservation 1/3', {
+      reservationId: reservationId,
+      restaurantId: restaurant.restaurantId,
+      restaurantData: restaurant,
+      openingHours: restaurantData.openingHours,
+      tableId: restaurant.tableId
+    })
+
+
+    // Navigate to login/registration if not logged in
+    // if (!isLoggedIn) {
+    // navigation.navigate('LoginOptions');
+    // }
+  }
+
+
+const cancelReservation = () => {
+    Alert.alert(
+        'Cancel Reservation',
+        'Are you sure you want to cancel this reservation?',
+        [
+            {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {
+                text: 'OK', 
+                onPress: async () => {
+                    await deleteOverviewData(restaurant.id);
+                    onCancelReservation(restaurant.id);
+                }
+            },
+        ],
+        { cancelable: false },
+    );
+};
 
 
   return (
     <View style={styles.details}>
       <Text style={styles.restaurantName}>{restaurantName}</Text>
       <Text style={styles.detailText}>Date: {restaurant.date} </Text>
-      <Text style={styles.detailText}>Start: { restaurant.reservationStart }</Text>
-      <Text style={styles.detailText}>End: { restaurant.reservationEnd }</Text>
-      <Text style={styles.detailText}>Number of Guests: {restaurant.numberOfPeople }</Text>
-      <Text style={styles.detailText}>Note: { restaurant.note }</Text>
+      <Text style={styles.detailText}>Start: {restaurant.reservationStart}</Text>
+      <Text style={styles.detailText}>End: {restaurant.reservationEnd}</Text>
+      <Text style={styles.detailText}>Number of Guests: {restaurant.numberOfPeople}</Text>
+      <Text style={styles.detailText}>Note: {restaurant.note}</Text>
       <View style={styles.buttonSection}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleEdit}>
           <Text style={styles.buttonText}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={cancelReservation} >
