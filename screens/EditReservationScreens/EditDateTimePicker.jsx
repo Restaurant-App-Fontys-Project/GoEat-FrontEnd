@@ -8,22 +8,30 @@ import TimeSlotItem from "../../component/TimeslotItem";
 import { fetchRestaurantData } from '../../apiCalls/restaurantApi';
 import reservationData from '../../reservationData.json';
 import specialDates from '../../specialDates.json';
+import { getReservation, getRestaurantData } from '../../apiCalls/overviewData';
 
 const EditDateTimePicker = ({ navigation, route }) => {
-  const { restaurantId, restaurantData } = route.params;
-  
-  const [selectedDate, setSelectedDate] = useState(null);
+
+  const { reservationId, restaurantId, restaurantData, openingHours, tableId } = route.params;
+  const [reservation, setReservation] = useState({})
+
+
+  const [selectedDate, setSelectedDate] = useState(reservation.date);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
-  const [reservationDuration, setReservationDuration] = useState(1); 
-  const [noOfGuests, setNoOfGuests] = useState(1);
+  const [reservationDuration, setReservationDuration] = useState(1);
+  const [noOfGuests, setNoOfGuests] = useState();
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [isDurationPickerVisible, setIsDurationPickerVisible] = useState(false);
   const [isGuestsPickerVisible, setIsGuestsPickerVisible] = useState(false);
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
   const [isTimeSlotsVisible, setIsTimeSlotsVisible] = useState(false);
 
-  const { name, address, openingHours } = restaurantData;
+  // const { name, address, openingHours } = restaurantData;
+  // const [openingHours, setOpeningHours] = useState([])
+  const [name, setName] = useState('')
+  // let openingHours = []
+
 
   const toggleDurationPicker = () => {
     setIsDurationPickerVisible(!isDurationPickerVisible);
@@ -39,7 +47,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
   const toggleTimeSlots = () => {
     setIsTimeSlotsVisible(!isTimeSlotsVisible);
   };
- 
+
   // edit this later
   const fetchMaxDuration = () => {
     const { reservation_max_duration_in_hours } = reservationData;
@@ -48,15 +56,28 @@ const EditDateTimePicker = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchMaxDuration();
+    getRestaurantData(restaurantId).then((data) => {
+      setName(data.name)
+      // setOpeningHours(data.openingHours)
+      // openingHours = data.openingHours
+    })
+    console.log("Opening hours main", openingHours)
+    getReservation(reservationId).then((data) => {
+      setReservation(data)
+      setSelectedDate(new Date(restaurantData.date))
+      setNoOfGuests(restaurantData.numberOfPeople)
+      setSelectedTimeSlot(restaurantData.reservationStart)
+    })
+    setTimeSlotsForDate();
   }, []);
-  
+
   // check if the selected date is a special holiday
   const isSpecialHoliday = (date, specialDates) => {
     return specialDates.some(day => {
       return date.getDate() === day.date && date.getMonth() === day.month;
     });
   };
-  
+
   const handleDateSelect = (date) => {
     console.log('Selected date:', date);
     console.log('Type of selected date:', typeof date);
@@ -69,30 +90,30 @@ const EditDateTimePicker = ({ navigation, route }) => {
       if (selectedDate instanceof Date) {
         const selectedDayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
         const selectedDayOpeningHours = openingHours.find(day => day.day === selectedDayOfWeek);
-  
+
         if (!selectedDayOpeningHours || (selectedDayOpeningHours.openingTime === "0:00" && selectedDayOpeningHours.closingTime === "0:00")) {
           Alert.alert("This day is closed for reservations.");
           return;
         }
-  
+
         if (isSpecialHoliday(selectedDate, specialDates)) {
           Alert.alert("Special holiday! Opening hours may vary.");
         }
-  
+
         setSelectedDate(selectedDate);
-        setSelectedTimeSlot(null); 
+        setSelectedTimeSlot(null);
         setTimeSlotsForDate(selectedDate);
         setIsCalendarVisible(false);
       } else {
         console.error('Invalid date object:', selectedDate);
       }
     };
-  
+
     // Example of calling handleDate with the date object passed to handleDateSelect
     handleDate(date);
   };
-  
-  
+
+
 
   const setTimeSlotsForDate = () => {
     try {
@@ -100,8 +121,10 @@ const EditDateTimePicker = ({ navigation, route }) => {
         console.error('Opening hours data is empty or undefined.');
         return;
       }
+      console.log('Opening hours:', openingHours);
       const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
       const dayOpeningHours = openingHours.find(day => day.day === dayOfWeek);
+      console.log('Day opening hours:', dayOpeningHours)
       if (!dayOpeningHours) {
         console.error('Opening hours data for the selected day is not available.');
         return;
@@ -139,24 +162,24 @@ const EditDateTimePicker = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
       <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
-      <View style={[{ marginTop: 20, alignItems: 'center' }]}>
+        <View style={[{ marginTop: 20, alignItems: 'center' }]}>
           <Text style={commonStyles.headerText}>{name}</Text>
         </View>
         {/* Drop down menu to select reservation duration */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FontAwesome name="clock-o" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
+            <FontAwesome name="clock-o" size={22} color="black" style={[{ marginRight: 10 }, commonStyles.icon]} />
             <Text>Select Reservation Duration:</Text>
           </View>
           <TouchableOpacity style={styles.inputContainer} onPress={toggleDurationPicker}>
             <Text style={styles.durationHeader}> {reservationDuration} hour(s)</Text>
           </TouchableOpacity>
         </View>
-        <Modal 
-            visible={isDurationPickerVisible}
-            animationType="slide"
-            transparent={true}
-           >
+        <Modal
+          visible={isDurationPickerVisible}
+          animationType="slide"
+          transparent={true}
+        >
           <View style={styles.modalContainer}>
             <Picker
               selectedValue={reservationDuration}
@@ -175,18 +198,18 @@ const EditDateTimePicker = ({ navigation, route }) => {
         {/* no. of guests */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-            <FontAwesome name="users" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
+            <FontAwesome name="users" size={22} color="black" style={[{ marginRight: 10 }, commonStyles.icon]} />
             <Text>Select Number of Guests</Text>
           </View>
           <TouchableOpacity style={styles.inputContainer} onPress={toggleGuestsPicker}>
             <Text style={styles.durationHeader}>{noOfGuests} Guest(s)</Text>
           </TouchableOpacity>
         </View>
-        <Modal 
-          visible={isGuestsPickerVisible} 
+        <Modal
+          visible={isGuestsPickerVisible}
           animationType="slide"
           transparent={true}
-          >
+        >
           <View style={styles.modalContainer}>
             <Picker
               selectedValue={noOfGuests}
@@ -205,7 +228,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
         {/* calander */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-            <FontAwesome name="calendar" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]} />
+            <FontAwesome name="calendar" size={22} color="black" style={[{ marginRight: 10 }, commonStyles.icon]} />
             <Text>Select the Date:</Text>
           </View>
           <TouchableOpacity onPress={toggleCalendar} style={styles.inputContainer} >
@@ -213,7 +236,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
           </TouchableOpacity>
           {/* calendar */}
           {isCalendarVisible && (
-            <View style={[commonStyles.itemContainer,{marginTop: 10}]}>
+            <View style={[commonStyles.itemContainer, { marginTop: 10 }]}>
               <CalendarPicker
                 onDateChange={handleDateSelect}
                 selectedDayColor="#00adf5"
@@ -226,7 +249,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
         {/* Available time slots */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-            <FontAwesome name="clock-o" size={22} color="black" style={[{marginRight: 10}, commonStyles.icon]}/>
+            <FontAwesome name="clock-o" size={22} color="black" style={[{ marginRight: 10 }, commonStyles.icon]} />
             <Text>Select the Time:</Text>
           </View>
           <TouchableOpacity style={styles.inputContainer} onPress={toggleTimeSlots}>
@@ -234,30 +257,30 @@ const EditDateTimePicker = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
 
-        <Modal 
-        visible={isTimeSlotsVisible} 
-        animationType="slide"
-        transparent={true}
+        <Modal
+          visible={isTimeSlotsVisible}
+          animationType="slide"
+          transparent={true}
         >
           <View style={[styles.modalContainer]}>
-            <View  style={[{paddingTop: 70}]}>
+            <View style={[{ paddingTop: 70 }]}>
               <Text style={styles.timeSlotsHeader}>Available Time Slots for {selectedDate ? selectedDate.toDateString() : ''}:</Text>
             </View>
             {/* Container for time slots with scroll */}
             <ScrollView style={[{ backgroundColor: 'white', padding: 5, borderRadius: 10, width: '90%', flex: 0, maxHeight: '70%' }]}>
-            <FlatList
-              data={availableTimeSlots}
-              renderItem={({ item }) => (
-                <TimeSlotItem
-                  timeSlot={item}
-                  isSelected={item === selectedTimeSlot}
-                  onPress={() => handleTimeSlotSelect(item)}
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={3}
-              scrollEnabled={false}
-            />
+              <FlatList
+                data={availableTimeSlots}
+                renderItem={({ item }) => (
+                  <TimeSlotItem
+                    timeSlot={item}
+                    isSelected={item === selectedTimeSlot}
+                    onPress={() => handleTimeSlotSelect(item)}
+                  />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                numColumns={3}
+                scrollEnabled={false}
+              />
             </ScrollView>
           </View>
         </Modal>
@@ -266,16 +289,17 @@ const EditDateTimePicker = ({ navigation, route }) => {
           style={[commonStyles.button, (!selectedDate || !selectedTimeSlot) && styles.disabledButton]} // Change here
           onPress={() =>
             (selectedDate && selectedTimeSlot) ?
-              navigation.navigate('Reservation 2/3', {
+              navigation.navigate('Edit Reservation 2/3', {
                 selectedDate: dateString,
                 selectedTimeSlot,
                 reservationDuration,
                 restaurantId,
                 noOfGuests,
-                restaurantData
+                restaurantData,
+                tableId
               }) : null
           }
-          disabled={!selectedDate || !selectedTimeSlot} 
+          disabled={!selectedDate}
         >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
         </TouchableOpacity>
@@ -327,7 +351,7 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#ccc',
-},
+  },
 });
 
 export default EditDateTimePicker;
