@@ -3,8 +3,9 @@ import axios from "axios";
 const BASE_URL = 'https://goeat-api.onrender.com/'
 
 const getOverviewList = async () => {
+    // https://goeat-api.onrender.com/reservations/userid?userId=d19b78e7-e6c8-43f6-b897-d9dba662b2fe
     try {
-        const response = await axios.get(BASE_URL+'reservations');
+        const response = await axios.get(BASE_URL+'userid?userId={userId}');
         console.log("Overview data:", response.data);
         return response.data;
     } catch (error) {
