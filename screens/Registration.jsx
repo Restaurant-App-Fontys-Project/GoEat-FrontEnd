@@ -29,11 +29,31 @@ const Registration = ({ navigation }) => {
 
     const handleRegistration = async () => {
         try {
+                // Check if required fields are filled
+            if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+                throw new Error("Please fill in all required fields");
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                throw new Error("Please enter a valid email address");
+            }
+
+            // Validate password strength
+            if (password.length < 6) {
+                throw new Error("Password must be at least 6 characters long");
+            }
             // Check if password and confirm password match
             if (password !== confirmPassword) {
                 throw new Error("Passwords do not match");
             }
-    
+            // Check if phone number is valid
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                throw new Error("Please enter a valid phone number");
+            }
+                
             const userData = {
                 firstName: firstName,
                 lastName: lastName,
