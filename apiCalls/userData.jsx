@@ -42,3 +42,17 @@ export const fetchUserData = async (userId) => {
     }
 }
 
+// delete user data
+export const deleteUser = async (userId) => {
+    try {
+        const response = await axios.delete(`https://goeat-api.onrender.com/users/${userId}`);
+        if (response.status === 204) {
+            return { success: true }; // Return a success indicator
+        } else {
+            throw new Error(`Failed to delete user data. Status: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error deleting user data:', error);
+        throw error; // Re-throw the error for the caller to handle
+    }
+}
