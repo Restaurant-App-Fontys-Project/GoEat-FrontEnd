@@ -72,10 +72,13 @@ const Registration = ({ navigation }) => {
                 Alert.alert('Failed to register user:', response.statusText);
             }
         } catch (error) {
-            Alert.alert('Registration failed:', error.message);
+            if (error.message === "Email already exists") {
+                Alert.alert('Registration failed!', 'Email already exists. Please use a different email address.');
+            } else {
+                Alert.alert('Registration failed:', 'Failed to send user data. Please try again later.');
+            }
         }
     };
-    
     return (
         <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
         <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
