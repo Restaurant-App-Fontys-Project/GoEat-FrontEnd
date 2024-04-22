@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, T
 import commonStyles from '../../styles/commonStyles'; // Import common styles
 import TableItem from '../../component/TableItem'; // Import the TableItem component
 import { getTableData } from '../../apiCalls/ReservationData';
+import {getReservationsByDate} from '../../apiCalls/ReservationData';
 
 const TableLayout = ({ navigation, route }) => {
     const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData } = route.params;
@@ -10,34 +11,77 @@ const TableLayout = ({ navigation, route }) => {
     const [selectedTable, setSelectedTable] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [tableData, setTableData] = useState({});
+    
+    // change format of selected date and time
+    const formatDate = (dateString) => {
+        const dateObj = new Date(dateString);
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    
+    const formatTime = (timeString) => {
+        const [hours, minutes] = timeString.split(':');
+        const formattedTime = `${hours}:${minutes}:00`;
+        return formattedTime;
+    };
+    
+    // Usage:
+    const formattedDate = formatDate(selectedDate);
+    const formattedTime = formatTime(selectedTimeSlot);
+    
+    console.log('Formatted date:', formattedDate);
+    console.log('Formatted time:', formattedTime);
+    
+
+
+    const fetchAvailableTables = async () => {
+        try {
+            // Fetch reservations for the selected date
+            const reservations = await getReservationsByDate(restaurantId, formattedDate);
+    
+            // Fetch all table data
+            const tables = await getTableData(restaurantId);
+    
+            // Filter out reservations that overlap with the selected time slot
+            const overlappingReservations = reservations.filter(reservation => {
+                const reservationStartTime = new Date(formattedDate + ' ' + reservation.reservationStart);
+                const reservationEndTime = new Date(formattedDate + ' ' + reservation.reservationEnd);
+                const selectedStartTime = new Date(formattedDate + ' ' + selectedTimeSlot);
+                const selectedEndTime = new Date(selectedStartTime.getTime() + reservationDuration * 60 * 1000); 
+                return reservationEndTime > selectedStartTime && reservationStartTime < selectedEndTime;
+            });
+    
+            // Get table IDs of reserved tables
+            const reservedTableIds = overlappingReservations.map(reservation => reservation.tableId);
+    
+            // Filter out available tables
+            const availableTables = tables.filter(table => !reservedTableIds.includes(table.id));
+            console.log('Available tables:', availableTables);
+            const categorizedTables = {};
+            availableTables.forEach(table => {
+                const category = `${table.capacity} Seat Tables`;
+                if (!categorizedTables[category]) {
+                    categorizedTables[category] = [];
+                }
+                categorizedTables[category].push(table);
+            });
+            const sortedCategories = Object.keys(categorizedTables).sort((a, b) => parseInt(a) - parseInt(b));
+            const sortedTableLayout = sortedCategories.reduce((acc, category) => {
+                acc[category] = categorizedTables[category];
+                return acc;
+            }, {});
+            setTableLayout(sortedTableLayout);
+        } catch (error) {
+            console.error('Error fetching available tables:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchTableData = async () => {
-            try {
-                const tables = await getTableData(restaurantId);
-                // console.log('Table data fetched successfully:', tables);
-                const categorizedTables = {};
-                tables.forEach(table => {
-                    const category = `${table.capacity} Seat Tables`;
-                    if (!categorizedTables[category]) {
-                        categorizedTables[category] = [];
-                    }
-                    categorizedTables[category].push(table);
-                });
-                const sortedCategories = Object.keys(categorizedTables).sort((a, b) => parseInt(a) - parseInt(b));
-                const sortedTableLayout = sortedCategories.reduce((acc, category) => {
-                    acc[category] = categorizedTables[category];
-                    return acc;
-                }, {});
-                setTableLayout(sortedTableLayout);
-                setTableData(tables);
-            } catch (error) {
-                console.error('Error fetching table data:', error);
-            }
-        };
-
-        fetchTableData();
-    }, [restaurantId]);
+       
+        fetchAvailableTables();
+    }, [selectedDate, selectedTimeSlot, reservationDuration, restaurantId]);
 
     const handleTableSelection = (table) => {
         setSelectedTable(table);
@@ -88,6 +132,7 @@ const TableLayout = ({ navigation, route }) => {
                     </View>
                 </View>
             </Modal>
+           
             <TouchableOpacity
                 style={[commonStyles.button, !selectedTable && styles.disabledButton]}
                 onPress={() => {
@@ -106,8 +151,10 @@ const TableLayout = ({ navigation, route }) => {
                 }}
                 disabled={!selectedTable}
             >
+
                 <Text style={commonStyles.buttonText}>Next</Text>
             </TouchableOpacity>
+            
         </View>
     );
 };

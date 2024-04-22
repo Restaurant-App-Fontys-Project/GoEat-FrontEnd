@@ -220,24 +220,3 @@ const styles = {
     },
 }
 export default Confirmation;
-// Reservation data: {
-//     "date": {
-//             "day": 12,
-//             "dayOfWeek": 5,
-//             "month": 4,
-//             "year": 2024
-//         }, 
-//     "note": "No",
-//     "numberOfPeople": 1,
-//     "reservationEnd": {
-//             "hour": 16,
-//             "minute": 15
-//             },
-//     "reservationStart": {
-//             "hour": 15,
-//             "minute": 15
-//                 },
-//     "restaurantId": "858a1748-9003-4cc5-a42c-d373832b8217",
-//     "tableId": "858a1748-9003-4cc5-a42c-d373832b8217",
-//     "userId": "d19b78e7-e6c8-43f6-b897-d9dba662b2fe"
-//                 }

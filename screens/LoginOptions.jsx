@@ -188,6 +188,11 @@ const LoginOptions = ({ navigation }) => {
                         <TouchableOpacity onPress={handleLogout} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Logout</Text>
                         </TouchableOpacity>
+
+                         {/* search by Location */}
+                         <TouchableOpacity onPress={() => navigation.navigate('Location') } style={styles.loginButton}>
+                            <Text style={styles.buttonText}>Search Restaurants</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
                 
@@ -225,6 +230,7 @@ const LoginOptions = ({ navigation }) => {
                         <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Login</Text>
                         </TouchableOpacity>
+
 
                         {/* Forgot password? */}
                        {/*  <TouchableOpacity>

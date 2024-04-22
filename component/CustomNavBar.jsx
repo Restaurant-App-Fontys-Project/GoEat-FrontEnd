@@ -15,6 +15,10 @@ const CustomNavBar = ({ navigation }) => {
     navigation.navigate('LoginOptions');
   };
 
+  const goToOverview = () => {
+    navigation.navigate('ReservationOverview');
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={goToHome}>
@@ -25,6 +29,9 @@ const CustomNavBar = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={goToProfile}>
         <FontAwesome name="user" size={26} color="#D69F3B" />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={goToOverview}>
+        <FontAwesome name="calendar" size={26} color="#D69F3B" />
       </TouchableOpacity>
     </View>
   );

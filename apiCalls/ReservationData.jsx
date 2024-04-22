@@ -46,3 +46,15 @@ export const sendReservationData = async (data, timeout) => {
         return error;
     }
 }
+
+export const getReservationsByDate = async (restaurantId, date) => {
+    try {
+        const response = await axios.get(`https://goeat-api.onrender.com/reservations/${restaurantId}/${date}`);
+        const reservationData = response.data;
+
+        return reservationData;
+    } catch (error) {
+        console.error('Error fetching reservation data:', error);
+        return [];
+    }
+}
