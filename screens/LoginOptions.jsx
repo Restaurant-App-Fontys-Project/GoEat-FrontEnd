@@ -2,6 +2,8 @@ import React, { useState , useEffect} from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userLogin, deleteUser } from '../apiCalls/userData';
+import CustomNavBar from '../component/CustomNavBar';
+import { KeyboardAvoidingView } from 'react-native-web';
 
 
 const LoginOptions = ({ navigation }) => {
@@ -146,9 +148,7 @@ const LoginOptions = ({ navigation }) => {
             console.error('Error deleting account:', error);
             Alert.alert('Error', 'An error occurred while deleting your account. Please try again later.');
         }
-    };
-    
-    
+    };    
 
     return (
         <View style={styles.container}>
@@ -190,7 +190,7 @@ const LoginOptions = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                 )}
-
+                
                 {/* Display login form if not logged in */}
                 {!loggedIn && (
                     <View>
@@ -227,21 +227,21 @@ const LoginOptions = ({ navigation }) => {
                         </TouchableOpacity>
 
                         {/* Forgot password? */}
-                        <TouchableOpacity>
-                            <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', marginTop: 30 }]}>Forgot password?</Text>
+                       {/*  <TouchableOpacity>
+                            <Text style={[styles.buttonText, { color: 'white', marginTop: 30 }]}>Forgot password?</Text>
                         </TouchableOpacity>
-
-                        <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold' }]}> Or</Text>
+ */}
+                       {/*  <Text style={[styles.buttonText, { color: 'white' }]}> Or</Text> */}
 
                         {/* Login with Facebook and Google */}
-                        <View style={styles.loginOptions}>
+                        {/* <View style={styles.loginOptions}>
                             <TouchableOpacity onPress={handleLoginWithFacebook}>
                                 <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={handleLoginWithGoogle}>
                                 <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         {/* Register */}
                         <TouchableOpacity onPress={navigateRegister}>
@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
     skipText: {
         marginTop: 30,
         textDecorationLine: 'underline',
-        color: '#C34F5A',
-        fontWeight: 'bold',
+        color: 'white',
+        /* fontWeight: 'bold', */
         fontSize: 18,
         textAlign: 'center',
     },
