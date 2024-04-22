@@ -8,7 +8,6 @@ import TimeSlotItem from "../../component/TimeslotItem";
 import reservationData from '../../reservationData.json'; //remove later
 import specialDates from '../../specialDates.json';
 import { getRestaurantData } from '../../apiCalls/ReservationData';
-import CustomNavBar from '../../component/CustomNavBar';
 
 const DateTimePicker = ({ navigation, route }) => {
   const { restaurantId} = route.params;
@@ -120,7 +119,7 @@ const DateTimePicker = ({ navigation, route }) => {
   
   
 
-  const setTimeSlotsForDate = (selectedDate) => {
+  const setTimeSlotsForDate = () => {
     try {
       if (!openingHours || openingHours.length === 0) {
         console.error('Opening hours data is empty or undefined.');
@@ -163,7 +162,6 @@ const DateTimePicker = ({ navigation, route }) => {
   const dateString = selectedDate ? selectedDate.toISOString() : null;
 
   return (
-    <View style={styles.container}>
     <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
       <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
       <View style={[{ marginTop: 20, alignItems: 'center' }]}>
@@ -305,21 +303,14 @@ const DateTimePicker = ({ navigation, route }) => {
         >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
         </TouchableOpacity>
+
+
       </ScrollView>
-      <CustomNavBar navigation={navigation} />
     </KeyboardAvoidingView>
-    
-    </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
   durationContainer: {
     marginTop: 20,
     paddingHorizontal: 10,
