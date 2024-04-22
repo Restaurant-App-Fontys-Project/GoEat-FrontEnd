@@ -4,14 +4,28 @@ import { View, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, T
 import commonStyles from '../../styles/commonStyles'; // Import common styles
 import dummytableLayoutData from '../../dummytableLayoutData.json'; // Import the JSON file, remove later
 import TableItem from '../../component/TableItem'; // Import the TableItem component
+import axios from 'axios';
+import { set } from 'date-fns';
 
 const EditTableLayout = ({ navigation, route }) => {
-    const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId , noOfGuests, restaurantData } = route.params;
+    const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData, tableId } = route.params;
     const [tableLayout, setTableLayout] = useState([]); // Initialize as an empty array
     const [selectedTable, setSelectedTable] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
-    
+
     const restaurantIdToShow = 1; // Change this to the desired restaurant_id
+
+    const getTableDate = async () => {
+        try {
+            const response = await axios.get('https://goeat-api.onrender.com/' + `tables/${tableId}`);
+            data = response.data;
+            console.log('Table data:', data);
+            setSelectedTable(data)
+            return data;
+        } catch (error) {
+            console.error("Error fetching table data:", error);
+        }
+    }
 
     useEffect(() => {
         // Filter tables based on restaurant ID
@@ -35,11 +49,14 @@ const EditTableLayout = ({ navigation, route }) => {
             return acc;
         }, {});
         setTableLayout(sortedTableLayout);
+        getTableDate()
     }, []); // Empty dependency array to ensure this effect runs only once
 
     const handleTableSelection = (table) => {
         setSelectedTable(table);
         setModalVisible(true); // Show modal when table is selected
+        console.log('Selected table:', table);
+        console.log('Selected table from server:', selectedTable);
     };
 
 
@@ -48,24 +65,24 @@ const EditTableLayout = ({ navigation, route }) => {
             <KeyboardAvoidingView style={{ flex: 3, alignItems: 'center', marginTop: 16, marginBottom: 20 }} behavior="padding">
                 <ScrollView style={{ width: '100%' }}>
                     <View style={styles.container}>
-                    {Object.entries(tableLayout).map(([category, tables]) => (
-                        <View key={category} style={{borderWidth:1, borderColor: '#F8D3B9', padding: 10, borderRadius: 5, marginBottom: 10}}>
-                            <Text style={styles.categoryTitle}>{category}</Text>
-                            <View style={styles.tablesRow}>
-                                {tables.map((table, index) => (
-                                    <TableItem
-                                        key={index}
-                                        table={table}
-                                        onPress={() => handleTableSelection(table)}
-                                        isSelected={selectedTable && selectedTable.id === table.id}
-                                    />
-                                ))}
+                        {Object.entries(tableLayout).map(([category, tables]) => (
+                            <View key={category} style={{ borderWidth: 1, borderColor: '#F8D3B9', padding: 10, borderRadius: 5, marginBottom: 10 }}>
+                                <Text style={styles.categoryTitle}>{category}</Text>
+                                <View style={styles.tablesRow}>
+                                    {tables.map((table, index) => (
+                                        <TableItem
+                                            key={index}
+                                            table={table}
+                                            onPress={() => handleTableSelection(table)}
+                                            isSelected={selectedTable && selectedTable.id === table.id}
+                                        />
+                                    ))}
+                                </View>
                             </View>
-                        </View>
-                    ))}
+                        ))}
                     </View>
                 </ScrollView>
-                
+
             </KeyboardAvoidingView>
             <Modal
                 visible={modalVisible}
@@ -75,21 +92,21 @@ const EditTableLayout = ({ navigation, route }) => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalTextContainer} >
-                    <Text style={{fontWeight: 'bold', marginBottom: 5,}}>Table Information</Text>
-                    <Text>Table Number: {selectedTable && selectedTable.number}</Text>
-                    <Text>Number of Seats: {selectedTable && selectedTable.seats}</Text>
-                    <Text>Description: {selectedTable && selectedTable.description}</Text>
-                    <TouchableOpacity
-                        style={styles.okButton}
-                        onPress={() => setModalVisible(false)}
-                    >
-                        <Text style={styles.okButtonText}>OK</Text>
-                    </TouchableOpacity>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 5, }}>Table Information</Text>
+                        <Text>Table Number: {selectedTable && selectedTable.number}</Text>
+                        <Text>Number of Seats: {selectedTable && selectedTable.seats}</Text>
+                        <Text>Description: {selectedTable && selectedTable.description}</Text>
+                        <TouchableOpacity
+                            style={styles.okButton}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Text style={styles.okButtonText}>OK</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
-            <TouchableOpacity 
-                style={[commonStyles.button, !selectedTable && styles.disabledButton]} 
+            <TouchableOpacity
+                style={[commonStyles.button, !selectedTable && styles.disabledButton]}
                 onPress={() => {
                     if (selectedTable) {
                         navigation.navigate('Reservation 3/3', {
@@ -105,7 +122,7 @@ const EditTableLayout = ({ navigation, route }) => {
                 disabled={!selectedTable}
             >
                 <Text style={commonStyles.buttonText}>Next</Text>
-</TouchableOpacity>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -132,7 +149,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        
+
     },
     modalTextContainer: {
         padding: 20,

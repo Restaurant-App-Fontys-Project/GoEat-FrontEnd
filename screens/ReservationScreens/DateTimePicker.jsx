@@ -120,7 +120,7 @@ const DateTimePicker = ({ navigation, route }) => {
   
   
 
-  const setTimeSlotsForDate = () => {
+  const setTimeSlotsForDate = (selectedDate) => {
     try {
       if (!openingHours || openingHours.length === 0) {
         console.error('Opening hours data is empty or undefined.');

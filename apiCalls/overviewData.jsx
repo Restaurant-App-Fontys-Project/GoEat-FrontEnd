@@ -2,11 +2,9 @@ import axios from "axios";
 
 const BASE_URL = 'https://goeat-api.onrender.com/'
 
-const getOverviewList = async () => {
-    // https://goeat-api.onrender.com/reservations/userid?userId=d19b78e7-e6c8-43f6-b897-d9dba662b2fe
+const getOverviewList = async (userId) => {
     try {
-        const response = await axios.get(BASE_URL+'userid?userId={userId}');
-        console.log("Overview data:", response.data);
+        const response = await axios.get(BASE_URL+'reservations/user/' + userId);
         return response.data;
     } catch (error) {
         console.error("Error fetching overview data:", error);
@@ -15,11 +13,21 @@ const getOverviewList = async () => {
 
 const getRestaurantName = async (id) => {
     try {
-        const response = await axios.get(BASE_URL + `api/restaurant/${id}`);
+        const response = await axios.get(BASE_URL + `restaurants/${id}`);
         data = response.data;
         return data.name;
     } catch (error) {
         console.error("Error fetching restaurant name:", error);
+    }
+}
+
+const getReservation = async (id) => {
+    try {
+        const response = await axios.get(BASE_URL+`reservations/${id}`);
+        console.log("Reservation data:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching Reservation data:", error);
     }
 }
 
@@ -33,7 +41,18 @@ const updateOverviewData = async (id, data) => {
     }
 }
 
+const getRestaurantData = async (id) => {
+    try {
+        const response = await axios.get(BASE_URL + `restaurants/${id}`);
+        data = response.data;
+        return data;
+    } catch (error) {
+        console.error("Error fetching restaurant data:", error);
+    }
+}
+
 const deleteOverviewData = async (id) => {
+    console.log('At delete' + BASE_URL+'reservations/' + id);
     try {
         const response = await axios.delete(BASE_URL+'reservations/' + id);
         console.log("Overview data deleted:", response.data);
@@ -44,4 +63,4 @@ const deleteOverviewData = async (id) => {
 }
 
 
-export { getOverviewList, getRestaurantName, updateOverviewData, deleteOverviewData };
+export { getOverviewList, getRestaurantName, getRestaurantData, getReservation, updateOverviewData, deleteOverviewData };
