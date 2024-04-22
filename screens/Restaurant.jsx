@@ -5,17 +5,23 @@ import Reviews from '../component/Reviews';
 import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
-import { fetchRestaurantData } from '../apiCalls/restaurantApi';
+import { fetchRestaurantData, fetchRestaurantTags } from '../apiCalls/restaurantApi';
 
 
 export default function Restaurant({navigation,route}) {
     const { restaurantId } = route.params;
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
+    const [updateCount, setUpdateCount] = useState(0);
 
     useEffect(() => {
       fetchData();
     }, []);
+
+    useEffect(() => {
+      fetchTags();
+    }, [restaurantData]);
+  
   
     const fetchData = async () => {
       try {
@@ -25,9 +31,29 @@ export default function Restaurant({navigation,route}) {
       }
     };
 
+    function onlyUnique(value, index, array) {
+      return array.findIndex(a => a.id === value.id) === index;
+    }
+
+    const fetchTags = async () => {      
+      if(restaurantData?.menu?.length > 0){
+        const restaurantTags = await fetchRestaurantTags(restaurantId);
+
+        for (const meal of restaurantData.menu) {
+          try {
+            meal.mealTags = restaurantTags.filter(tag => (meal?.mealTagIds || []).includes(tag.id));
+            meal.mealTags = meal.mealTags.filter(onlyUnique);
+          } catch (error) {
+            console.error('Error setting tags for meal:', error);
+          }
+        }
+        setUpdateCount(updateCount + 1);
+      }
+    };
+
     const renderOption = () => {
       if (selectedOption === 'Menu') {
-          return <Menu restaurantData = {restaurantData}/>;
+          return <Menu restaurantData = {restaurantData} updateCount={updateCount} />;
       } else if (selectedOption === 'Reviews') {
           return <Reviews />;
       } else if (selectedOption === 'Details') {

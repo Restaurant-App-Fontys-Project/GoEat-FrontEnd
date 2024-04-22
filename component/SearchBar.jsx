@@ -28,18 +28,7 @@ const SearchBar = ({ onRestaurantSearch, onMealSearch }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchOptions}>
-                <TouchableOpacity onPress={handleRestaurantSearch}>
-                    <Text style={[styles.searchOption, searchType === 'restaurant' && styles.activeOption]}>
-                        Search by Restaurant
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleMealSearch}>
-                    <Text style={[styles.searchOption, searchType === 'meal' && styles.activeOption]}>
-                        Search by Meals
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            
             <View style={styles.searchBar}>
                 <Feather name="search" size={20} color="#541412" style={{ marginLeft: 1 }} />
                 <TextInput
@@ -50,6 +39,19 @@ const SearchBar = ({ onRestaurantSearch, onMealSearch }) => {
                     onFocus={() => { setSearchType(null); }}
                     onEndEditing={() => { Keyboard.dismiss(); }}
                 />
+            </View>
+
+            <View style={styles.searchOptions}>
+                <TouchableOpacity onPress={handleRestaurantSearch}>
+                    <Text style={[styles.searchOption, searchType === 'restaurant' && styles.activeOption]}>
+                        Search Restaurants
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleMealSearch}>
+                    <Text style={[styles.searchOption, searchType === 'meal' && styles.activeOption]}>
+                        Search Meals
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -74,6 +76,7 @@ const styles = StyleSheet.create({
     },
     activeOption: {
         fontWeight: "bold",
+        color: "blue",
     },
     searchBar: {
         padding: 10,
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#d9dbda",
         borderRadius: 15,
         alignItems: "center",
-        marginBottom: 20,
+        /* marginBottom: 20, */
     },
     input: {
         fontSize: 16,

@@ -5,7 +5,8 @@ import CustomNavBar from '../component/CustomNavBar';
 import SearchBar from '../component/SearchBar';
 import List from '../component/List';
 import RestaurantCard from '../component/RestaurantCard';
-import { fetchMeals } from '../apiCalls/restaurantApi';
+import { fetchMeals, fetchTags, fetchRestaurantTags } from '../apiCalls/restaurantApi';
+import Categories from '../component/Categories';
 
 const Home = ({ navigation, route }) => {
   const { restaurants, city } = route.params;
@@ -14,17 +15,41 @@ const Home = ({ navigation, route }) => {
   const [clicked, setClicked] = useState(false);
   const [meals, setMeals] = useState([]);
   const [onSearch, setOnSearch] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState(null);
 
   useEffect(() => {
     fetchMealsForRestaurants(restaurants);
   }, [restaurants]);
+
+  useEffect(() => {
+    fetchAllTags();
+  }, []);
+
+  const fetchAllTags = async () => {
+    try {
+      const tags = await fetchTags();
+      setTags(tags);
+    }
+    catch (error) {
+      console.error('Error fetching tags:', error);
+    }
+  };
 
   const fetchMealsForRestaurants = async (restaurants) => {
     const meals = [];
 
     for (const restaurant of restaurants) {
       try {
-        const restaurantMeals = await fetchMeals(restaurant.id);
+        let restaurantMeals = await fetchMeals(restaurant.id);
+        const restaurantTags = await fetchRestaurantTags(restaurant.id);
+        restaurantMeals = restaurantMeals.map(meal => 
+          ({ ...meal, mealTags: 
+            tags.filter(tag => (meal?.mealTagIds || []).includes(tag.id))})
+        ); 
+        restaurant.meals = restaurantMeals;
+        restaurant.tags = restaurantTags;
         meals.push(...restaurantMeals);
       } catch (error) {
         console.error('Error fetching meals for restaurant:', error);
@@ -53,6 +78,23 @@ const Home = ({ navigation, route }) => {
     setOnSearch(false);
   };
 
+const handleCategoryClick = (category) => {
+  setSelectedCategory(category);
+  console.log('Selected category:', category);
+}
+
+const renderRestaurants = () => {
+  const restaurantList  = restaurants
+          .filter(r =>  !selectedTag  || selectedTag.name === 'All' || r.tags?.find((restaurantTag) => restaurantTag.id === selectedTag.id));
+  if (restaurantList.length === 0) {
+    return <Text style={styles.notFoundText}>
+      Sorry, currently we do not have any matching results, please try again!</Text>;
+  }
+  return restaurantList.map((restaurant, index) => (
+    <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
+  ));
+
+}
 
   return (
     <View style={styles.container}>
@@ -87,28 +129,14 @@ const Home = ({ navigation, route }) => {
         </ImageBackground>
 
         <Text style={styles.header}>Categories</Text>
-        <View style={styles.category}>
-          {/* Categories content */}
-          <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/cuisine.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Cuisine</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/dietary.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Dietary</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.categoryItem}>
-              <Image source={require('../assets/home-images/meal.png')} style={styles.image} />
-              <Text style={styles.restaurantName}>Meal</Text>
-            </TouchableOpacity>
+        <View >
 
+            <Categories navigation={navigation} tags={tags} setSelectedTag={setSelectedTag} />
         </View>
 
-        <Text style={styles.header}>All restaurants in {city} </Text>
+        <Text style={styles.header}>{selectedTag?.name || "All"} restaurants in {city} </Text>
         <View style={styles.restaurantRow}>
-          {restaurants.map((restaurant, index) => (
-            <RestaurantCard key={index} restaurant={restaurant} navigation={navigation} />
-          ))}
+          {renderRestaurants()}
         </View>
       </ScrollView>
       <CustomNavBar navigation={navigation} />
@@ -150,22 +178,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
   },
-  category: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    marginTop: 20,
-  },
-  categoryItem: {
-    width: windowWidth / 3 - 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    marginVertical: 5,
-    marginHorizontal: 5,
-    padding: 5,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
   restaurantRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -178,6 +190,13 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
     marginBottom: 10,
+  },
+  notFoundText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#D69F3B',
+    fontWeight: 'bold',
   },
 });
 

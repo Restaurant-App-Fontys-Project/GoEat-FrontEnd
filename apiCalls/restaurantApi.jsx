@@ -86,3 +86,24 @@ export const fetchRestaurantData = async (restaurantId, setRestaurantData) => {
             return [];
         }
     }
+
+    // fetch all tags
+    export const fetchTags = async () => {
+        try {
+            const tags = await axios.get('https://goeat-api.onrender.com/mealtags');
+            return tags.data;
+        } catch (error) {
+            console.error('Error fetching tags:', error);
+            return [];
+        }
+    }
+
+    export const fetchRestaurantTags = async (restaurantId) => {
+        try {
+            const tags = await axios.get(`https://goeat-api.onrender.com/restaurants/mealtags/${restaurantId}`);
+            return tags.data;
+        } catch (error) {
+            console.error('Error fetching restaurant tags:', error);
+            return [];
+        }
+    }
