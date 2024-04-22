@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
 import Overview from '../component/Overview';
-import {getOverviewList} from '../apiCalls/overviewData.jsx'
+import { getOverviewList } from '../apiCalls/overviewData.jsx'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ReservationOverview({navigation}) {
+export default function ReservationOverview({ navigation }) {
   const [overviewList, setOverviewList] = useState([]);
+
+
+  const getUserDataFromStorage = async () => {
+    userId = await AsyncStorage.getItem('userId');
+    //console.log("User id at UE", userId)
+    getOverviewList(userId).then((data) => {
+      setOverviewList(data);
+    });
+  }
 
   useEffect(() => {
     navigation.setOptions({
@@ -17,9 +27,8 @@ export default function ReservationOverview({navigation}) {
       },
       headerTitle: "Reservation Overview"
     });
-    getOverviewList().then((data) => {
-      setOverviewList(data);
-    });
+    getUserDataFromStorage();
+    
   }, [navigation]);
 
   const handleCancelReservation = (id) => {
