@@ -8,7 +8,6 @@ import TimeSlotItem from "../../component/TimeslotItem";
 import reservationData from '../../reservationData.json'; //remove later
 import specialDates from '../../specialDates.json';
 import { getRestaurantData } from '../../apiCalls/ReservationData';
-import CustomNavBar from '../../component/CustomNavBar';
 
 const DateTimePicker = ({ navigation, route }) => {
   const { restaurantId} = route.params;
@@ -120,7 +119,7 @@ const DateTimePicker = ({ navigation, route }) => {
   
   
 
-  const setTimeSlotsForDate = (selectedDate) => {
+  const setTimeSlotsForDate = () => {
     try {
       if (!openingHours || openingHours.length === 0) {
         console.error('Opening hours data is empty or undefined.');
@@ -304,10 +303,10 @@ const DateTimePicker = ({ navigation, route }) => {
         >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
         </TouchableOpacity>
+
+
       </ScrollView>
-      <CustomNavBar navigation={navigation} />
     </KeyboardAvoidingView>
-    
   );
 };
 

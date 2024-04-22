@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView } from "react-native";
 import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; // Import the fetchRestaurantsByCity function
 import commonStyles from '../styles/commonStyles';
 
@@ -25,6 +25,15 @@ const Location = ({ navigation }) => {
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
+               
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                 <Image source={require('../assets/logo1.png')} style={{ width: 160, height: 160, alignSelf: 'center' }} />
+                    <Text style={styles.bigText}>
+                        Discover Flavor, {'\n'}Reserve with Ease
+                    </Text>
+                <Text style={styles.smallText}>
+                    The perfect Restaurant for any occasion with our advanced search tools !
+                </Text>
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Enter Location"
@@ -32,11 +41,12 @@ const Location = ({ navigation }) => {
                     onChangeText={setSearchText}
                 />
                 <TouchableOpacity
-                    style={commonStyles.button}
-                    onPress={handleSearch} // Call handleSearch function when button is pressed
+                    style={styles.button}
+                    onPress={handleSearch} 
                 >
-                    <Text style={commonStyles.buttonText}>Search Restaurants</Text>
+                    <Text style={commonStyles.buttonText}>Search</Text>
                 </TouchableOpacity>
+                </View>
             </ImageBackground>
         </View>
     );
@@ -45,11 +55,11 @@ const Location = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'center',
     },
     searchInput: {
-        width: '90%',
+        width: '80%',
         height: 40,
         borderWidth: 1,
         borderColor: 'gray',
@@ -58,12 +68,37 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'white',
         marginLeft: 15,
+        marginTop:20
     },
     backgroundImage: {
         flex: 1,
         justifyContent: 'center',
         width: '100%', 
         height: '100%', 
+    },
+    bigText: {
+        marginTop: 30,
+        fontSize: 36,
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'left'
+    },
+    smallText: {
+        marginTop: 30,
+        fontSize: 16,
+        fontWeight: 'medium',
+        color: 'white',
+        textAlign: 'left'
+    },
+    button: {
+        backgroundColor: '#C34F5A',
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 50,
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        justifyContent: 'center',
     },
 });
 

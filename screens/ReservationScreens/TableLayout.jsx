@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, T
 import commonStyles from '../../styles/commonStyles'; // Import common styles
 import TableItem from '../../component/TableItem'; // Import the TableItem component
 import { getTableData } from '../../apiCalls/ReservationData';
-import {getReservationsByDateTime} from '../../apiCalls/ReservationData';
+import {getReservationsByDate} from '../../apiCalls/ReservationData';
 
 const TableLayout = ({ navigation, route }) => {
     const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData } = route.params;
@@ -38,8 +38,8 @@ const TableLayout = ({ navigation, route }) => {
 
     const fetchAvailableTables = async () => {
         try {
-            // Fetch reservations for the selected date and time
-            const reservations = await getReservationsByDateTime(restaurantId, formattedDate, formattedTime);
+            // Fetch reservations for the selected date
+            const reservations = await getReservationsByDate(restaurantId, formattedDate);
     
             // Fetch all table data
             const tables = await getTableData(restaurantId);
@@ -79,30 +79,7 @@ const TableLayout = ({ navigation, route }) => {
     };
 
     useEffect(() => {
-        // const fetchTableData = async () => {
-        //     try {
-        //         const tables = await getTableData(restaurantId);
-        //         // console.log('Table data fetched successfully:', tables);
-        //         const categorizedTables = {};
-        //         tables.forEach(table => {
-        //             const category = `${table.capacity} Seat Tables`;
-        //             if (!categorizedTables[category]) {
-        //                 categorizedTables[category] = [];
-        //             }
-        //             categorizedTables[category].push(table);
-        //         });
-        //         const sortedCategories = Object.keys(categorizedTables).sort((a, b) => parseInt(a) - parseInt(b));
-        //         const sortedTableLayout = sortedCategories.reduce((acc, category) => {
-        //             acc[category] = categorizedTables[category];
-        //             return acc;
-        //         }, {});
-        //         setTableLayout(sortedTableLayout);
-        //         setTableData(tables);
-        //     } catch (error) {
-        //         console.error('Error fetching table data:', error);
-        //     }
-        // };
-
+       
         fetchAvailableTables();
     }, [selectedDate, selectedTimeSlot, reservationDuration, restaurantId]);
 
@@ -155,6 +132,7 @@ const TableLayout = ({ navigation, route }) => {
                     </View>
                 </View>
             </Modal>
+           
             <TouchableOpacity
                 style={[commonStyles.button, !selectedTable && styles.disabledButton]}
                 onPress={() => {
@@ -173,8 +151,10 @@ const TableLayout = ({ navigation, route }) => {
                 }}
                 disabled={!selectedTable}
             >
+
                 <Text style={commonStyles.buttonText}>Next</Text>
             </TouchableOpacity>
+            
         </View>
     );
 };
