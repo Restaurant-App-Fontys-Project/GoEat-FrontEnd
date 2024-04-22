@@ -163,6 +163,7 @@ const DateTimePicker = ({ navigation, route }) => {
   const dateString = selectedDate ? selectedDate.toISOString() : null;
 
   return (
+    <View style={styles.container}>
     <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
       <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
       <View style={[{ marginTop: 20, alignItems: 'center' }]}>
@@ -308,10 +309,17 @@ const DateTimePicker = ({ navigation, route }) => {
       <CustomNavBar navigation={navigation} />
     </KeyboardAvoidingView>
     
+    </View>
+    
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   durationContainer: {
     marginTop: 20,
     paddingHorizontal: 10,
