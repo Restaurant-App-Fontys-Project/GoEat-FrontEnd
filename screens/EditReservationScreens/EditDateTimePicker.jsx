@@ -14,8 +14,8 @@ const EditDateTimePicker = ({ navigation, route }) => {
 
   const { reservationId, restaurantId, restaurantData, openingHours, tableId } = route.params;
   const [reservation, setReservation] = useState({})
-  const [selectedDate, setSelectedDate] = useState(reservation.date);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(reservation.date);
+  const [selectedDate, setSelectedDate] = useState();
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
   const [reservationDuration, setReservationDuration] = useState(1);
   const [noOfGuests, setNoOfGuests] = useState();
