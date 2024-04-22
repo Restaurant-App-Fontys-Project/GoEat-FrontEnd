@@ -14,10 +14,8 @@ const EditDateTimePicker = ({ navigation, route }) => {
 
   const { reservationId, restaurantId, restaurantData, openingHours, tableId } = route.params;
   const [reservation, setReservation] = useState({})
-
-
   const [selectedDate, setSelectedDate] = useState(reservation.date);
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(reservation.date);
   const [maxDuration, setMaxDuration] = useState(0);
   const [reservationDuration, setReservationDuration] = useState(1);
   const [noOfGuests, setNoOfGuests] = useState();
@@ -65,10 +63,11 @@ const EditDateTimePicker = ({ navigation, route }) => {
     getReservation(reservationId).then((data) => {
       setReservation(data)
       setSelectedDate(new Date(restaurantData.date))
+      setTimeSlotsForDate(new Date(restaurantData.date));
       setNoOfGuests(restaurantData.numberOfPeople)
       setSelectedTimeSlot(restaurantData.reservationStart)
     })
-    setTimeSlotsForDate();
+    // setTimeSlotsForDate();
   }, []);
 
   // check if the selected date is a special holiday
@@ -95,6 +94,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
           Alert.alert("This day is closed for reservations.");
           return;
         }
+        
 
         if (isSpecialHoliday(selectedDate, specialDates)) {
           Alert.alert("Special holiday! Opening hours may vary.");
@@ -122,6 +122,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
         return;
       }
       console.log('Opening hours:', openingHours);
+      console.log("Get day", selectedDate.getDay())
       const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
       const dayOpeningHours = openingHours.find(day => day.day === dayOfWeek);
       console.log('Day opening hours:', dayOpeningHours)
@@ -158,6 +159,8 @@ const EditDateTimePicker = ({ navigation, route }) => {
   };
 
   const dateString = selectedDate ? selectedDate.toISOString() : null;
+
+  
 
   return (
     <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
@@ -252,6 +255,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
             <FontAwesome name="clock-o" size={22} color="black" style={[{ marginRight: 10 }, commonStyles.icon]} />
             <Text>Select the Time:</Text>
           </View>
+          
           <TouchableOpacity style={styles.inputContainer} onPress={toggleTimeSlots}>
             <Text style={styles.durationHeader}>{selectedTimeSlot ? selectedTimeSlot : "Select Time"}</Text>
           </TouchableOpacity>
