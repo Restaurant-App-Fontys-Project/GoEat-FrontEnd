@@ -1,10 +1,12 @@
+
 import axios from "axios";
 
 const BASE_URL = 'https://goeat-api.onrender.com/'
 
 const getOverviewList = async (userId) => {
     try {
-        const response = await axios.get(BASE_URL+'reservations/user/' + userId);
+        // const response = await axios.get(BASE_URL + 'reservations/user/' + userId);
+        const response = await axios.get(BASE_URL + 'reservations');
         return response.data;
     } catch (error) {
         console.error("Error fetching overview data:", error);
@@ -21,9 +23,20 @@ const getRestaurantName = async (id) => {
     }
 }
 
+// const getReservation = async (id) => {
+//     try {
+//         const response = await axios.get(BASE_URL+`reservations/${id}`);
+//         console.log("Reservation data:", response.data);
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error fetching Reservation data:", error);
+//     }
+// }
+
+
 const getReservation = async (id) => {
     try {
-        const response = await axios.get(BASE_URL+`reservations/${id}`);
+        const response = await axios.get(`https://goeat-api.onrender.com/reservations/46f080a2-e4f4-4ff5-b816-dd94ca02a764`);
         console.log("Reservation data:", response.data);
         return response.data;
     } catch (error) {
