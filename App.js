@@ -1,72 +1,86 @@
 // import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Restaurant from './screens/Restaurant'
-import ReservationOverview from './screens/ReservationOverview'
-import CustomerInfo from './screens/ReservationScreens/CustomerInfo'
-import DateTimePicker from './screens/ReservationScreens/DateTimePicker'
-import TableLayout from './screens/ReservationScreens/TableLayout'
-import Confirmation from './screens/ReservationScreens/Confirmation'
-import LoginOptions from './screens/LoginOptions'
-import Welcome from './screens/Welcome'
-import Location from './screens/Location'
-import Home from './screens/Home'
-import Registration from './screens/Registration'
+import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Restaurant from "./screens/Restaurant";
+import ReservationOverview from "./screens/ReservationOverview";
+import CustomerInfo from "./screens/ReservationScreens/CustomerInfo";
+import DateTimePicker from "./screens/ReservationScreens/DateTimePicker";
+import TableLayout from "./screens/ReservationScreens/TableLayout";
+import Confirmation from "./screens/ReservationScreens/Confirmation";
+import LoginOptions from "./screens/LoginOptions";
+import Welcome from "./screens/Welcome";
+import Location from "./screens/Location";
+import Home from "./screens/Home";
+import Registration from "./screens/Registration";
+import EditDateTimePicker from "./screens/EditReservationScreens/EditDateTimePicker";
+import EditTableLayout from "./screens/EditReservationScreens/EditTableLayout";
+import EditCustomerInfo from "./screens/EditReservationScreens/EditCustomerInfo";
+import EditConfirmation from "./screens/EditReservationScreens/EditConfirmation";
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 //<StatusBar style='auto' />
-export default function App () {
+export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator
-        initialRouteName='Welcome'
+        initialRouteName="Welcome"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#D69F3B'
+            backgroundColor: "#D69F3B",
           },
-          headerTintColor: '#fff',
+          headerTintColor: "#fff",
           headerTitleStyle: {
-            fontWeight: 'bold'
+            fontWeight: "bold",
           },
-          headerTitleAlign: 'center',
-          headerLeft: () => null
+          headerTitleAlign: "center",
+          headerLeft: () => null,
         }}
       >
         <Stack.Screen
-          name='Welcome'
+          name="Welcome"
           component={Welcome}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='LoginOptions'
+          name="LoginOptions"
           component={LoginOptions}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='Restaurant' component={Restaurant} />
-        <Stack.Screen name='Reservation 1/3' component={DateTimePicker} />
-        <Stack.Screen name='Reservation 2/3' component={TableLayout} />
-        <Stack.Screen name='Reservation 3/3' component={CustomerInfo} />
-        <Stack.Screen name='Confirmation' component={Confirmation} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Restaurant" component={Restaurant} />
+        <Stack.Screen name="Reservation 1/3" component={DateTimePicker} />
+        <Stack.Screen name="Reservation 2/3" component={TableLayout} />
+        <Stack.Screen name="Reservation 3/3" component={CustomerInfo} />
+        <Stack.Screen name="Confirmation" component={Confirmation} />
         {/* <Stack.Screen name='Categories' component={Categories} /> */}
-        <Stack.Screen name='Location' component={Location} />
-        <Stack.Screen name='Registration' component={Registration} />
+        <Stack.Screen name="Location" component={Location} />
         <Stack.Screen
-          name='ReservationOverview'
+          name="Edit Reservation 1/3"
+          component={EditDateTimePicker}
+        />
+        <Stack.Screen name="Edit Reservation 2/3" component={EditTableLayout} />
+        <Stack.Screen
+          name="Edit Reservation 3/3"
+          component={EditCustomerInfo}
+        />
+        <Stack.Screen name="Edit Confirmation" component={EditConfirmation} />
+        <Stack.Screen name="Registration" component={Registration} />
+        <Stack.Screen
+          name="ReservationOverview"
           component={ReservationOverview}
         />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'red'
-  }
-})
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
+  },
+});
