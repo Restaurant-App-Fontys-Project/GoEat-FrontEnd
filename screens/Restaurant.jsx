@@ -6,6 +6,7 @@ import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
 import { fetchRestaurantData, fetchRestaurantTags } from '../apiCalls/restaurantApi';
+import GradientButton from '../styles/GradientButton';
 
 
 export default function Restaurant({navigation,route}) {
@@ -91,21 +92,25 @@ export default function Restaurant({navigation,route}) {
       <View style={styles.content}>{renderOption()}</View>
 
       {/*Button for reservation*/}
-      <TouchableOpacity 
+      {/* <TouchableOpacity 
         style={commonStyles.button}
         onPress={() => {
           navigation.navigate('Reservation 1/3', {
             restaurantId: restaurantId,
-            // restaurantData: {
-            //   name: restaurantData.details.name,
-            //   address: restaurantData.details.address,
-            //   openingHours: restaurantData.details.openingHours
-            // }
           });
           
         }}>
         <Text style={commonStyles.buttonText}>Make a reservation</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <GradientButton
+          text="Make a reservation"
+          onPress={() => {
+            navigation.navigate('Reservation 1/3', {
+              restaurantId: restaurantId,
+            });
+          }}
+      />
+
     </ScrollView>
   );
 };

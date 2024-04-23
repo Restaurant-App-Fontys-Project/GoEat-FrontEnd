@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     padding: 10, 
     marginLeft: 10, 
     marginRight: 10, 
-    borderColor: '#D69F3B',
+    borderColor: '#531412',
   },
   subcategoryItem: {
     alignItems: 'center',
@@ -141,13 +141,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     padding: 5,
+    borderColor: '#531412',
   },
   subcategoryText: {
     fontSize: 14,
     fontWeight: 'bold',
   },
   selectedSubcategoryItem: {
-    backgroundColor: '#D69F3B', 
+    backgroundColor: '#F8D3B9', 
   },
   notFoundText: {
     color: '#D69F3B',

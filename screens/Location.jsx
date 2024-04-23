@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, Modal, FlatList } from "react-native";
 import commonStyles from '../styles/commonStyles';
-import citiesData from '../cities.json'; 
-import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; 
+import citiesData from '../cities.json';
+import { getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation';
+import GradientButton from '../styles/GradientButton';
 
 const Location = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
@@ -19,11 +20,13 @@ const Location = ({ navigation }) => {
         try {
             const fetchedRestaurants = await getRestaurantsByLocation(selectedCity);
             setRestaurants(fetchedRestaurants);
+            // Navigate to Home screen with search results
             navigation.navigate('Home', { restaurants: fetchedRestaurants, city: selectedCity });
         } catch (error) {
             console.error('Error fetching restaurants:', error);
         }
     };
+    
 
     const renderCityItem = ({ item }) => (
         <TouchableOpacity style={styles.cityItem} onPress={() => selectCity(item)}>
@@ -46,18 +49,12 @@ const Location = ({ navigation }) => {
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Image source={require('../assets/logoGE.png')} style={{ width: 160, height: 160, alignSelf: 'center' }} />
                     <Text style={styles.bigText}>
-                        Select your location:
+                        Discover Flavor, {'\n'}Reserve with Ease
                     </Text>
                     <TouchableOpacity style={styles.searchInput} onPress={() => setModalVisible(true)}>
                         <Text>{selectedCity || 'Select City'}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleSearch} 
-                        disabled={!selectedCity}
-                    >
-                        <Text style={commonStyles.buttonText}>Search</Text>
-                    </TouchableOpacity>
+                    <GradientButton text="Search" onPress={handleSearch} />
                 </View>
             </ImageBackground>
             <Modal
@@ -67,16 +64,14 @@ const Location = ({ navigation }) => {
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
-                <FlatList
-                    data={cities}
-                    renderItem={renderCityItem}
-                    keyExtractor={(item) => item}
-                    contentContainerStyle={{ marginTop: '50%' , paddingTop: '10%', paddingBottom: '10%', paddingHorizontal: 20, width: '70%', backgroundColor: 'white' }}
-                />
-
+                    <FlatList
+                       data={cities}
+                       renderItem={renderCityItem}
+                       keyExtractor={(item) => item}
+                       contentContainerStyle={{ paddingTop: '10%', paddingBottom: '10%', paddingHorizontal: 20, width: '70%', backgroundColor: 'white', marginTop: '50%' }}
+                    />
                 </View>
-</Modal>
-
+            </Modal>
         </View>
     );
 };
@@ -109,12 +104,18 @@ const styles = StyleSheet.create({
     },
     bigText: {
         marginTop: 30,
-        fontSize: 24,
+        fontSize: 36,
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'left'
     },
-  
+    smallText: {
+        marginTop: 30,
+        fontSize: 16,
+        fontWeight: 'medium',
+        color: 'white',
+        textAlign: 'left'
+    },
     button: {
         backgroundColor: '#C34F5A',
         padding: 10,
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
     },
     cityItem: {
         padding: 20,

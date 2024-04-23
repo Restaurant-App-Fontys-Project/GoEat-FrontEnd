@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View,ImageBackground, Animated, Easing } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'
+import GradientButton from '../styles/GradientButton'
 
 const Welcome = ({ navigation }) => {
     const logoScale = useRef(new Animated.Value(0)).current;
