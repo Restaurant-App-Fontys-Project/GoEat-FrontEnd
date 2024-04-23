@@ -157,7 +157,7 @@ const LoginOptions = ({ navigation }) => {
                 style={styles.backgroundImage}
             >
                 {/* App Logo */}
-                <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/logoGE.png')} style={styles.logo} />
 
                 {/* Display user info and logout button if logged in */}
                 {loggedIn && userData && (

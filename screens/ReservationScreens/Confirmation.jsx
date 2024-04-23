@@ -26,15 +26,13 @@ const Confirmation = ({ navigation, route }) => {
                 restaurantData,
 
         } = route.params;
-
-        console.log("date",selectedDate);
-        console.log("type date",typeof selectedDate);
-        console.log("time",selectedTimeSlot);
-        console.log("type time",typeof selectedTimeSlot);
         
     
     const [isChecked, setIsChecked] = useState(false);
     const [userId, setUserId] = useState(null);
+
+    // make phone number a string
+    const phoneNumberString = phoneNumber.toString();
     
     // get user id from async storage
     const getUserId = async () => {
@@ -69,38 +67,24 @@ const Confirmation = ({ navigation, route }) => {
     const dateString = dateObject.toISOString().substring(0, 10);
     const startTimeString = selectedTimeSlot+":00";
 
-    // here
-    // Extract year, month, and day from the date string
-    // const year = dateObject.getFullYear();
-    // const month = dateObject.getMonth() + 1; // Months are zero-based, so add 1
-    // const day = dateObject.getDate();
-    // const dayOfWeek = dateObject.getDay();
-
     // Extract hour and minute from the time string
     const [hour, minute] = selectedTimeSlot.split(':').map(val => parseInt(val));
 
-    // Create the date and time objects according to the required format
+     // check console for the data
+     console.log("restaurantId",restaurantId);
+     console.log("userId",userId);
+     console.log("date",dateString);
+     console.log("note",specialNotes);
+     console.log("no of guests",noOfGuests);
+     console.log("tableId",tableId);
+     console.log("start time",startTimeString);
+     console.log("end time",endTimeString);
+     console.log("fname",firstName);
+     console.log("lname",lastName);
+     console.log("email",email);
+     console.log("phone",phoneNumberString);
+     console.log("title",title);
 
-    // const dateObj = { year, month, day, dayOfWeek}; // DayOfWeek should be an integer representing the day of the week (0 for Sunday, 1 for Monday, etc.)
-    // const reservationStart = { hour, minute };
-    // console.log("dateObj",dateObj);
-
-    // Adjust the end hour and minute if they exceed the limits
-    // if (endHour >= 24) {
-    //     endHour %= 24;
-    // }
-    // if (endMinute >= 60) {
-    //     endMinute %= 60;
-    //     endHour++;
-    // }
-
-    // // Create the end time object
-    // const reservationEndTime = {
-    //     hour: endHour,
-    //     minute: endMinute
-    // };
-    // remove this later
-    // const userId = "d19b78e7-e6c8-43f6-b897-d9dba662b2fe";
 
     const handleConfirmReservation = async () => {
         // Check if the checkbox is checked
@@ -110,22 +94,21 @@ const Confirmation = ({ navigation, route }) => {
         }
         try {
             // Make API request to send reservation data to the backend
+           
             const data = {
                 restaurantId: restaurantId,
                 userId: userId,
-                // date: dateObj,
                 date: dateString,
                 note: specialNotes,
                 numberOfPeople: noOfGuests,
                 tableId: tableId,
                 reservationStart: startTimeString,
                 reservationEnd: endTimeString,
-                // reservationEnd: reservationEndTime,
-                // reservationStart: reservationStart,
-                // firstName,
-                // lastName,
-                // email,
-                // phoneNumber,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber:phoneNumberString,
+                title:title,
             };
             const response = await sendReservationData(data, 5000); 
             console.log('Reservation data:', data);
