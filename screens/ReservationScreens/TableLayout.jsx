@@ -4,6 +4,7 @@ import commonStyles from '../../styles/commonStyles'; // Import common styles
 import TableItem from '../../component/TableItem'; // Import the TableItem component
 import { getTableData } from '../../apiCalls/ReservationData';
 import {getReservationsByDate} from '../../apiCalls/ReservationData';
+import GradientButton from '../../styles/GradientButton';
 
 const TableLayout = ({ navigation, route }) => {
     const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData } = route.params;
@@ -123,17 +124,21 @@ const TableLayout = ({ navigation, route }) => {
                             <Text>Table Number: {selectedTable && selectedTable.tableNumber}</Text>
                             <Text>Number of Seats: {selectedTable && selectedTable.capacity}</Text>
                             <Text>Table Description: {selectedTable && selectedTable.description}</Text>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={styles.okButton}
                             onPress={() => setModalVisible(false)}
                         >
                             <Text style={styles.okButtonText}>OK</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <GradientButton
+                            onPress={() => setModalVisible(false)}
+                            text="OK"
+                        />
                     </View>
                 </View>
             </Modal>
            
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={[commonStyles.button, !selectedTable && styles.disabledButton]}
                 onPress={() => {
                     if (selectedTable) {
@@ -153,8 +158,26 @@ const TableLayout = ({ navigation, route }) => {
             >
 
                 <Text style={commonStyles.buttonText}>Next</Text>
-            </TouchableOpacity>
-            
+            </TouchableOpacity> */}
+            {/* Next button with gradient */}
+            <GradientButton
+                onPress={() => {
+                    if (selectedTable) {
+                        navigation.navigate('Reservation 3/3', {
+                            tableId: selectedTable.id,
+                            tableNumber: selectedTable.tableNumber,
+                            selectedDate,
+                            selectedTimeSlot,
+                            reservationDuration,
+                            noOfGuests,
+                            restaurantData,
+                            restaurantId,
+                        });
+                    }
+                }}
+                disabled={!selectedTable}
+                text="Next"
+            />
         </View>
     );
 };

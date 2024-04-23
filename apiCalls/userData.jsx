@@ -5,8 +5,12 @@ export const sendUserData = async (data) => {
         const response = await axios.post('https://goeat-api.onrender.com/users', data);
         return response;
     } catch (error) {
-        console.error('Error sending user data:', error);
-        return error;
+        if (error.response && error.response.status === 409) {
+            throw new Error('Email already exists');
+        } else {
+            console.error('Error sending user data:', error);
+            throw new Error('Failed to send user data');
+        }
     }
 }
 // user login

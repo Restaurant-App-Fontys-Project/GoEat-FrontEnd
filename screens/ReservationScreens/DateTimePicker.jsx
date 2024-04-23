@@ -8,6 +8,7 @@ import TimeSlotItem from "../../component/TimeslotItem";
 import reservationData from '../../reservationData.json'; //remove later
 import specialDates from '../../specialDates.json';
 import { getRestaurantData } from '../../apiCalls/ReservationData';
+import GradientButton from '../../styles/GradientButton'; 
 
 const DateTimePicker = ({ navigation, route }) => {
   const { restaurantId} = route.params;
@@ -285,13 +286,12 @@ const DateTimePicker = ({ navigation, route }) => {
           </View>
         </Modal>
         {/* Button for proceeding to table layout */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={[commonStyles.button, (!selectedDate || !selectedTimeSlot) && styles.disabledButton]} // Change here
           onPress={() =>
             (selectedDate && selectedTimeSlot) ?
               navigation.navigate('Reservation 2/3', {
                 selectedDate: dateString,
-                // selectedDate,
                 selectedTimeSlot,
                 reservationDuration,
                 restaurantId,
@@ -302,8 +302,24 @@ const DateTimePicker = ({ navigation, route }) => {
           disabled={!selectedDate || !selectedTimeSlot} 
         >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
-        </TouchableOpacity>
-
+        </TouchableOpacity> */}
+        {/* Button for proceeding to table layout */}
+        <GradientButton
+          onPress={() =>
+            selectedDate && selectedTimeSlot
+              ? navigation.navigate('Reservation 2/3', {
+                  selectedDate: dateString,
+                  selectedTimeSlot,
+                  reservationDuration,
+                  restaurantId,
+                  noOfGuests,
+                  restaurantData,
+                })
+              : null
+          }
+          disabled={!selectedDate || !selectedTimeSlot}
+          text="Proceed to Table Layout"
+        />
 
       </ScrollView>
     </KeyboardAvoidingView>

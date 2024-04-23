@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
+import GradientButton from '../styles/GradientButton'
 
 const Welcome = ({ navigation }) => {
     
@@ -17,9 +19,20 @@ const Welcome = ({ navigation }) => {
                 <Text style={styles.smallText}>
                     The perfect Restaurant for any occasion with our advanced search tools.......
                 </Text>
-                <TouchableOpacity style={styles.button} onPress={handleNavigation}>
-                    <Text style={styles.buttonText}>Get Started</Text>
-                </TouchableOpacity>
+                 {/* <LinearGradient
+                    colors={['rgba(214, 159, 59, 1)', 'rgba(197, 79, 91, 1)']} 
+                    start={{ x: 0, y: 0 }} 
+                    end={{ x: 1, y: 0 }}   
+                    style={styles.continueButton}
+                >
+                    <TouchableOpacity onPress={handleNavigation}>
+                    <Text style={styles.continueButtonText}>Start</Text>
+                    </TouchableOpacity>
+                </LinearGradient> */}
+                <GradientButton
+                    text="Start"
+                    onPress={handleNavigation}
+                />
             </View>
         </ImageBackground>
     )
@@ -58,10 +71,24 @@ const styles = {
         width: '100%',
         bottom: 20,
     },
-    buttonText: {
+    linearGradient: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+    },
+    continueButton: {
+        marginTop: 10,
+        padding: 15,
+        borderRadius: 50,
+        position: 'absolute',
+        width: '50%',
+        bottom: 20,
+        marginHorizontal: 80,
+    },
+    continueButtonText: {
         color: 'white',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 18,
     },
 }
 
