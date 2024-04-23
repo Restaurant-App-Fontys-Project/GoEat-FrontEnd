@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
     activeOption: {
         fontWeight: "bold",
-        color: "blue",
+        color: "white",
     },
     searchBar: {
         padding: 10,

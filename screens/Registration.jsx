@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Dimensions, Alert, ImageBackground, TextInput } from 'react-native';
 import commonStyles from '../styles/commonStyles';
 import { sendUserData } from '../apiCalls/userData';
+import GradientButton from '../styles/GradientButton';
 const Registration = ({ navigation }) => {
 
     const [firstName, setFirstName] = useState('');
@@ -11,17 +12,6 @@ const Registration = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    // const handleRegistration = async () => {
-    //     try {
-
-    //         await loginWithEmail(email, password);
-    //         console.log('Registration successful!');
-
-    //     } catch (error) {
-    //         console.error('Registration failed:', error);
-
-    //     }
-    // };
 
     const navigateLogin = () => {
             navigation.navigate('LoginOptions');
@@ -164,30 +154,20 @@ const Registration = ({ navigation }) => {
                 </View>
 
 
-                <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
+                {/* <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
                     <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <GradientButton text="Sign Up" onPress={handleRegistration} />
 
 
-                <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', paddingVertical: 10 }]}> Or</Text>
+                {/* <Text style={[styles.buttonText, { color: '#C34F5A', paddingVertical: 10 }]}> Or</Text>
 
-
-                <TouchableOpacity style={styles.signUp}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-                        <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
-                        <Text style={styles.buttonText}>Sign up using Google</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.signUp}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
-                        <Text style={styles.buttonText}>Sign up using facebook</Text>
-                    </View>
-                </TouchableOpacity>
+                <GradientButton text="Sign up using Google" icon={require('../assets/login-icons/google.png')} />
+                <GradientButton text="Sign up using Facebook" icon={require('../assets/login-icons/facebook.png')} /> */}
 
                 <TouchableOpacity
                     onPress={navigateLogin}>
-                    <Text style={styles.skipText}>Already has an account? Log in</Text>
+                    <Text style={styles.skipText}>Already has an account? Login</Text>
                 </TouchableOpacity>
             </ImageBackground>
         </View>
@@ -272,8 +252,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         marginTop: 20,
-        color: '#C34F5A',
-        fontWeight: 'bold',
+        color: 'white',
         textDecorationLine: 'underline',
         marginBottom: 50,
     },

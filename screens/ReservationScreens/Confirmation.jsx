@@ -6,6 +6,7 @@ import commonStyles from '../../styles/commonStyles';
 import {sendReservationData} from '../../apiCalls/ReservationData';
 import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GradientButton from '../../styles/GradientButton';
 
 
 
@@ -130,7 +131,7 @@ const Confirmation = ({ navigation, route }) => {
             const response = await sendReservationData(data, 5000); 
             console.log('Reservation data:', data);
             if (response.status === 201) {
-                Alert.alert('Reservation confirmed');
+                Alert.alert('Thank you, your reservation has been successfully confirmed!');
             } else {
                 Alert.alert('Failed to confirm reservation:',  response && response.statusText ? response.statusText : 'Unknown error');
             }
@@ -199,13 +200,14 @@ const Confirmation = ({ navigation, route }) => {
           
             </ScrollView>
             </KeyboardAvoidingView>
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
                  style={[commonStyles.button, !isChecked && styles.disabledButton]} 
                  onPress={handleConfirmReservation}
                  disabled={!isChecked}
             >
                 <Text style={commonStyles.buttonText}>Confirm</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <GradientButton text="Confirm" onPress={handleConfirmReservation} icon={null} style={{ marginTop: 20 }} />
         </View>
 
     );

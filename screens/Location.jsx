@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView } from "react-native";
 import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; // Import the fetchRestaurantsByCity function
 import commonStyles from '../styles/commonStyles';
+import GradientButton from '../styles/GradientButton';
 
 const Location = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
@@ -31,21 +32,22 @@ const Location = ({ navigation }) => {
                     <Text style={styles.bigText}>
                         Discover Flavor, {'\n'}Reserve with Ease
                     </Text>
-                <Text style={styles.smallText}>
+                {/* <Text style={styles.smallText}>
                     The perfect Restaurant for any occasion with our advanced search tools !
-                </Text>
+                </Text> */}
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Enter Location"
                     value={searchText}
                     onChangeText={setSearchText}
                 />
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.button}
                     onPress={handleSearch} 
                 >
                     <Text style={commonStyles.buttonText}>Search</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <GradientButton text="Search" onPress={handleSearch} />
                 </View>
             </ImageBackground>
         </View>
@@ -68,7 +70,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'white',
         marginLeft: 15,
-        marginTop:20
+        marginTop:20,
+        marginHorizontal: 20,
     },
     backgroundImage: {
         flex: 1,
