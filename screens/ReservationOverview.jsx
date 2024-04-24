@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView } from 'react-native'
 import Overview from '../component/Overview';
 import { getOverviewList } from '../apiCalls/overviewData.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomNavBar from '../component/CustomNavBar';
 
 export default function ReservationOverview({ navigation }) {
   const [overviewList, setOverviewList] = useState([]);
@@ -36,13 +37,14 @@ export default function ReservationOverview({ navigation }) {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {overviewList.map((restaurant, index) => (
-        <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
-      ))}
-      {/* <Overview />
-      <Overview /> */}
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        {overviewList.map((restaurant, index) => (
+          <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
+        ))}
+      </ScrollView>
+      <CustomNavBar navigation={navigation}/>
+    </View>
   )
 }
 

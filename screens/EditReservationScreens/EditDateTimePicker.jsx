@@ -303,7 +303,7 @@ const EditDateTimePicker = ({ navigation, route }) => {
                 tableId
               }) : null
           }
-          disabled={!selectedDate}
+          // disabled={!selectedDate}
         >
           <Text style={commonStyles.buttonText}>Proceed to Table Layout</Text>
         </TouchableOpacity>

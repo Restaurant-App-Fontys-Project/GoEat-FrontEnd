@@ -5,7 +5,8 @@ import commonStyles from '../../styles/commonStyles'; // Import common styles
 import dummytableLayoutData from '../../dummytableLayoutData.json'; // Import the JSON file, remove later
 import TableItem from '../../component/TableItem'; // Import the TableItem component
 import axios from 'axios';
-import { set } from 'date-fns';
+import { updateOverviewData } from '../../apiCalls/overviewData';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditTableLayout = ({ navigation, route }) => {
     const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData, tableId } = route.params;
@@ -26,11 +27,12 @@ const EditTableLayout = ({ navigation, route }) => {
             console.error("Error fetching table data:", error);
         }
     }
-
+    let user;
     useEffect(() => {
         // Filter tables based on restaurant ID
         const filteredTables = dummytableLayoutData.filter(table => table.restaurant_id === restaurantIdToShow);
         // Categorize tables based on the number of seats
+        getUserDataFromStorage()
         const categorizedTables = {};
         filteredTables.forEach(table => {
             const category = `${table.seats} Seat Tables`;
@@ -59,6 +61,38 @@ const EditTableLayout = ({ navigation, route }) => {
         console.log('Selected table from server:', selectedTable);
     };
 
+    const getUserDataFromStorage = async () => {
+        user = await AsyncStorage.getItem('userId');
+        // return user.id;
+        console.log("The user",user)
+    }
+
+    const sendDataToApi = async () => {
+        console.log("Sending data")
+        dataToSend = {
+            "id": restaurantData.id,
+            "restaurantId": restaurantId,
+            "userId": await getUserDataFromStorage(),
+            "date": selectedDate,
+            "note": restaurantData.note,
+            "numberOfPeople": noOfGuests,
+            "tableId": tableId,
+            "reservationStart": restaurantData.reservationStart,
+            "reservationEnd": restaurantData.reservationEnd,
+            "maxDuration": {
+                "ticks": 0
+            },
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email,
+            "phoneNumber": user.phoneNumber,
+            "title": "string"
+        }
+        updateOverviewData(restaurantData.id, dataToSend)
+            .then((res) => console.log(res))
+            .catch((error) => console.log(error));
+    }
+    
 
     return (
         <View style={{ padding: 16, width: '100%', height: '100%' }}>
@@ -107,19 +141,22 @@ const EditTableLayout = ({ navigation, route }) => {
             </Modal>
             <TouchableOpacity
                 style={[commonStyles.button, !selectedTable && styles.disabledButton]}
-                onPress={() => {
-                    if (selectedTable) {
-                        navigation.navigate('Reservation 3/3', {
-                            tableId: selectedTable.id,
-                            selectedDate,
-                            selectedTimeSlot,
-                            reservationDuration,
-                            noOfGuests,
-                            restaurantData
-                        });
-                    }
-                }}
-                disabled={!selectedTable}
+                onPress={sendDataToApi}
+                // onPress={() => {
+                //     console.log("Clicked")
+                //     sendDataToApi
+                    // if (selectedTable) {
+                    //     navigation.navigate('Reservation 3/3', {
+                    //         tableId: selectedTable.id,
+                    //         selectedDate,
+                    //         selectedTimeSlot,
+                    //         reservationDuration,
+                    //         noOfGuests,
+                    //         restaurantData
+                    //     });
+                    // }
+                // }}
+            // disabled={!selectedTable}
             >
                 <Text style={commonStyles.buttonText}>Next</Text>
             </TouchableOpacity>
@@ -149,6 +186,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        
 
     },
     modalTextContainer: {
