@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView,View } from 'react-native'
 import Overview from '../component/Overview';
 import { getOverviewList } from '../apiCalls/overviewData.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomNavBar from '../component/CustomNavBar';
+import CustomNavBar from '../component/CustomNavBar.jsx';
 
 export default function ReservationOverview({ navigation }) {
   const [overviewList, setOverviewList] = useState([]);
