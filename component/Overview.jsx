@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { getRestaurantName, deleteOverviewData, getRestaurantData } from '../apiCalls/overviewData';
 import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 
 export default function Overview({ restaurant, reservationId, onCancelReservation }) {
@@ -77,12 +78,12 @@ const cancelReservation = () => {
       <Text style={styles.detailText}>Number of Guests: {restaurant.numberOfPeople}</Text>
       <Text style={styles.detailText}>Note: {restaurant.note}</Text>
       <View style={styles.buttonSection}>
-        <TouchableOpacity style={styles.button} onPress={handleEdit}>
-          <Text style={styles.buttonText}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={cancelReservation} >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleEdit}>
+              <FontAwesome6 name="edit" size={22} color="#541412" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={cancelReservation} >
+              <FontAwesome6 name="trash-can" size={22} color="#541412" />
+          </TouchableOpacity>
       </View>
     </View>
   )
@@ -113,11 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   button: {
-    marginTop: 10,
-    backgroundColor: '#C34F5A',
-    padding: 10,
-    borderRadius: 5,
-    width: 100,
+    marginRight: 10,
   },
   buttonText: {
     color: 'white',

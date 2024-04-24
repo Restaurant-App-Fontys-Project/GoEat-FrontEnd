@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, ScrollView,View } from 'react-native'
+import { StyleSheet, ScrollView,View, View } from 'react-native'
 import Overview from '../component/Overview';
 import { getOverviewList } from '../apiCalls/overviewData.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomNavBar from '../component/CustomNavBar.jsx';
+import commonStyles from '../styles/commonStyles.js';
+
+
 
 export default function ReservationOverview({ navigation }) {
   const [overviewList, setOverviewList] = useState([]);
@@ -38,11 +41,11 @@ export default function ReservationOverview({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container}>
-        {overviewList.map((restaurant, index) => (
-          <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
-        ))}
-      </ScrollView>
+    <ScrollView contentContainerStyle={[commonStyles.scrollContainer, { marginTop: 0 }]}>
+      {overviewList.map((restaurant, index) => (
+        <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
+      ))}
+    </ScrollView>
       <CustomNavBar navigation={navigation}/>
     </View>
   )
@@ -63,5 +66,5 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: 'bold',
-  }
+  },
 });

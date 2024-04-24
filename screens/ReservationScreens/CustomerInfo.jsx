@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import reservationData from '../../reservationData.json';
 import commonStyles from '../../styles/commonStyles'; 
 import {fetchUserData} from '../../apiCalls/userData';
+import GradientButton from '../../styles/GradientButton';
 
 
 const CustomerInfo = ({ navigation, route }) => {
@@ -184,14 +185,10 @@ const CustomerInfo = ({ navigation, route }) => {
         </ScrollView>
 
       </KeyboardAvoidingView>
-      <TouchableOpacity
-            style={commonStyles.button}
-            // onPress={handleNextPress}
-            onPress={handleNextPress}
-
-          >
-            <Text style={commonStyles.buttonText}>Next</Text>
-          </TouchableOpacity>
+      <GradientButton
+        onPress={handleNextPress}
+        text="Next"
+      />
     </View>
 
   );

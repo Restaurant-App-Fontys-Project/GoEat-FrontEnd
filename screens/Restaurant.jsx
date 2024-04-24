@@ -6,6 +6,8 @@ import Details from '../component/Details';
 import Info from '../component/Info';
 import commonStyles from '../styles/commonStyles';
 import { fetchRestaurantData, fetchRestaurantTags } from '../apiCalls/restaurantApi';
+import GradientButton from '../styles/GradientButton';
+import { ActivityIndicator } from 'react-native';
 
 
 export default function Restaurant({navigation,route}) {
@@ -13,6 +15,9 @@ export default function Restaurant({navigation,route}) {
     const [selectedOption, setSelectedOption] = useState('Menu');
     const [restaurantData, setRestaurantData] = useState({}); 
     const [updateCount, setUpdateCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+
 
     useEffect(() => {
       fetchData();
@@ -25,9 +30,12 @@ export default function Restaurant({navigation,route}) {
   
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         await fetchRestaurantData(restaurantId, setRestaurantData); 
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
 
@@ -63,6 +71,12 @@ export default function Restaurant({navigation,route}) {
 
   return (
     <ScrollView style={styles.container}>
+      {/* Loading modal */}
+      {isLoading && (
+        <View style={styles.loadingModal}>
+          <ActivityIndicator size="large" color="#C34F5A" />
+        </View>
+      )}
         {/* Cover image */}
         {restaurantData && restaurantData.cover && (
         <View style={styles.imageCover}>
@@ -89,23 +103,15 @@ export default function Restaurant({navigation,route}) {
       </View>
       {/* Render content based on selected option */}
       <View style={styles.content}>{renderOption()}</View>
+      <GradientButton
+          text="Make a reservation"
+          onPress={() => {
+            navigation.navigate('Reservation 1/3', {
+              restaurantId: restaurantId,
+            });
+          }}
+      />
 
-      {/*Button for reservation*/}
-      <TouchableOpacity 
-        style={commonStyles.button}
-        onPress={() => {
-          navigation.navigate('Reservation 1/3', {
-            restaurantId: restaurantId,
-            // restaurantData: {
-            //   name: restaurantData.details.name,
-            //   address: restaurantData.details.address,
-            //   openingHours: restaurantData.details.openingHours
-            // }
-          });
-          
-        }}>
-        <Text style={commonStyles.buttonText}>Make a reservation</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -149,4 +155,15 @@ const styles = StyleSheet.create({
     content: {
       marginBottom: 10, 
     },
+    loadingModal: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    },
+    
   });

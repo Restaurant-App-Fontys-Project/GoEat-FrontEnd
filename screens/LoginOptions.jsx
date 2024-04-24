@@ -2,6 +2,10 @@ import React, { useState , useEffect} from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userLogin, deleteUser } from '../apiCalls/userData';
+import { LinearGradient } from 'expo-linear-gradient';
+import GradientButton from '../styles/GradientButton';
+import { FontAwesome6 } from '@expo/vector-icons';
+import CustomNavBar from '../component/CustomNavBar.jsx';
 
 
 const LoginOptions = ({ navigation }) => {
@@ -9,17 +13,6 @@ const LoginOptions = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState(false); 
     const [userData, setUserData] = useState(null); 
-    
-    //  clear async storage
-        // const clearAsyncStorage = async () => {
-        //     try {
-        //         await AsyncStorage.clear();
-        //         console.log('AsyncStorage cleared successfully.');
-        //     } catch (error) {
-        //         console.error('Error clearing AsyncStorage:', error);
-        //     }
-        // };
-        // clearAsyncStorage();
 
         useEffect(() => {
             checkLoginStatus();
@@ -100,14 +93,6 @@ const LoginOptions = ({ navigation }) => {
         navigation.navigate('Registration');
     };
 
-    const handleLoginWithFacebook = () => {
-        // Handle Facebook login
-    };
-
-    const handleLoginWithGoogle = () => {
-        // Handle Google login
-    };
-
     const handleEditProfile = () => {
         
     };
@@ -146,9 +131,7 @@ const LoginOptions = ({ navigation }) => {
             console.error('Error deleting account:', error);
             Alert.alert('Error', 'An error occurred while deleting your account. Please try again later.');
         }
-    };
-    
-    
+    };    
 
     return (
         <View style={styles.container}>
@@ -157,12 +140,14 @@ const LoginOptions = ({ navigation }) => {
                 style={styles.backgroundImage}
             >
                 {/* App Logo */}
-                <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/logoGE.png')} style={styles.logo} />
 
                 {/* Display user info and logout button if logged in */}
                 {loggedIn && userData && (
                     <View style={styles.userInfoContainer}>
-                        <Text style={[styles.userInfoText, {fontWeight:'bold'}, {fontSize:20}]}>Welcome, {userData.firstName} {userData.lastName}</Text>
+                        <Text style={[styles.userInfoText, {fontWeight:'bold'}, {fontSize:20}, {color:'#C54F5B'}]}>
+                            Welcome {userData.firstName} {userData.lastName} to GoEat!
+                        </Text>
                         <View style={styles.userInfoSeparator} />
                         <Text style={styles.userInfoText}>First name: {userData.firstName}</Text>
                         <View style={styles.userInfoSeparator} />
@@ -174,23 +159,33 @@ const LoginOptions = ({ navigation }) => {
                         <View style={styles.userInfoSeparator} />
 
                         <View style={styles.deleteButton}>
-                        {/* Edit Profile button */}
-                            <TouchableOpacity onPress={handleEditProfile} style={styles.edit}>
-                                <Text style={[styles.buttonText, {color:'black'}]}>Edit </Text>
+                            {/* Edit Profile button */}
+                            <TouchableOpacity onPress={handleEditProfile} >
+                                <FontAwesome6 name="edit" size={22} color="#541412" />
                             </TouchableOpacity>
 
                             {/* Delete Account button */}
-                            <TouchableOpacity onPress={handleDeleteAccount} style={styles.delete}>
-                                <Text style={[styles.buttonText, {color:'black'}]}>Delete </Text>
+                            <TouchableOpacity onPress={handleDeleteAccount} >
+                                <FontAwesome6 name="trash-can" size={22} color="#541412" style={styles.deleteIcon} />
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity onPress={handleLogout} style={styles.loginButton}>
-                            <Text style={styles.buttonText}>Logout</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
+                        {/* Logout button */}
+                        <GradientButton text="Logout" onPress={handleLogout} icon={null} 
+                            style={styles.logoutButton} />
 
+                        {/* Search Restaurant button */}
+                        <GradientButton
+                            text="Search Restaurants"
+                            onPress={() => navigation.navigate('Location')}
+                            icon={null}
+                            style={styles.loginButton}
+                        />
+                         
+                    </View>
+
+                )}
+                
                 {/* Display login form if not logged in */}
                 {!loggedIn && (
                     <View>
@@ -220,42 +215,38 @@ const LoginOptions = ({ navigation }) => {
                                 textAlignVertical="center"
                             />
                         </View>
-
                         {/* Login button */}
-                        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
-                            <Text style={styles.buttonText}>Login</Text>
-                        </TouchableOpacity>
+                <LinearGradient
+                    colors={['rgba(214, 159, 59, 1)', 'rgba(197, 79, 91, 1)']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.loginButton}
+                >
+                    <TouchableOpacity onPress={handleLogin}>
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
 
-                        {/* Forgot password? */}
-                        <TouchableOpacity>
-                            <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold', marginTop: 30 }]}>Forgot password?</Text>
-                        </TouchableOpacity>
-
-                        <Text style={[styles.buttonText, { color: '#C34F5A', fontWeight: 'bold' }]}> Or</Text>
-
-                        {/* Login with Facebook and Google */}
-                        <View style={styles.loginOptions}>
-                            <TouchableOpacity onPress={handleLoginWithFacebook}>
-                                <Image source={require('../assets/login-icons/facebook.png')} style={styles.icon} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={handleLoginWithGoogle}>
-                                <Image source={require('../assets/login-icons/google.png')} style={styles.icon} />
-                            </TouchableOpacity>
-                        </View>
-
-                        {/* Register */}
-                        <TouchableOpacity onPress={navigateRegister}>
-                            <Text style={styles.skipText}>New user? Register now</Text>
-                        </TouchableOpacity>
-
-                        {/* Skip Option */}
-                        <TouchableOpacity onPress={handleSkip}>
-                            <Text style={styles.skipText}>Skip</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-            </ImageBackground>
-        </View>
+                {/* New user & Skip options */}
+                <View style={styles.new}>
+                    <TouchableOpacity onPress={navigateRegister}>
+                        <Text style={styles.skipText}>New user? Register now</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleSkip}>
+                        <Text style={styles.skipText}>Skip</Text>
+                    </TouchableOpacity>
+                </View> 
+            </View>
+        )}
+        {/* show bottom navigation bar if only user logged in */}
+        {loggedIn && (
+            <View style={styles.navigationBottom}>
+                <CustomNavBar navigation={navigation} />
+            </View>
+        )}
+        
+    </ImageBackground>
+</View>
     );
 };
 
@@ -322,8 +313,7 @@ const styles = StyleSheet.create({
     skipText: {
         marginTop: 30,
         textDecorationLine: 'underline',
-        color: '#C34F5A',
-        fontWeight: 'bold',
+        color: 'white',
         fontSize: 18,
         textAlign: 'center',
     },
@@ -348,10 +338,10 @@ const styles = StyleSheet.create({
     logoutButtonText: {
         color: 'white',
         fontSize: 18,
+        textAlign: 'center',
     },
     userInfoContainer: {
         alignItems: 'center',
-        marginBottom: 20,
     },
     userInfoSeparator: {
         height: 1,
@@ -359,30 +349,51 @@ const styles = StyleSheet.create({
         width: '80%',
         marginVertical: 10,
     },
-    deleteButton: {
-        flexDirection: 'row',
-        marginLeft: 10,
-    },
-    edit: {
-        backgroundColor: '#F8D3B9',
+deleteButton: {
+    flexDirection: 'row',
+    marginRight: 20, 
+},
+
+deleteIcon: {
+    marginLeft: 20, 
+},
+logoutB: {
+    marginTop: 10,
+    padding: 15,
+    borderRadius: 20,
+    position: 'absolute',
+    width: '100%',
+    bottom: 20,
+},
+new: {
+    marginTop: 20,
+    alignItems: 'center',
+        
+},
+loginFormContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+
+loginButton: {
+        backgroundColor: 'transparent',
         padding: 10,
-        marginTop: 20,
+        marginTop: 40,
         borderRadius: 50,
-        width: '30%',
-        marginLeft: 'auto',
-        marginRight: 10,
-        justifyContent: 'center',
-    },
-    delete: {
-        backgroundColor: '#F8D3B9',
-        padding: 10,
-        marginTop: 20,
-        borderRadius: 50,
-        width: '30%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        justifyContent: 'center',
-    },
+        width: '50%',
+        alignItems: 'center',
+        marginHorizontal: 90,
+        marginVertical: 20,
+},
+navigationBottom: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    marginBottom: 0
+},
+
+
 });
 
 export default LoginOptions;
