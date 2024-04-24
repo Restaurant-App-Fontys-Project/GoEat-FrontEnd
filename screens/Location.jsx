@@ -1,22 +1,42 @@
-import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView } from "react-native";
-import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; 
+import React, { useState, useEffect } from "react";
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView, Modal, FlatList } from "react-native";
 import commonStyles from '../styles/commonStyles';
+import citiesData from '../cities.json';
+import { getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation';
 import GradientButton from '../styles/GradientButton';
 
 const Location = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
     const [restaurants, setRestaurants] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [cities, setCities] = useState([]);
+
+    useEffect(() => {
+        setCities(citiesData); 
+    }, []);
 
     const handleSearch = async () => {
         try {
-            const fetchedRestaurants = await getRestaurantsByLocation(searchText);
+            const fetchedRestaurants = await getRestaurantsByLocation(selectedCity);
             setRestaurants(fetchedRestaurants);
             // Navigate to Home screen with search results
-            navigation.navigate('Home', { restaurants: fetchedRestaurants, city: searchText });
+            navigation.navigate('Home', { restaurants: fetchedRestaurants, city: selectedCity });
         } catch (error) {
             console.error('Error fetching restaurants:', error);
         }
+    };
+    
+
+    const renderCityItem = ({ item }) => (
+        <TouchableOpacity style={styles.cityItem} onPress={() => selectCity(item)}>
+            <Text style={styles.cityText}>{item}</Text>
+        </TouchableOpacity>
+    );
+
+    const selectCity = (city) => {
+        setSelectedCity(city);
+        setModalVisible(false);
     };
 
     return (
@@ -26,23 +46,32 @@ const Location = ({ navigation }) => {
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
-               
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                 <Image source={require('../assets/logo1.png')} style={{ width: 160, height: 160, alignSelf: 'center' }} />
+                    <Image source={require('../assets/logoGE.png')} style={{ width: 160, height: 160, alignSelf: 'center' }} />
                     <Text style={styles.bigText}>
                         Discover Flavor, {'\n'}Reserve with Ease
                     </Text>
-
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Enter Location"
-                    value={searchText}
-                    onChangeText={setSearchText}
-                />
-
-                <GradientButton text="Search" onPress={handleSearch} />
+                    <TouchableOpacity style={styles.searchInput} onPress={() => setModalVisible(true)}>
+                        <Text>{selectedCity || 'Select City'}</Text>
+                    </TouchableOpacity>
+                    <GradientButton text="Search" onPress={handleSearch} />
                 </View>
             </ImageBackground>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <FlatList
+                       data={cities}
+                       renderItem={renderCityItem}
+                       keyExtractor={(item) => item}
+                       contentContainerStyle={{ paddingTop: '5%', paddingBottom: '5%', paddingHorizontal: 20, width: '70%', backgroundColor: 'white', marginTop: '50%' }}
+                    />
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -63,8 +92,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'white',
         marginLeft: 15,
-        marginTop:20,
-        marginHorizontal: 20,
+        marginTop: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     backgroundImage: {
         flex: 1,
@@ -95,6 +125,22 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         justifyContent: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+    },
+    cityItem: {
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgray',
+        width: '100%',
+        backgroundColor: 'white',
+    },
+    cityText: {
+        fontSize: 16,
     },
 });
 

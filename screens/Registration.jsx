@@ -78,7 +78,7 @@ const Registration = ({ navigation }) => {
                 style={styles.backgroundImage}
             >
 
-                <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/logoGE.png')} style={styles.logo} />
 
                 <View style={styles.inputWrapper}>
                     <Image source={require('../assets/login-icons/profile.png')} style={styles.icon} />

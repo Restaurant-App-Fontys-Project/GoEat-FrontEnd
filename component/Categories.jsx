@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0', 
   },
   image: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 50,
   },
   restaurantName: {

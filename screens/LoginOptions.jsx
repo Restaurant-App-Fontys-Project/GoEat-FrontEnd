@@ -2,10 +2,9 @@ import React, { useState , useEffect} from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userLogin, deleteUser } from '../apiCalls/userData';
-import CustomNavBar from '../component/CustomNavBar';
-import { KeyboardAvoidingView } from 'react-native-web';
 import GradientButton from '../styles/GradientButton';
 import { FontAwesome6 } from '@expo/vector-icons';
+import CustomNavBar from '../component/CustomNavBar.jsx';
 
 
 const LoginOptions = ({ navigation }) => {
@@ -94,7 +93,7 @@ const LoginOptions = ({ navigation }) => {
     };
 
     const handleEditProfile = () => {
-        Alert.alert('Edit profile feature coming soon!');
+        Alert.alert('Edit profile feature not yet implemented!');
     };
 
     const handleDeleteAccount = async () => {
@@ -140,7 +139,7 @@ const LoginOptions = ({ navigation }) => {
                 style={styles.backgroundImage}
             >
                 {/* App Logo */}
-                <Image source={require('../assets/login-icons/logo.png')} style={styles.logo} />
+                <Image source={require('../assets/logoGE.png')} style={styles.logo} />
 
                 {/* Display user info and logout button if logged in */}
                 {loggedIn && userData && (
@@ -182,7 +181,9 @@ const LoginOptions = ({ navigation }) => {
                             icon={null}
                             style={styles.loginButton}
                         />
+                         
                     </View>
+
                 )}
                 
                 {/* Display login form if not logged in */}
@@ -230,6 +231,13 @@ const LoginOptions = ({ navigation }) => {
                 </View> 
             </View>
         )}
+        {/* show bottom navigation bar if only user logged in */}
+        {loggedIn && (
+            <View style={styles.navigationBottom}>
+                <CustomNavBar navigation={navigation} />
+            </View>
+        )}
+        
     </ImageBackground>
 </View>
     );
@@ -317,7 +325,6 @@ const styles = StyleSheet.create({
     },
     userInfoContainer: {
         alignItems: 'center',
-        marginBottom: 20,
     },
     userInfoSeparator: {
         height: 1,
@@ -362,6 +369,14 @@ loginButton: {
         marginHorizontal: 90,
         marginVertical: 20,
 },
+navigationBottom: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    marginBottom: 0
+},
+
+
 });
 
 export default LoginOptions;
