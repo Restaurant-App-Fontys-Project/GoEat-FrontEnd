@@ -46,7 +46,9 @@ const getReservation = async (id) => {
 
 const updateOverviewData = async (id, data) => {
     try {
-        const response = await axios.put("http://localhost:5107/{id}/overview", data);
+        const response = await axios.put(BASE_URL + `reservations/${id}`, data)
+        console.log("Id", id);
+        console.log("Data", data);
         console.log("Overview data updated:", response.data);
         return response.data;
     } catch (error) {
