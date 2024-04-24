@@ -5,8 +5,8 @@ const BASE_URL = 'https://goeat-api.onrender.com/'
 
 const getOverviewList = async (userId) => {
     try {
-        //const response = await axios.get(BASE_URL + 'reservations/user/' + userId);
-        const response = await axios.get(BASE_URL + 'reservations');
+        const response = await axios.get(BASE_URL + 'reservations/user/' + userId);
+        //const response = await axios.get(BASE_URL + 'reservations');
         return response.data;
     } catch (error) {
         console.error("Error fetching overview data:", error);

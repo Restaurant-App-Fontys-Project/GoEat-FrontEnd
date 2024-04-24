@@ -224,6 +224,14 @@ const EditDateTimePicker = ({ navigation, route }) => {
             >
               <Picker.Item label="1 Guest" value={1} />
               <Picker.Item label="2 Guests" value={2} />
+              <Picker.Item label="3 Guest" value={3} />
+              <Picker.Item label="4 Guests" value={4} />
+              <Picker.Item label="5 Guest" value={5} />
+              <Picker.Item label="6 Guests" value={6} />
+              <Picker.Item label="7 Guest" value={7} />
+              <Picker.Item label="8 Guests" value={8} />
+              <Picker.Item label="9 Guest" value={9} />
+              <Picker.Item label="10 Guests" value={10} />
               {/* change later */}
             </Picker>
           </View>

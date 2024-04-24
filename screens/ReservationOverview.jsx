@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, ScrollView,View, View } from 'react-native'
+import { StyleSheet, ScrollView,View } from 'react-native'
 import Overview from '../component/Overview';
 import { getOverviewList } from '../apiCalls/overviewData.jsx'
 import AsyncStorage from '@react-native-async-storage/async-storage';
