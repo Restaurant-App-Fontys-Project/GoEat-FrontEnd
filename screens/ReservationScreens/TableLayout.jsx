@@ -94,6 +94,7 @@ const TableLayout = ({ navigation, route }) => {
             <KeyboardAvoidingView style={{ flex: 3, alignItems: 'center', marginTop: 16, marginBottom: 20 }} behavior="padding">
                 <ScrollView style={{ width: '100%' }}>
                     <View style={styles.container}>
+                        <Text style={styles.header}>Select a table</Text>
                         {Object.entries(tableLayout).map(([category, tables]) => (
                             <View key={category} style={{ borderWidth: 1, borderColor: '#F8D3B9', padding: 10, borderRadius: 5, marginBottom: 10 }}>
                                 <Text style={styles.categoryTitle}>{category}</Text>
@@ -137,28 +138,6 @@ const TableLayout = ({ navigation, route }) => {
                     </View>
                 </View>
             </Modal>
-           
-            {/* <TouchableOpacity
-                style={[commonStyles.button, !selectedTable && styles.disabledButton]}
-                onPress={() => {
-                    if (selectedTable) {
-                        navigation.navigate('Reservation 3/3', {
-                            tableId: selectedTable.id,
-                            tableNumber: selectedTable.tableNumber,
-                            selectedDate,
-                            selectedTimeSlot,
-                            reservationDuration,
-                            noOfGuests,
-                            restaurantData,
-                            restaurantId,
-                        });
-                    }
-                }}
-                disabled={!selectedTable}
-            >
-
-                <Text style={commonStyles.buttonText}>Next</Text>
-            </TouchableOpacity> */}
             {/* Next button with gradient */}
             <GradientButton
                 onPress={() => {
@@ -229,6 +208,11 @@ const styles = StyleSheet.create({
     },
     disabledButton: {
         backgroundColor: '#ccc',
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 10,
     },
 });
 

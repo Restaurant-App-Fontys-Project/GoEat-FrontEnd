@@ -5,7 +5,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import CalendarPicker from "react-native-calendar-picker";
 import { Picker } from '@react-native-picker/picker';
 import TimeSlotItem from "../../component/TimeslotItem";
-import reservationData from '../../reservationData.json'; //remove later
 import specialDates from '../../specialDates.json';
 import { getRestaurantData } from '../../apiCalls/ReservationData';
 import GradientButton from '../../styles/GradientButton'; 
@@ -95,13 +94,14 @@ const handleReservationDuration = (maxReservationDuration) => {
   };
   
   const handleDateSelect = (date) => {
-    console.log('Selected date:', date);
-    console.log('Type of selected date:', typeof date);
     if (!date) {
-      console.error('Selected date is null.');
+      console.error('Selected date is null or undefined.');
       return;
     }
-
+  
+    console.log('Selected date:', date);
+    console.log('Type of selected date:', typeof date);
+  
     const handleDate = (selectedDate) => {
       if (selectedDate instanceof Date) {
         const selectedDayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][selectedDate.getDay()];
@@ -124,10 +124,9 @@ const handleReservationDuration = (maxReservationDuration) => {
         console.error('Invalid date object:', selectedDate);
       }
     };
-  
-    // Example of calling handleDate with the date object passed to handleDateSelect
     handleDate(date);
   };
+  
   
   
 
@@ -178,6 +177,7 @@ const handleReservationDuration = (maxReservationDuration) => {
       <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
       <View style={[{ marginTop: 20, alignItems: 'center' }]}>
           <Text style={commonStyles.headerText}>{name}</Text>
+          <Text style={commonStyles.subHeaderText}>{address}, {city}</Text>
         </View>
         {/* Drop down menu to select reservation duration */}
         <View style={styles.durationContainer}>
