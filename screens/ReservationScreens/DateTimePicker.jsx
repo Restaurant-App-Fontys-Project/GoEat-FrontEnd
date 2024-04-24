@@ -15,7 +15,7 @@ const DateTimePicker = ({ navigation, route }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [maxDuration, setMaxDuration] = useState(0);
-  const [reservationDuration, setReservationDuration] = useState(1); 
+  const [reservationDuration, setReservationDuration] = useState(30); 
   const [noOfGuests, setNoOfGuests] = useState(1);
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [isDurationPickerVisible, setIsDurationPickerVisible] = useState(false);
