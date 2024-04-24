@@ -39,14 +39,8 @@ const DateTimePicker = ({ navigation, route }) => {
     setIsTimeSlotsVisible(!isTimeSlotsVisible);
   };
  
-  // edit this later
-  const fetchMaxDuration = () => {
-    const { reservation_max_duration_in_hours } = reservationData;
-    setMaxDuration(reservation_max_duration_in_hours);
-  };
 
   useEffect(() => {
-    fetchMaxDuration();
     fetchData();
   }, []);
 
@@ -65,8 +59,11 @@ const DateTimePicker = ({ navigation, route }) => {
         address, 
         maxguestsperreservation,
         reservationmessage,
-        city
+        city,
+        maxReservationDuration
        } = restaurantData;
+       console.log('guests:', maxguestsperreservation);
+       console.log('maxrestime:',  maxReservationDuration);
 
   // handle number of guests
   const handleNoofGuests = (maxguestsperreservation) => {
@@ -75,7 +72,21 @@ const DateTimePicker = ({ navigation, route }) => {
       return <Picker.Item key={value} label={`${value} Guest${value !== 1 ? 's' : ''}`} value={value} />;
     });
   };
- 
+// handle reservation duration
+const handleReservationDuration = (maxReservationDuration) => {
+  if (!maxReservationDuration) {
+    return [];
+  }
+
+  const [hours, minutes, seconds] = maxReservationDuration.split(':').map(Number);
+  const totalMinutes = hours * 60 + minutes;
+  const optionsCount = Math.ceil(totalMinutes / 30);
+  return [...Array(optionsCount).keys()].map((index) => {
+    const value = (index + 1) * 30;
+    return <Picker.Item key={value} label={`${value} minutes`} value={value} />;
+  });
+};
+
   // check if the selected date is a special holiday
   const isSpecialHoliday = (date, specialDates) => {
     return specialDates.some(day => {
@@ -175,29 +186,28 @@ const DateTimePicker = ({ navigation, route }) => {
             <Text>Select Reservation Duration:</Text>
           </View>
           <TouchableOpacity style={styles.inputContainer} onPress={toggleDurationPicker}>
-            <Text style={styles.durationHeader}> {reservationDuration} hour(s)</Text>
+            <Text style={styles.durationHeader}> {reservationDuration} minute(s)</Text>
           </TouchableOpacity>
         </View>
         <Modal 
             visible={isDurationPickerVisible}
             animationType="slide"
             transparent={true}
-           >
-          <View style={styles.modalContainer}>
-            <Picker
-              selectedValue={reservationDuration}
-              style={styles.picker}
-              onValueChange={(itemValue) => {
-                setReservationDuration(itemValue);
-                toggleDurationPicker();
-              }}
-            >
-              <Picker.Item label="1 hour" value={1} />
-              <Picker.Item label="2 hours" value={2} />
-              {/* change later */}
-            </Picker>
-          </View>
-        </Modal>
+          >
+            <View style={styles.modalContainer}>
+              <Picker
+                selectedValue={reservationDuration}
+                style={styles.picker}
+                onValueChange={(itemValue) => {
+                  setReservationDuration(itemValue);
+                  toggleDurationPicker();
+                }}
+              >
+                {handleReservationDuration(maxReservationDuration)}
+              </Picker>
+            </View>
+          </Modal>
+
         {/* no. of guests */}
         <View style={styles.durationContainer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>

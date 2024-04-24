@@ -53,15 +53,17 @@ const Confirmation = ({ navigation, route }) => {
     console.log("userid",userId);
 
     //  calculate the reservation end time
-    const startTime = selectedTimeSlot.split(':');
-    const startHour = parseInt(startTime[0]);
-    const startMinute = parseInt(startTime[1]);
-    const durationInHours = parseInt(reservationDuration);
-    const endHour = (startHour + durationInHours) % 24; // Ensure end hour doesn't exceed 24 hours
-    const endMinute = startMinute;
+        const startTime = selectedTimeSlot.split(':');
+        const startHour = parseInt(startTime[0]);
+        const startMinute = parseInt(startTime[1]);
+        const durationInMinutes = parseInt(reservationDuration);
+        const totalStartMinutes = startHour * 60 + startMinute;
+        const totalEndMinutes = totalStartMinutes + durationInMinutes;
+        const endHour = Math.floor(totalEndMinutes / 60) % 24; // Ensure end hour doesn't exceed 24 hours
+        const endMinute = totalEndMinutes % 60;
 
-    const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
-    const endTimeString = endTime+":00";
+        const endTime = `${endHour}:${endMinute < 10 ? '0' + endMinute : endMinute}`;
+        const endTimeString = endTime + ":00";
 
     // convert selecteddate in to string 
     const dateObject = new Date(selectedDate);

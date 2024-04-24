@@ -7,6 +7,7 @@ import List from '../component/List';
 import RestaurantCard from '../component/RestaurantCard';
 import { fetchMeals, fetchTags, fetchRestaurantTags } from '../apiCalls/restaurantApi';
 import Categories from '../component/Categories';
+import { ActivityIndicator } from 'react-native';
 
 const Home = ({ navigation, route }) => {
   const { restaurants, city } = route.params;
@@ -18,6 +19,8 @@ const Home = ({ navigation, route }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     fetchMealsForRestaurants(restaurants);
@@ -38,6 +41,7 @@ const Home = ({ navigation, route }) => {
   };
 
   const fetchMealsForRestaurants = async (restaurants) => {
+    setIsLoading(true);
     const meals = [];
 
     for (const restaurant of restaurants) {
@@ -55,6 +59,7 @@ const Home = ({ navigation, route }) => {
         console.error('Error fetching meals for restaurant:', error);
       }
     }
+    setIsLoading(false);
     setMeals(meals);
   };
 
@@ -98,6 +103,12 @@ const renderRestaurants = () => {
 
   return (
     <View style={styles.container}>
+      {/* Loading modal */}
+    {isLoading && (
+      <View style={styles.loadingModal}>
+        <ActivityIndicator size="large" color="#C34F5A" />
+      </View>
+    )}
       <ScrollView contentContainerStyle={[commonStyles.scrollContainer, { marginTop: 0 }]}>
         <ImageBackground source={require('../assets/home-images/cover.png')} style={styles.backgroundImage}>
           {/* <Image source={require('../assets/home-images/text.png')} style={styles.smallImage} /> */}
@@ -197,6 +208,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#D69F3B',
     fontWeight: 'bold',
+  },
+  loadingModal: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: windowWidth,
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

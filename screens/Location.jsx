@@ -68,7 +68,7 @@ const Location = ({ navigation }) => {
                        data={cities}
                        renderItem={renderCityItem}
                        keyExtractor={(item) => item}
-                       contentContainerStyle={{ paddingTop: '10%', paddingBottom: '10%', paddingHorizontal: 20, width: '70%', backgroundColor: 'white', marginTop: '50%' }}
+                       contentContainerStyle={{ paddingTop: '5%', paddingBottom: '5%', paddingHorizontal: 20, width: '70%', backgroundColor: 'white', marginTop: '50%' }}
                     />
                 </View>
             </Modal>
