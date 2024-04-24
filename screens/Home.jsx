@@ -99,8 +99,8 @@ const renderRestaurants = () => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={[commonStyles.scrollContainer, { marginTop: 0 }]}>
-        <ImageBackground source={require('../assets/home-images/home-bg.png')} style={styles.backgroundImage}>
-          <Image source={require('../assets/home-images/text.png')} style={styles.smallImage} />
+        <ImageBackground source={require('../assets/home-images/cover.png')} style={styles.backgroundImage}>
+          {/* <Image source={require('../assets/home-images/text.png')} style={styles.smallImage} /> */}
           {/* Search Bar */}
           <View style={styles.searchBar}>
             <SearchBar

@@ -45,10 +45,8 @@ export default function ReservationOverview({ navigation }) {
       {overviewList.map((restaurant, index) => (
         <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
       ))}
-      {/* <Overview />
-      <Overview /> */}
     </ScrollView>
-      <CustomNavBar navigation={navigation} />
+      <CustomNavBar navigation={navigation}/>
     </View>
   )
 }
@@ -68,5 +66,5 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: 'bold',
-  }
+  },
 });

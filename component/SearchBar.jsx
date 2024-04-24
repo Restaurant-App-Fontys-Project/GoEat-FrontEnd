@@ -67,22 +67,24 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         marginBottom: 10,
+        marginTop: 10
     },
     searchOption: {
         marginRight: 20,
         fontSize: 16,
-        color: "white",
+        color: "#531412",
         textDecorationLine: "underline",
     },
     activeOption: {
         fontWeight: "bold",
-        color: "white",
+        color: "#531412",
     },
     searchBar: {
-        padding: 10,
+        padding: 5,
         flexDirection: "row",
         width: "100%",
-        backgroundColor: "#d9dbda",
+        backgroundColor: "transparent",
+        borderWidth: 1,
         borderRadius: 15,
         alignItems: "center",
         /* marginBottom: 20, */
