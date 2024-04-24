@@ -37,10 +37,6 @@ export default RestaurantCard = ({ restaurant, navigation }) => {
                 <Feather name="map-pin" size={18} color="#541412" />
                 <Text style={styles.restaurantAddress}>{restaurant.address}, {restaurant.city}</Text>
             </View>
-            {/* <View style={styles.row}>
-              <MaterialIcons name="price-change" size={18} color="#541412" />
-              <Text style={styles.restaurantAddress}>Tags:</Text>
-            </View> */}
         </TouchableOpacity>
     )
 };

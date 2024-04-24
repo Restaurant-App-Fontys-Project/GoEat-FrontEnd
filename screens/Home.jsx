@@ -11,7 +11,7 @@ import Categories from '../component/Categories';
 const Home = ({ navigation, route }) => {
   const { restaurants, city } = route.params;
   const [searchPhrase, setSearchPhrase] = useState('');
-  const [searchType, setSearchType] = useState('restaurant'); // Default to searching for restaurants
+  const [searchType, setSearchType] = useState('restaurant'); 
   const [clicked, setClicked] = useState(false);
   const [meals, setMeals] = useState([]);
   const [onSearch, setOnSearch] = useState(false);

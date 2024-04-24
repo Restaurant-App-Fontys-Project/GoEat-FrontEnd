@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet, ImageBackground, Image, KeyboardAvoidingView } from "react-native";
-import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; // Import the fetchRestaurantsByCity function
+import {  getRestaurantsByLocation } from '../apiCalls/getRestaurantsByLocation'; 
 import commonStyles from '../styles/commonStyles';
 import GradientButton from '../styles/GradientButton';
 
@@ -32,21 +32,14 @@ const Location = ({ navigation }) => {
                     <Text style={styles.bigText}>
                         Discover Flavor, {'\n'}Reserve with Ease
                     </Text>
-                {/* <Text style={styles.smallText}>
-                    The perfect Restaurant for any occasion with our advanced search tools !
-                </Text> */}
+
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Enter Location"
                     value={searchText}
                     onChangeText={setSearchText}
                 />
-                {/* <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleSearch} 
-                >
-                    <Text style={commonStyles.buttonText}>Search</Text>
-                </TouchableOpacity> */}
+
                 <GradientButton text="Search" onPress={handleSearch} />
                 </View>
             </ImageBackground>

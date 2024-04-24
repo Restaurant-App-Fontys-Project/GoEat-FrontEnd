@@ -32,17 +32,6 @@ const Info = ({ restaurantData }) => {
     return (
         <View style={styles.info}>
             <Text style={commonStyles.subHeaderText}>{name}</Text>
-            {/* <View style={styles.tagContainer}>
-                <View style={styles.tag}>
-                    <Text style={styles.tagText}>Chinese</Text>
-                </View>
-                <View style={styles.tag}>
-                    <Text style={styles.tagText}>Vegetarian</Text>
-                </View>
-                <View style={styles.tag}>
-                    <Text style={styles.tagText}>Breakfast</Text>
-                </View> */}
-                {/* Add more hardcoded tags as needed */}
             {/* </View> */}
             <View style={styles.infoContent}>
                 <View style={styles.row}>

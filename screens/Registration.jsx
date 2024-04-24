@@ -50,7 +50,7 @@ const Registration = ({ navigation }) => {
                 emailAddress: email,
                 password: password,
                 phoneNumber: phone,
-                isGuestUser: false // Assuming the user is not a guest user
+                isGuestUser: false 
             };
     
             const response = await sendUserData(userData);
@@ -153,17 +153,7 @@ const Registration = ({ navigation }) => {
                     />
                 </View>
 
-
-                {/* <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity> */}
                 <GradientButton text="Sign Up" onPress={handleRegistration} />
-
-
-                {/* <Text style={[styles.buttonText, { color: '#C34F5A', paddingVertical: 10 }]}> Or</Text>
-
-                <GradientButton text="Sign up using Google" icon={require('../assets/login-icons/google.png')} />
-                <GradientButton text="Sign up using Facebook" icon={require('../assets/login-icons/facebook.png')} /> */}
 
                 <TouchableOpacity
                     onPress={navigateLogin}>

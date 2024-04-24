@@ -92,16 +92,6 @@ export default function Restaurant({navigation,route}) {
       <View style={styles.content}>{renderOption()}</View>
 
       {/*Button for reservation*/}
-      {/* <TouchableOpacity 
-        style={commonStyles.button}
-        onPress={() => {
-          navigation.navigate('Reservation 1/3', {
-            restaurantId: restaurantId,
-          });
-          
-        }}>
-        <Text style={commonStyles.buttonText}>Make a reservation</Text>
-      </TouchableOpacity> */}
       <GradientButton
           text="Make a reservation"
           onPress={() => {

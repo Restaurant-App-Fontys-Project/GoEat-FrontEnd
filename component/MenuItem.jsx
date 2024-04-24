@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
         color: '#C54F5B',
         paddingVertical: 5,
         fontSize: 16,
-        /* fontWeight: 'bold', */
     },
 });
 

@@ -6,8 +6,7 @@ const Reviews = () => {
         <View style={styles.container}>
             <Text style={styles.reviewTitle}>Reviews</Text>
             <View style={styles.reviews}>
-                <Text>Great food and excellent service!</Text>
-                <Text>Will definitely come back again.</Text>
+                <Text style={styles.reviewText}>There are no reviews for this restaurant!</Text>
             </View>
         </View>
     );
@@ -32,5 +31,9 @@ const styles = StyleSheet.create({
     },
     reviews: {
         marginTop: 10,
+    },
+    reviewText: {
+        fontSize: 16,
+        color: '#333',
     },
 });

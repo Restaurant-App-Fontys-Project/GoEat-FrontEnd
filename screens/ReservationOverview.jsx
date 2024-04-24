@@ -45,8 +45,6 @@ export default function ReservationOverview({ navigation }) {
       {overviewList.map((restaurant, index) => (
         <Overview key={index} restaurant={restaurant} onCancelReservation={handleCancelReservation} />
       ))}
-      {/* <Overview />
-      <Overview /> */}
     </ScrollView>
       <CustomNavBar navigation={navigation} />
     </View>

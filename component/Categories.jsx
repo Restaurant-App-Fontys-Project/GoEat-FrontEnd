@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   selectedCategoryItem: {
-    backgroundColor: '#F0F0F0', // Add background color for selected category
+    backgroundColor: '#F0F0F0', 
   },
   image: {
     width: 80,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   subcategory: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Wrap subcategories if they exceed the container width
+    flexWrap: 'wrap', 
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 10,

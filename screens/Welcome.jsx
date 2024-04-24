@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
+import { View, Text, Image, ImageBackground} from 'react-native'
 import GradientButton from '../styles/GradientButton'
 
 const Welcome = ({ navigation }) => {
@@ -19,16 +18,7 @@ const Welcome = ({ navigation }) => {
                 <Text style={styles.smallText}>
                     The perfect Restaurant for any occasion with our advanced search tools.......
                 </Text>
-                 {/* <LinearGradient
-                    colors={['rgba(214, 159, 59, 1)', 'rgba(197, 79, 91, 1)']} 
-                    start={{ x: 0, y: 0 }} 
-                    end={{ x: 1, y: 0 }}   
-                    style={styles.continueButton}
-                >
-                    <TouchableOpacity onPress={handleNavigation}>
-                    <Text style={styles.continueButtonText}>Start</Text>
-                    </TouchableOpacity>
-                </LinearGradient> */}
+
                 <GradientButton
                     text="Start"
                     onPress={handleNavigation}

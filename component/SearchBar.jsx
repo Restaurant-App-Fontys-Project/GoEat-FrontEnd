@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#d9dbda",
         borderRadius: 15,
         alignItems: "center",
-        /* marginBottom: 20, */
     },
     input: {
         fontSize: 16,
