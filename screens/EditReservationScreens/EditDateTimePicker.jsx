@@ -192,8 +192,9 @@ const EditDateTimePicker = ({ navigation, route }) => {
                 toggleDurationPicker();
               }}
             >
-              <Picker.Item label="1 hour" value={1} />
-              <Picker.Item label="2 hours" value={2} />
+              <Picker.Item label="30 minutes" value={1} />
+              <Picker.Item label="60 minutes" value={2} />
+              <Picker.Item label="90 minutes" value={3} />
               {/* change later */}
             </Picker>
           </View>
