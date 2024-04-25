@@ -38,8 +38,6 @@ This mobile application allows users to browse restaurants, make reservations, a
  ## Demo
 
 
-[![Watch the video](https://img.youtube.com/vi/axJ80mFh5Yw/0.jpg)](https://www.youtube.com/watch?v=axJ80mFh5Yw)
-
 <p align="center">
     <a href="https://www.youtube.com/watch?v=axJ80mFh5Yw" target="_blank">
         <img src="https://img.youtube.com/vi/axJ80mFh5Yw/0.jpg" alt="Watch the video" />
