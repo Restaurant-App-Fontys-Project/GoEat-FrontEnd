@@ -2,6 +2,10 @@
 
 ![logoGE](https://github.com/Restaurant-App-Fontys-Project/GoEat-FrontEnd/assets/114556816/6f8cff33-bb83-470b-b381-29d1a0518326)
 
+<p align="center">
+    <img src="https://github.com/Restaurant-App-Fontys-Project/GoEat-FrontEnd/assets/114556816/6f8cff33-bb83-470b-b381-29d1a0518326" alt="logoGE" />
+</p>
+
 This mobile application allows users to browse restaurants, make reservations, and manage their bookings conveniently from their mobile devices.
 
 ## Features
