@@ -36,7 +36,9 @@ This mobile application allows users to browse restaurants, make reservations, a
  ## Demo
 
 
-[![Final Demo](https://youtu.be/axJ80mFh5Yw)](https://youtu.be/axJ80mFh5Yw)
+[![Watch the video](https://img.youtube.com/vi/axJ80mFh5Yw/0.jpg)](https://www.youtube.com/watch?v=axJ80mFh5Yw)
+
+
 
 
 ## Project Team Members
