@@ -2,6 +2,7 @@ import React, { useState , useEffect} from 'react';
 import { View, Image, StyleSheet, TouchableOpacity, Text, Dimensions, ImageBackground, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { userLogin, deleteUser } from '../apiCalls/userData';
+import { LinearGradient } from 'expo-linear-gradient';
 import GradientButton from '../styles/GradientButton';
 import { FontAwesome6 } from '@expo/vector-icons';
 import CustomNavBar from '../component/CustomNavBar.jsx';
@@ -93,7 +94,7 @@ const LoginOptions = ({ navigation }) => {
     };
 
     const handleEditProfile = () => {
-        Alert.alert('Edit profile feature not yet implemented!');
+        
     };
 
     const handleDeleteAccount = async () => {
@@ -119,7 +120,7 @@ const LoginOptions = ({ navigation }) => {
                             setLoggedIn(false);
                             setUserData(null);
                             Alert.alert('Success!', 'Your account has been deleted successfully.');
-                            navigation.navigate('Welcome');
+                            navigation.navigate('LoginOptions');
                         } else {
                             Alert.alert('Error', 'Failed to delete account. Please try again later.');
                         }
@@ -165,8 +166,7 @@ const LoginOptions = ({ navigation }) => {
 
                             {/* Delete Account button */}
                             <TouchableOpacity onPress={handleDeleteAccount} >
-                                <FontAwesome6 name="trash-can" size={22} 
-                                    color="#541412" style={styles.deleteIcon} />
+                                <FontAwesome6 name="trash-can" size={22} color="#541412" style={styles.deleteIcon} />
                             </TouchableOpacity>
                         </View>
 
@@ -216,9 +216,16 @@ const LoginOptions = ({ navigation }) => {
                             />
                         </View>
                         {/* Login button */}
-
-                <GradientButton text="Login" onPress={handleLogin} icon={null}
-                />
+                <LinearGradient
+                    colors={['rgba(214, 159, 59, 1)', 'rgba(197, 79, 91, 1)']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.loginButton}
+                >
+                    <TouchableOpacity onPress={handleLogin}>
+                        <Text style={styles.buttonText}>Login</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
 
                 {/* New user & Skip options */}
                 <View style={styles.new}>
@@ -287,6 +294,16 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         marginRight: 10,
+    },
+    loginButton: {
+        backgroundColor: '#C34F5A',
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 50,
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        justifyContent: 'center',
     },
     buttonText: {
         color: 'white',
@@ -364,9 +381,9 @@ loginButton: {
         padding: 10,
         marginTop: 40,
         borderRadius: 50,
-        width: '50%',
+        width: '80%',
         alignItems: 'center',
-        marginHorizontal: 90,
+        marginHorizontal: 40,
         marginVertical: 20,
 },
 navigationBottom: {
