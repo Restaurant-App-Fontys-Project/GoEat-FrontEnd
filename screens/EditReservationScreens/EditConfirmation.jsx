@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import TextInputField from '../../component/TextInputField';
-import reservationData from '../../reservationData.json'; // Import the JSON file, remove later
-import commonStyles from '../../styles/commonStyles'; // Import common styles
-//import sendReservationData from '../apiCalls/sendReservationData';
-
+import reservationData from '../../reservationData.json'; 
+import commonStyles from '../../styles/commonStyles'; 
 
 const EditConfirmation = ({ navigation, route }) => {
     // incoming data from the previous screens

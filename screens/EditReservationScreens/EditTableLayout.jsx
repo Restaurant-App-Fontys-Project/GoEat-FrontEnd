@@ -1,19 +1,18 @@
-// TableLayout.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Modal, Button } from 'react-native';
-import commonStyles from '../../styles/commonStyles'; // Import common styles
-import dummytableLayoutData from '../../dummytableLayoutData.json'; // Import the JSON file, remove later
-import TableItem from '../../component/TableItem'; // Import the TableItem component
+import commonStyles from '../../styles/commonStyles'; 
+import dummytableLayoutData from '../../dummytableLayoutData.json'; 
+import TableItem from '../../component/TableItem'; 
 import axios from 'axios';
 import { set } from 'date-fns';
 
 const EditTableLayout = ({ navigation, route }) => {
     const { selectedDate, selectedTimeSlot, reservationDuration, restaurantId, noOfGuests, restaurantData, tableId } = route.params;
-    const [tableLayout, setTableLayout] = useState([]); // Initialize as an empty array
+    const [tableLayout, setTableLayout] = useState([]); 
     const [selectedTable, setSelectedTable] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const restaurantIdToShow = 1; // Change this to the desired restaurant_id
+    const restaurantIdToShow = 1; 
 
     const getTableDate = async () => {
         try {
@@ -50,11 +49,11 @@ const EditTableLayout = ({ navigation, route }) => {
         }, {});
         setTableLayout(sortedTableLayout);
         getTableDate()
-    }, []); // Empty dependency array to ensure this effect runs only once
+    }, []); 
 
     const handleTableSelection = (table) => {
         setSelectedTable(table);
-        setModalVisible(true); // Show modal when table is selected
+        setModalVisible(true); 
         console.log('Selected table:', table);
         console.log('Selected table from server:', selectedTable);
     };

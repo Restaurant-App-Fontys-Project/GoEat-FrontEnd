@@ -24,27 +24,18 @@ export default function Overview({ restaurant, reservationId, onCancelReservatio
   }, [restaurantName]);
 
   const handleEdit = () => {
-
-    console.log("reservation id " + reservationId)
-    console.log("restaurant id " + restaurant.restaurantId)
-    console.log("restaurant data" + restaurant)
-    console.log("restaurant opening hours" + restaurantData.openingHours)
-
-    navigation.navigate('Edit Reservation 1/3', {
-      reservationId: reservationId,
-      restaurantId: restaurant.restaurantId,
-      restaurantData: restaurant,
-      openingHours: restaurantData.openingHours,
-      tableId: restaurant.tableId
-    })
-
-
-    // Navigate to login/registration if not logged in
-    // if (!isLoggedIn) {
-    // navigation.navigate('LoginOptions');
-    // }
-  }
-
+    Alert.alert(
+      'This feature is not yet implemented. Check back later!',
+      [
+        {
+          text: 'OK',
+          onPress: () => console.log('OK Pressed'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    );
+  };
 
 const cancelReservation = () => {
     Alert.alert(

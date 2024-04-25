@@ -52,19 +52,19 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // semi-transparent background
+        backgroundColor: "rgba(0, 0, 0, 0.5)", 
     },
     listContainer: {
         backgroundColor: "white",
-        width: windowWidth - 40, // Adjust width as needed
+        width: windowWidth - 40, 
         borderRadius: 10,
     },
     item: {
-        padding: 10, // Adjust padding as needed
+        padding: 10, 
         flexDirection: "row",
         justifyContent: "space-between",
-        width: containerWidth, // Use the same width as the parent container
-        flexWrap: 'wrap', // Allow text to wrap within the container
+        width: containerWidth, 
+        flexWrap: 'wrap', 
     },
     title: {
         fontSize: 18,

@@ -120,7 +120,7 @@ const LoginOptions = ({ navigation }) => {
                             setLoggedIn(false);
                             setUserData(null);
                             Alert.alert('Success!', 'Your account has been deleted successfully.');
-                            navigation.navigate('Welcome');
+                            navigation.navigate('LoginOptions');
                         } else {
                             Alert.alert('Error', 'Failed to delete account. Please try again later.');
                         }
@@ -381,9 +381,9 @@ loginButton: {
         padding: 10,
         marginTop: 40,
         borderRadius: 50,
-        width: '50%',
+        width: '80%',
         alignItems: 'center',
-        marginHorizontal: 90,
+        marginHorizontal: 40,
         marginVertical: 20,
 },
 navigationBottom: {

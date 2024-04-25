@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 15,
         alignItems: "center",
-        /* marginBottom: 20, */
     },
     input: {
         fontSize: 16,

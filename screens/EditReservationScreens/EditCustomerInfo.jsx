@@ -16,7 +16,6 @@ const EditCustomerInfo = ({ navigation, route }) => {
     noOfGuests,
     restaurantData
     } = route.params;
-    // console.log('Reservation data:', reservationData);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -148,7 +147,6 @@ const EditCustomerInfo = ({ navigation, route }) => {
       </KeyboardAvoidingView>
       <TouchableOpacity
             style={commonStyles.button}
-            // onPress={handleNextPress}
             onPress={handleNextPress}
 
           >

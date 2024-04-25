@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { Feather, MaterialIcons, AntDesign, Entypo } from '@expo/vector-icons';
-import MapView, { Marker } from 'react-native-maps';
+import { MaterialIcons, AntDesign} from '@expo/vector-icons';
+
 
 const Details = ({restaurantData}) => {
 
@@ -10,8 +10,8 @@ const Details = ({restaurantData}) => {
     const initialRegion = {
         latitude: 64.0, 
         longitude: 26.0, 
-        latitudeDelta: 10, // Zoom level
-        longitudeDelta: 10, // Zoom level
+        latitudeDelta: 10, 
+        longitudeDelta: 10, 
     };
 
     return (

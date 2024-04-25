@@ -17,58 +17,59 @@ const Registration = ({ navigation }) => {
             navigation.navigate('LoginOptions');
         };
 
-    const handleRegistration = async () => {
-        try {
+        const handleRegistration = async () => {
+            try {
                 // Check if required fields are filled
-            if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
-                throw new Error("Please fill in all required fields");
+                if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+                    throw new Error("Please fill in all required fields");
+                }
+        
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    throw new Error("Please enter a valid email address");
+                }
+        
+                // Validate password strength
+                if (password.length < 6) {
+                    throw new Error("Password must be at least 6 characters long");
+                }
+                // Check if password and confirm password match
+                if (password !== confirmPassword) {
+                    throw new Error("Passwords do not match");
+                }
+                // Check if phone number is valid
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!phoneRegex.test(phone)) {
+                    throw new Error("Please enter a valid phone number");
+                }
+                    
+                const userData = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    emailAddress: email,
+                    password: password,
+                    phoneNumber: phone,
+                    isGuestUser: false 
+                };
+        
+                const response = await sendUserData(userData);
+        
+                if (response.status === 201) {
+                    Alert.alert('Registration successful!');
+                    navigation.navigate('LoginOptions');
+                } else {
+                    Alert.alert('Failed to register user:', response.statusText);
+                }
+            } catch (error) {
+                if (error.message === "Email already exists") {
+                    Alert.alert('Registration failed!', 'Email already exists. Please use a different email address.');
+                } else {
+                    Alert.alert('Registration failed:', error.message);
+                }
             }
-
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                throw new Error("Please enter a valid email address");
-            }
-
-            // Validate password strength
-            if (password.length < 6) {
-                throw new Error("Password must be at least 6 characters long");
-            }
-            // Check if password and confirm password match
-            if (password !== confirmPassword) {
-                throw new Error("Passwords do not match");
-            }
-            // Check if phone number is valid
-            const phoneRegex = /^[0-9]{10}$/;
-            if (!phoneRegex.test(phone)) {
-                throw new Error("Please enter a valid phone number");
-            }
-                
-            const userData = {
-                firstName: firstName,
-                lastName: lastName,
-                emailAddress: email,
-                password: password,
-                phoneNumber: phone,
-                isGuestUser: false // Assuming the user is not a guest user
-            };
-    
-            const response = await sendUserData(userData);
-
-            if (response.status === 201) {
-                Alert.alert('Registration successful!');
-                navigation.navigate('LoginOptions');
-            } else {
-                Alert.alert('Failed to register user:', response.statusText);
-            }
-        } catch (error) {
-            if (error.message === "Email already exists") {
-                Alert.alert('Registration failed!', 'Email already exists. Please use a different email address.');
-            } else {
-                Alert.alert('Registration failed:', 'Failed to send user data. Please try again later.');
-            }
-        }
-    };
+        };
+        
     return (
         <KeyboardAvoidingView style={commonStyles.container} behavior="padding">
         <ScrollView contentContainerStyle={commonStyles.scrollContainer}>
@@ -153,17 +154,7 @@ const Registration = ({ navigation }) => {
                     />
                 </View>
 
-
-                {/* <TouchableOpacity onPress={handleRegistration} style={styles.signUp}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
-                </TouchableOpacity> */}
                 <GradientButton text="Sign Up" onPress={handleRegistration} />
-
-
-                {/* <Text style={[styles.buttonText, { color: '#C34F5A', paddingVertical: 10 }]}> Or</Text>
-
-                <GradientButton text="Sign up using Google" icon={require('../assets/login-icons/google.png')} />
-                <GradientButton text="Sign up using Facebook" icon={require('../assets/login-icons/facebook.png')} /> */}
 
                 <TouchableOpacity
                     onPress={navigateLogin}>

@@ -21,9 +21,6 @@ const CustomNavBar = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.button} onPress={goToHome}>
-        <FontAwesome name="home" size={27} color="#D69F3B" />
-      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={goToSearch}>
         <FontAwesome name="search" size={26} color="#D69F3B" />
       </TouchableOpacity>
