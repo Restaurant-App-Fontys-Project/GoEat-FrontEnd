@@ -47,8 +47,8 @@ This mobile application allows users to browse restaurants, make reservations, a
 
 ## Project Team Members
 
--  [Nguyen Thi Huyen](https://github.com/Nguyen-Thi-HuyenK) : UI Design, Front-end development (Home view: Search for restaurants by name or dish, search for restaurants by categories and subcategories/tags; Restaurant view: Get all infomation of a restaurant; Partially did functionalities for Register and Login views)
-- [Shehara Wadu Mesthri](https://github.com/WMSShehara) : UI Design, Front-end development (Make reservation(select date and time, show available tables based on selected date and time, add customer information), Search restaurants by location, Partially login, register functionalities).
--  [MST Aktar](https://github.com/MstAktar) : UI Design, Front-end development (Registration page (Layout), categories page design(Layout), Reservation Overview (for logged in user), cancel reservation).
+-  [Nguyen Thi Huyen](https://github.com/Nguyen-Thi-HuyenK) : UI Design, Front-end development (Home view: Search for restaurants by name or dish, search for restaurants by categories and subcategories/tags; Restaurant view: Get all information of a restaurant; Partially did functionalities for Register and Login views)
+- [Shehara Wadu Mesthri](https://github.com/WMSShehara) : UI Design, Front-end development (Make a reservation(select date and time, show available tables based on selected date and time, add customer information), Search restaurants by location, Partially login, register functionalities).
+-  [MST Aktar](https://github.com/MstAktar) : UI Design, Front-end development (Registration (Layout), partly categories page design(Layout), Reservation Overview (for logged in user), cancel reservation).
 
 
